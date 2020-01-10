@@ -1,0 +1,213 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>【iOS】AsyncDisplayKit初识 | Zephyr&#39;s Capsule | Stay hungry stay foolish</title>
+
+  
+  <meta name="author" content="Zephyr">
+  
+
+  
+  <meta name="description" content="不断前行">
+  
+
+  
+  
+  <meta name="keywords" content="ASDK,AsyncDisplayKit,性能优化,UIKit">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="【iOS】AsyncDisplayKit初识">
+
+  <meta property="og:site_name" content="Zephyr&#39;s Capsule">
+
+  
+  <meta property="og:image" content="/favicon.ico">
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Zephyr&#39;s Capsule" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Zephyr&#39;s Capsule</a>
+    </h1>
+    <p class="site-description">Stay hungry stay foolish</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/archives">Archives</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>【iOS】AsyncDisplayKit初识</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/11/10/AsyncDisplayKit介绍/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-11-10T09:38:58.000Z">
+          2016-11-10
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>  AsyncDisplayKit 是 Facebook 开源的一个用于保持 iOS 界面流畅的库。</p>
+<p>  在 ASDK 中最基本的单位就是 ASDisplayNode，每一个 node 都是对 UIView 以及 CALayer 的抽象。但是与 UIView 不同的是，ASDisplayNode 是线程安全的，它可以在后台线程中完成初始化以及配置工作。</p>
+<p>  如果按照 60 FPS 的刷新频率来计算，每一帧的渲染时间只有 16ms，在 16ms 的时间内要完成对 UIView 的创建、布局、绘制以及渲染，CPU 和 GPU 面临着巨大的压力。</p>
+<p>  但是从 A5 处理器之后，多核的设备成为了主流，原有的将所有操作放入主线程的实践已经不能适应复杂的 UI 界面，所以 ASDK 将耗时的 CPU 操作以及 GPU 渲染纹理（Texture）的过程全部放入后台进程，使主线程能够快速响应用户操作。</p>
+<p>  ASDK 通过独特的渲染技巧、代替 AutoLayout 的布局系统、智能的预加载方式等模块来实现对 App 性能的优化。</p>
+<a id="more"></a>
+<h2 id="初步使用"><a href="#初步使用" class="headerlink" title="初步使用"></a>初步使用</h2><h3 id="节点"><a href="#节点" class="headerlink" title="节点"></a>节点</h3><p>  nodes的使用大致与view的使用方法相同，少数像(.clipsToBounds vs .masksToBounds)这样的不同node也会自动使用UIView的命名,唯一的例外是node使用position而不是center。</p>
+<p>  使用node的时候也可以随时在主线程拿到node.view或者node.layer。</p>
+<p>  AsyncDisplayKit提供了各种各样的node以代替UIKit中的大部分组件。</p>
+<h3 id="节点容器"><a href="#节点容器" class="headerlink" title="节点容器"></a>节点容器</h3><p>  当一个app转成使用AsyncDisplayKit时，一个常见的错误就是直接把<code>nodes</code>添加到现有的视图层级中，这样做会造成你的node渲染时屏闪。</p>
+<p>  正确的做法是将nodes作为<code>subnodes</code>添加到<code>node container classes</code>中，这些容器的作用是告诉容器内的nodes它们现在的状态，这样才能保证高效地进行数据的加载和nodes的渲染。</p>
+<h3 id="布局引擎"><a href="#布局引擎" class="headerlink" title="布局引擎"></a>布局引擎</h3><p>  <code>AsyncDisplayKit</code>的<code>Layout Engine</code>也是它最强大和最独特的特性之一。基于<code>CSS FlexBox model</code>它提供了一种公开的方式来区分用户自定义的<code>node</code>的<code>subnodes</code>的size和layout。当所有的node全部以默认的同步方式渲染完毕，尺寸设置和布局计算将会以异步的方式进行。</p>
+<p>想要参与这个过程的主要方式就是通过在子类中实现layoutSpecThatFits:方法，在这里你声明和建立布局规则对象，返回最重的包含所有信息的对象。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">- (ASLayoutSpec *)layoutSpecThatFits:(ASSizeRange)constrainedSize &#123;</span><br><span class="line">	ASStackLayoutSpec *verticalStack = [ASStackLayoutSpec verticalStackLayoutSpec];</span><br><span class="line">	verticalStack.direction          = ASStackLayoutDirectionVertical;</span><br><span class="line">	verticalStack.spacing            = <span class="number">4.0</span>;</span><br><span class="line">	[verticalStack setChildren:_commentNodes];</span><br><span class="line">	<span class="keyword">return</span> verticalStack;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="核心理念"><a href="#核心理念" class="headerlink" title="核心理念"></a>核心理念</h2><h3 id="智能预加载"><a href="#智能预加载" class="headerlink" title="智能预加载"></a>智能预加载</h3><p><code>node</code>非常强大，它有能力同步和异常进行渲染和计算，另一个至关重要的层面则是它智能预加载的理念。</p>
+<p>同之前所说，node在<code>node containers</code>以外的地方使用并没有什么性能改善作用。那是因为所有的node都有<code>interfaceState</code>的概念。</p>
+<p>  这个<code>interfaceState</code>特性是被所有的<code>containers</code>创建和维持的一个<code>ASRangeController</code>进行持续更新的。</p>
+<p>  如果一个<code>node</code>在<code>container</code>之外使用，它的状态就不会被任何<code>range controller</code>更新，这就会导致偶尔会出现屏闪(<code>nodes</code>在没有发出任何警告的情况下已经显示在屏幕上，但它的渲染和布局还没有完成)</p>
+<p>  当nodes被添加到滚动或者页面视图的时候，它们通常会进入下图的区域范围内。这就意味着如果这个视图滚动到它这里了，它的界面状态就会被更新。</p>
+<p><img src="http://img.draveness.me/2016-11-04-intelligent-preloading-ranges-with-names.png" alt="预加载示意图" title="preload"></p>
+<p>一个node将会有三种状态：</p>
+<ul>
+<li><p>Fetch Data</p>
+</li>
+<li><p>Display</p>
+</li>
+<li><p>Visible</p>
+</li>
+</ul>
+<p>上面的这三种状态都是由 ASDK 来管理的，而每一个 <code>ASCellNode</code> 的状态都是由 <code>SRangeController</code> 控制，所有的状态都对应一个 <code>ASInterfaceState</code>：</p>
+<ul>
+<li><p><code>ASInterfaceStatePreload</code> 当前元素貌似要显示到屏幕上，需要从磁盘或者网络请求数据；</p>
+</li>
+<li><p><code>ASInterfaceStateDisplay</code> 当前元素非常可能要变成可见的，需要进行异步绘制；</p>
+</li>
+<li><p><code>ASInterfaceStateVisible</code> 当前元素最少在屏幕上显示了 1px</p>
+</li>
+</ul>
+<p>当用户滚动当前视图时，<code>ASRangeController</code> 就会修改不同区域内元素的状态：</p>
+<p><img src="http://img.draveness.me/2016-11-04-intelligent-preloading-ranges-screenfuls.png" alt="不同的加载状态示意图"></p>
+<p>上图是用户在向下滑动时，ASCellNode 是如何被标记的，假设<strong>当前视图可见的范围高度为 1</strong>，那么在默认情况下，五个区域会按照上图的形式进行划分：</p>
+<p><img src="http://img.draveness.me/2016-11-04-buffer-size.png" alt></p>
+<p>在滚动方向（Leading）上 Fetch Data 区域会是非滚动方向（Trailing）的两倍，ASDK 会根据滚动方向的变化实时改变缓冲区的位置；在向下滚动时，下面的 Fetch Data 区域就是上面的两倍，向上滚动时，上面的 Fetch Data 区域就是下面的两倍。</p>
+<blockquote>
+<p>这里的两倍并不是一个确定的数值，ASDK 会根据当前设备的不同状态，改变不同区域的大小，但是<strong>滚动方向的区域总会比非滚动方向大一些</strong>。</p>
+</blockquote>
+<p>智能预加载能够根据当前的滚动方向，自动改变当前的工作区域，选择合适的区域提前触发请求资源、渲染视图以及异步布局等操作，让视图的滚动达到真正的流畅。</p>
+
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/ASDK/">ASDK</a><a href="/tags/AsyncDisplayKit/">AsyncDisplayKit</a><a href="/tags/性能优化/">性能优化</a><a href="/tags/UIKit/">UIKit</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+	<div id="comment">
+	
+	
+	<!-- 多说评论框 start -->
+	 <div class="ds-thread" data-thread-key="/2016/11/10/AsyncDisplayKit介绍/" data-title="【iOS】AsyncDisplayKit初识" data-url="http://zephyr.com/2016/11/10/AsyncDisplayKit介绍/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"Zephyr's Capsule"};
+	  (function() {
+	    var ds = document.createElement('script');
+	    ds.type = 'text/javascript';ds.async = true;
+	    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+	    ds.charset = 'UTF-8';
+	    (document.getElementsByTagName('head')[0] 
+	     || document.getElementsByTagName('body')[0]).appendChild(ds);
+	  })();
+	  </script>
+	<!-- 多说公共JS代码 end -->
+	
+	</div>
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2020 Zephyr
+    
+  </p>
+</footer>
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-87098157-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+  </div>
+</div>
+</body>
+</html>

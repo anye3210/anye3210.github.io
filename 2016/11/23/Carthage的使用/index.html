@@ -1,0 +1,227 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Carthage的使用 | Zephyr&#39;s Capsule | Stay hungry stay foolish</title>
+
+  
+  <meta name="author" content="Zephyr">
+  
+
+  
+  <meta name="description" content="不断前行">
+  
+
+  
+  
+  <meta name="keywords" content="Cathage,CocoaPods,第三方库,框架管理">
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  <meta property="og:title" content="Carthage的使用">
+
+  <meta property="og:site_name" content="Zephyr&#39;s Capsule">
+
+  
+  <meta property="og:image" content="/favicon.ico">
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Zephyr&#39;s Capsule" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Zephyr&#39;s Capsule</a>
+    </h1>
+    <p class="site-description">Stay hungry stay foolish</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/archives">Archives</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    <article>
+
+  
+    
+    <h3 class="article-title"><span>Carthage的使用</span></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/11/23/Carthage的使用/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-11-23T11:13:32.000Z">
+          2016-11-23
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Cathage 一直致力于成为给 Cocoa 应用添加框架最简单的方式。<br>它的使用流程如下：</p>
+<ol>
+<li>创建一个 Cathage ，在里面列出你的项目要使用的第三方框架；</li>
+<li>运行 Cathage， Cathage 会获取并创建你列出的所有框架；</li>
+<li>把生成的 <code>.frameword</code> 二进制文件拖到你的工程文件中。</li>
+</ol>
+<p>Cathage 帮你创建第三方依赖、提供二进制的 <code>framework</code> 文件，并且不会改变你的项目架构和创建。 <a id="more"></a>Cathage 在你使用的过程中并不会修改的你工程文件和你的项目设置。</p>
+<h2 id="Cathage-与-CocoaPods-的不同"><a href="#Cathage-与-CocoaPods-的不同" class="headerlink" title="Cathage 与 CocoaPods 的不同"></a>Cathage 与 CocoaPods 的不同</h2><p>CocoaPods 是存在已久的 Cocoa 的第三方依赖管理方式，在此基础上为什么还要使用 Cathage ？</p>
+<p>首先，CocoaPods 会自动为你的应用与第三方依赖创建和更新一个 Xcode workspace；Carthage 使用 <code>xcodebuild</code> 创建二进制  <code>framework</code> ，添加和使用这此框架是用户自己操作的。CocoaPods 使用上更简单，而 Carthage 更灵活，耦合性更低。</p>
+<p>从 CocoaPods 的 README 可以看出它有以下的目标：</p>
+<blockquote>
+<p>通过创建一个集中式的生态系统使发现和管理第三方框架更便捷。</p>
+</blockquote>
+<p>相反， Carthage 是一个非集中式的第三方管理工具。它在工程文件中没有集中的列表，这可以大大降低维护的难度，避免集中列表的一些错误导致的编译失败。然而，发现第三方框架也是一个麻烦的事情，用户必须要到 GitHub 的趋势页面去查找或者去类似的网站。</p>
+<p>CocoaPods 的工程文件中一定要有 podspec 文件，在 podspec 文件中用户要填写元数据和它创建的方式。Carthage 用 <code>xcodebuild</code> 去创建第三方框架。它不会把你的第三方依赖放在一个单独的 workspace 中去管理，你写的第三方框架一定要包含自己的 Xcode 项目用来描述怎么去生成和使用。</p>
+<p>总之，Carthage 的目标就是成为管理第三方框架第简单的工具，它可以在不使用 Xcode 的情况下完成它的任务，也不会让框架作者做额外的工作。但 CocoaPods 也确实提供了很多非常好而且 Carthage 介于成本考虑可能永远也不会有的功能。</p>
+<h2 id="安装-Carthage"><a href="#安装-Carthage" class="headerlink" title="安装 Carthage"></a>安装 Carthage</h2><p>安装 Carthage 有以下几种方法：</p>
+<ul>
+<li>通过安装程序安装：下载并运行 <code>Carthage.pkg</code> ，根据软件提示安装即可；</li>
+<li>Homebrew安装：使用 <code>brew install carthage</code> 命令安装(注意：如果你安装过二进制版本的 Carthage，你要先删除 <code>/Library/Frameworks/CarthageKit.framework</code>)；</li>
+<li>从GigHub源安装：如果你想安装最新版本(注意最新版可以不太稳定)，直接克隆Carthage 在GigHub上的 master 分支，并运行 <code>make install</code> 即可，仅支持 Xcode 8.0及以上（Swift支持 2.3 版本，现在还不支持 3.0 以上的版本）。</li>
+</ul>
+<h2 id="为应用添加第三方框架"><a href="#为应用添加第三方框架" class="headerlink" title="为应用添加第三方框架"></a>为应用添加第三方框架</h2><p>如果你安装了 Carthage ，你就可以为你的项目添加第三方框架了。注意 Carthage 只支持动态库，动态库只在 iOS 8 及以上才支持（任意版本的 OS X 都支持动态库）。</p>
+<h3 id="开始使用"><a href="#开始使用" class="headerlink" title="开始使用"></a>开始使用</h3><p>针对 iOS, tvOS 或者 watchOS 的使用方法：</p>
+<ol>
+<li>创建一个 <code>Cartfile</code> 并列出你想使用的第三方库；</li>
+<li>使用 <code>carthage update</code> 命令，Carthage 就会把第三方框架更新到 Carthage/Checkouts 文件夹中，然后挨个编译；</li>
+<li>在你的工程文件的 “General” 选项卡中，把你的框架从 Carthage/Build 文件夹拖到 “Linked Frameworks and Libraries” 区域内；</li>
+<li>在你的工程文件 “Build Phases” 选项卡中，点 “+” 然后选择  “New Run Script Phase” 创建一个新的运行脚本来声明你的 shell（比如：bin/sh），把下面的内容粘贴到 shell 中：</li>
+</ol>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/usr/local/bin/carthage copy-frameworks</span><br></pre></td></tr></table></figure>
+
+<p>然后在 “Input Files” 中添加你要使用的框架的路径，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$(SRCROOT)/Carthage/Build/iOS/Box.framework</span><br><span class="line">$(SRCROOT)/Carthage/Build/iOS/Result.framework</span><br><span class="line">$(SRCROOT)/Carthage/Build/iOS/ReactiveCocoa.framework</span><br></pre></td></tr></table></figure>
+
+<p>当这些调试信息被复制到产品目录中， 无论你的应用停在哪个断点，Xcode 都能够 symbolicate 你的堆栈信息。这也能够让你用第三方的调试工具进行调试。</p>
+<p>无论你的应用提交到 AppStore 还是打包测试，Xcode 都会复制这些文件到你应用的 <code>.xcarchive</code> 沙盒中 dSYMs 文件夹的子目录中。</p>
+<h2 id="升级第三方框架"><a href="#升级第三方框架" class="headerlink" title="升级第三方框架"></a>升级第三方框架</h2><p>如果你修改了 Cartfile 文件，或者你想使用第三方框架的最新版，只要再运行一次 <code>carthage update</code> 就行了。</p>
+<p>如果你只是想更新某一个或者某几个，只要用空格隔开就行了，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">carthage update Box</span><br></pre></td></tr></table></figure>
+
+<p>或者</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">carthage update Box Result</span><br></pre></td></tr></table></figure>
+
+<h2 id="Cartfile"><a href="#Cartfile" class="headerlink" title="Cartfile"></a>Cartfile</h2><p>Cartfile 是用来描述第三方框架的，它严格遵守  Ordered Graph Data Language 的语法，任何标准的 OGDL 工具都能解析它。</p>
+<p>第三方框架声明分为两部分：基础部分和版本需求部分。</p>
+<h3 id="基础部分"><a href="#基础部分" class="headerlink" title="基础部分"></a>基础部分</h3><p>如果使用 GigHub 的仓库（GitHub.com 或者 GitHub Enterprise），使用时必须加入 <code>github</code> 关键字，比如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">github &quot;ReactiveCocoa/ReactiveCocoa&quot; # GitHub.com</span><br><span class="line">github &quot;https://enterprise.local/ghe/desktop/git-error-translations&quot; # GitHub Enterprise</span><br></pre></td></tr></table></figure>
+
+<p>其他 git 仓库要加 <code>git</code> 关键字，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git &quot;https://enterprise.local/desktop/git-error-translations2.git&quot;</span><br></pre></td></tr></table></figure>
+
+<h3 id="版本需求"><a href="#版本需求" class="headerlink" title="版本需求"></a>版本需求</h3><p>Carthage 支持以下几种版本声明：</p>
+<ol>
+<li><code>&gt;= 1.0</code> 大于等于版本 1.0</li>
+<li><code>~&gt; 1.0</code> 兼容版本 1.0</li>
+<li><code>== 1.0</code> 必须是版本 1.0 </li>
+<li><code>some-branch-or-tag-or-commit</code> 针对一个明确的 Git 项目</li>
+</ol>
+<p>如果没有版本声明，就代表任何版本都可以使用。</p>
+<p>兼容性是根据语义化版本规范确定的，任何大于或者等于版本 1.5.1 小于版本 2.0 的，都被认定 兼容于 1.5.1。</p>
+<p>但是根据语义化版本规范，任何 0.x.y 的版本都会在运行中崩溃，所以0.x 的版本没有遵守语义化版本规范，如果你定义了 0.1.1 的版本，那么 兼容的版本就是 0.1.2，而不是 0.2。</p>
+<h3 id="Cartfile-示例"><a href="#Cartfile-示例" class="headerlink" title="Cartfile 示例"></a>Cartfile 示例</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"># Require version 2.3.1 or later</span><br><span class="line">github &quot;ReactiveCocoa/ReactiveCocoa&quot; &gt;= 2.3.1</span><br><span class="line"></span><br><span class="line"># Require version 1.x</span><br><span class="line">github &quot;Mantle/Mantle&quot; ~&gt; 1.0    # (1.0 or later, but less than 2.0)</span><br><span class="line"></span><br><span class="line"># Require exactly version 0.4.1</span><br><span class="line">github &quot;jspahrsummers/libextobjc&quot; == 0.4.1</span><br><span class="line"></span><br><span class="line"># Use the latest version</span><br><span class="line">github &quot;jspahrsummers/xcconfigs&quot;</span><br><span class="line"></span><br><span class="line"># Use the branch</span><br><span class="line">github &quot;jspahrsummers/xcconfigs&quot; &quot;branch&quot;</span><br><span class="line"></span><br><span class="line"># Use a project from GitHub Enterprise</span><br><span class="line">github &quot;https://enterprise.local/ghe/desktop/git-error-translations&quot;</span><br><span class="line"></span><br><span class="line"># Use a project from any arbitrary server, on the &quot;development&quot; branch</span><br><span class="line">git &quot;https://enterprise.local/desktop/git-error-translations2.git&quot; &quot;development&quot;</span><br><span class="line"></span><br><span class="line"># Use a local project</span><br><span class="line">git &quot;file:///directory/to/project&quot; &quot;branch&quot;</span><br></pre></td></tr></table></figure>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/Cathage/">Cathage</a><a href="/tags/CocoaPods/">CocoaPods</a><a href="/tags/第三方库/">第三方库</a><a href="/tags/框架管理/">框架管理</a>
+    </span>
+    
+
+    </div>
+
+    
+  </div>
+</article>
+
+  
+	<div id="comment">
+	
+	
+	<!-- 多说评论框 start -->
+	 <div class="ds-thread" data-thread-key="/2016/11/23/Carthage的使用/" data-title="Carthage的使用" data-url="http://zephyr.com/2016/11/23/Carthage的使用/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"Zephyr's Capsule"};
+	  (function() {
+	    var ds = document.createElement('script');
+	    ds.type = 'text/javascript';ds.async = true;
+	    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+	    ds.charset = 'UTF-8';
+	    (document.getElementsByTagName('head')[0] 
+	     || document.getElementsByTagName('body')[0]).appendChild(ds);
+	  })();
+	  </script>
+	<!-- 多说公共JS代码 end -->
+	
+	</div>
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2020 Zephyr
+    
+  </p>
+</footer>
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-87098157-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+  </div>
+</div>
+</body>
+</html>

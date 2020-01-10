@@ -1,0 +1,798 @@
+<!DOCTYPE HTML>
+<html>
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>Zephyr&#39;s Capsule | Stay hungry stay foolish</title>
+
+  
+  <meta name="author" content="Zephyr">
+  
+
+  
+  <meta name="description" content="不断前行">
+  
+
+  
+
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+  
+
+  <meta property="og:site_name" content="Zephyr&#39;s Capsule">
+
+  
+  <meta property="og:image" content="/favicon.ico">
+  
+
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Zephyr&#39;s Capsule" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
+</head>
+
+
+<body>
+<div class="blog">
+  <div class="content">
+
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Zephyr&#39;s Capsule</a>
+    </h1>
+    <p class="site-description">Stay hungry stay foolish</p>
+  </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/archives">Archives</a></li>
+      
+    </ul>
+  </nav>
+</header>
+
+    <main class="site-main posts-loop">
+    
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2019/06/04/Eureka的基本使用和自定义Cell/"><span>【iOS】Eureka的基本使用和自定义Cell</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2019/06/04/Eureka的基本使用和自定义Cell/" rel="bookmark">
+        <time class="entry-date published" datetime="2019-06-04T20:23:24.000Z">
+          2019-06-04
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>Eureka</code>是一个纯<code>Swift</code>库，它能帮你快速优雅地创建一个<code>TableView</code>。这个库本身也提供了大量内置的不同功能的<code>Cell</code>，使用上也很简单。如果内置的<code>Cell</code>样式或功能不能满足需要，你也可以自定义<code>Cell</code>。</p>
+<p>使用Eureka设置<code>TableView</code>的代码大概是下面这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">form +++ Section()</span><br><span class="line">         &lt;&lt;&lt; LabelRow() &#123;</span><br><span class="line">            $0.title = &quot;LabelRow&quot;</span><br><span class="line">            $0.value = &quot;Default Value&quot;</span><br><span class="line">            &#125;.cellSetup(&#123; (cell, row) in</span><br><span class="line">                cell.accessoryType = .disclosureIndicator</span><br><span class="line">            &#125;).onCellSelection(&#123; (cell, row) in</span><br><span class="line">                print(&quot;cell selection&quot;)</span><br><span class="line">            &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>本文主要介绍<code>Eureka</code>的基本使用和自定义<code>Cell</code>的步骤。你可以在<a href="https://github.com/zephyrw/EurekaCustomCellDemo" target="_blank" rel="noopener">这里</a>查看本文的Demo。</p>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/Eureka/">Eureka</a><a href="/tags/Custom-Cell/">Custom Cell</a><a href="/tags/TableView/">TableView</a><a href="/tags/自动生成/">自动生成</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2019/06/04/Eureka的基本使用和自定义Cell/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2019/05/30/封装自己的自定义转场组件/"><span>【iOS】封装自己的自定义转场组件</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2019/05/30/封装自己的自定义转场组件/" rel="bookmark">
+        <time class="entry-date published" datetime="2019-05-30T09:18:35.000Z">
+          2019-05-30
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>自定义转场这个技术相信大家都用过或者听说过，不过如果你经常使用自定义转场或者自定义转场动画做得比较复杂或许会发现AnimatedTransitioning与目标控制器的交互并没有那么友好。本文旨在提供一个新思路，减少AnimatedTransitioning与目标控制器的耦合，引入封装好的类文件后，只需少量代码，就可以实现一个基础的转场动画。</p>
+<p>首先，我们来看一下实现一个普通的转场动画的流程。</p>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/UIViewControllerAnimatedTransitioning/">UIViewControllerAnimatedTransitioning</a><a href="/tags/自定义转场/">自定义转场</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2019/05/30/封装自己的自定义转场组件/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2017/04/19/AFNetworking源码上传图片部分完整解析/"><span>AFNetworking源码上传图片部分完整解析</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/04/19/AFNetworking源码上传图片部分完整解析/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-04-19T12:00:00.000Z">
+          2017-04-19
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>最近在开发SDK时有上传图片的需求，这个需求用AF的话当然非常简单，多添加一句代码就可以搞定。但为避免第三方耦合并没有使用AFNetworking，这就需要自己走完上传图片的全部流程，所以仔细研究了一下AFNetworking的相关源码，梳理了整个流程，它的流程大致是这样的：</p>
+<p>&lt;img src=”<a href="http://ogdqxib8j.bkt.clouddn.com/image/png%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0.png&quot;" target="_blank" rel="noopener">http://ogdqxib8j.bkt.clouddn.com/image/png%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0.png&quot;</a> title:”AFNetworking图片上传流程”&gt;</p>
+<p>看着有点眼花眼花缭乱是吧，没关系，接着往下看，看完这篇文章，你也可以自己封装一套图片上传网络工具类。</p>
+<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>基本原理</li>
+<li>具体实现<ul>
+<li>创建<code>NSMutableURLRequest</code>并设置请求方式为<code>POST</code></li>
+<li>自定义<code>HTTPBodyStream</code></li>
+<li>对<code>request</code>进行参数设置</li>
+<li>通过<code>NSURLSession</code>的<code>uploadTaskWithStreamedRequest:</code>方法发起Post请求</li>
+</ul>
+</li>
+</ul>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/AFNetwork/">AFNetwork</a><a href="/tags/上传图片/">上传图片</a><a href="/tags/源码解析/">源码解析</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2017/04/19/AFNetworking源码上传图片部分完整解析/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2017/04/07/超简单的思路实现一个2048游戏/"><span>【iOS】超简单的思路实现2048游戏</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/04/07/超简单的思路实现一个2048游戏/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-04-07T16:01:44.000Z">
+          2017-04-07
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>最近在网上下了一个<a href="https://github.com/austinzheng/iOS-2048" target="_blank" rel="noopener">仿2048游戏的Demo</a>，发现里面的实现思路做得比较复杂：将数字块的移动操作封装成模型并保存起来，然后根据操作模型的值对滑块逐块地进行操作，具体的实现方式可以自己下下来感受一下。</p>
+<p>然后我分析了一下这个游戏，重新整理了一种更简单的实现思路，大体可以分为三步：</p>
+<ul>
+<li><strong>界面布局</strong></li>
+<li><strong>数字块操作</strong><ul>
+<li>按方向把所有数字块分成4组，然后进行排序</li>
+<li>查找邻近相同数字块，计算该行（列）合并后的块数</li>
+<li>按方向整行（列）同时移动数字块</li>
+<li>移动块的同时随机添加数字块</li>
+</ul>
+</li>
+<li><strong>游戏结束重置游戏</strong></li>
+</ul>
+<p>实现效果如下：</p>
+<img src="http://ogdqxib8j.bkt.clouddn.com/2048.gif" width="203" height="384">
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/2048/">2048</a><a href="/tags/swift/">swift</a><a href="/tags/Game/">Game</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2017/04/07/超简单的思路实现一个2048游戏/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2017/02/23/制作文字动画/"><span>CAShapeLayer文字动画</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/02/23/制作文字动画/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-02-23T16:10:17.000Z">
+          2017-02-23
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>文字动画也是<code>CAShapeLayer</code>图形动画的一种，巧妙运用文字动画可以实现很不错的效果，比如半糖app的下拉动画。本文就主要讲一下其实现原理。</p>
+<p>文字动画主要分为两部分：</p>
+<ul>
+<li><p>将文字转化为<code>CAShapeLayer</code></p>
+</li>
+<li><p>通过更改<code>CAShapeLayer</code>的StrokeEnd属性值生成动画</p>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/ShapeLayer/">ShapeLayer</a><a href="/tags/Animation/">Animation</a><a href="/tags/动画/">动画</a><a href="/tags/文字/">文字</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2017/02/23/制作文字动画/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2017/02/23/CAShapeLayer的使用/"><span>CAShapeLayer的使用</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/02/23/CAShapeLayer的使用/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-02-23T09:40:24.000Z">
+          2017-02-23
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>官方文档对<code>CAShapeLayer</code>的定义如下：</p>
+<blockquote>
+<p>A layer that draws a cubic Bezier spline in its coordinate space.</p>
+</blockquote>
+<p>可以理解为<code>CAShapeLayer</code>是其坐标空间内绘有贝塞尔曲线的图层。<br>使用<code>CAShapeLayer</code>可以制作蒙板和图层动画，它继承自CALayer，拥有<code>CALayer</code>的全部属性。<code>CAShapeLayer</code>的依赖于贝塞尔曲线<code>UIBezierPath</code>，它决定的ShapeLayer的形状。</p>
+<p><code>StrokeStart</code>和<code>StrokeEnd</code>是<code>ShapeLayer</code>的重要属性，它控制<code>ShapeLayer</code>的<code>cgPath</code>路径的绘制起点和终点，区间都为0~1，0代表从头绘制，1代表绘制到终点。</p>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/ShapeLayer/">ShapeLayer</a><a href="/tags/CALayer/">CALayer</a><a href="/tags/Animation/">Animation</a><a href="/tags/动画/">动画</a><a href="/tags/下拉/">下拉</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2017/02/23/CAShapeLayer的使用/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2016/12/21/正则表达式/"><span>正则表达式</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/12/21/正则表达式/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-12-21T11:18:35.000Z">
+          2016-12-21
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>以下是对正则表达式学习的一些整理。</p>
+<h3 id="头部尾部"><a href="#头部尾部" class="headerlink" title="头部尾部"></a>头部尾部</h3><p>^ 表示开始 后接字符串 ^one</p>
+<p>$ 表示结束 前接字符串 dog$</p>
+<p>“banana” 必须包含此字符串</p>
+<h3 id="限制个数"><a href="#限制个数" class="headerlink" title="限制个数"></a>限制个数</h3><p>* 0个或更多个  ab*   (a,ab,abbb…)</p>
+<p>+ 1个或更多个  ab+   (ab, abbb…)</p>
+<p>? 0个或1个     ab?    (a, ab)</p>
+<p>{4} 4个       ab{4}  (abbbb)</p>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/iOS/">iOS</a><a href="/tags/NSPredicate/">NSPredicate</a><a href="/tags/正则表达式/">正则表达式</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2016/12/21/正则表达式/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2016/11/23/Carthage的使用/"><span>Carthage的使用</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/11/23/Carthage的使用/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-11-23T11:13:32.000Z">
+          2016-11-23
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Cathage 一直致力于成为给 Cocoa 应用添加框架最简单的方式。<br>它的使用流程如下：</p>
+<ol>
+<li>创建一个 Cathage ，在里面列出你的项目要使用的第三方框架；</li>
+<li>运行 Cathage， Cathage 会获取并创建你列出的所有框架；</li>
+<li>把生成的 <code>.frameword</code> 二进制文件拖到你的工程文件中。</li>
+</ol>
+<p>Cathage 帮你创建第三方依赖、提供二进制的 <code>framework</code> 文件，并且不会改变你的项目架构和创建。
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/Cathage/">Cathage</a><a href="/tags/CocoaPods/">CocoaPods</a><a href="/tags/第三方库/">第三方库</a><a href="/tags/框架管理/">框架管理</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2016/11/23/Carthage的使用/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2016/11/10/AsyncDisplayKit的布局/"><span>【iOS】AsyncDisplayKit的布局</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/11/10/AsyncDisplayKit的布局/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-11-10T16:36:21.000Z">
+          2016-11-10
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="AsyncDisplayKit布局的优势"><a href="#AsyncDisplayKit布局的优势" class="headerlink" title="AsyncDisplayKit布局的优势"></a>AsyncDisplayKit布局的优势</h2><p>UIKit由于复杂的层级结构变得越来越expensive，而AsyncDisplayKit的 Layout API 作为一个新的选择，具有以下的优势。</p>
+<ul>
+<li><strong>快速</strong>：与手动布局代码一样快，比自动布局快了很多；</li>
+<li><strong>异步和同步</strong>：布局可以在子线程中进行，避免打断用户的操作；</li>
+<li><strong>声明</strong>：布局声明使用的是不可变的数据结构。这样使布局代码可以更容易开发，注释，预览，调试，介绍和维护；</li>
+<li><strong>缓存管理</strong>：布局的结果是不可变的数据结构，所以可以在后台进行计算和缓存，改善用户的体验；</li>
+<li><strong>可扩展性</strong>：很容易在类共享代码。</li>
+</ul>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/ASDK/">ASDK</a><a href="/tags/AsyncDisplayKit/">AsyncDisplayKit</a><a href="/tags/ASDK布局/">ASDK布局</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2016/11/10/AsyncDisplayKit的布局/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
+    <h3 class="article-title"><a href="/2016/11/10/AsyncDisplayKit的组件/"><span>【iOS】AsyncDisplayKit的组件</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2016/11/10/AsyncDisplayKit的组件/" rel="bookmark">
+        <time class="entry-date published" datetime="2016-11-10T11:30:58.000Z">
+          2016-11-10
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="节点容器"><a href="#节点容器" class="headerlink" title="节点容器"></a>节点容器</h2><h3 id="在容器中使用Nodes"><a href="#在容器中使用Nodes" class="headerlink" title="在容器中使用Nodes"></a>在容器中使用Nodes</h3><p>AsyncDisplayKit有以下几种 <code>Container</code></p>
+<table>
+<thead>
+<tr>
+<th>ASDK Node Container</th>
+<th>UIKit Equivalent</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ASCollectionNode</td>
+<td>代替UIKit的 <code>UICollectionView</code></td>
+</tr>
+<tr>
+<td>ASPagerNode</td>
+<td>代替UIKit的 <code>UIPageViewController</code></td>
+</tr>
+<tr>
+<td>ASTableNode</td>
+<td>代替UIKit的 <code>UITableView</code></td>
+</tr>
+<tr>
+<td>ASViewController</td>
+<td>代替UIKit的 <code>UIViewController</code></td>
+</tr>
+<tr>
+<td>ASNavigationControllerv</td>
+<td>代替UIKit的 <code>UINavigationController</code>，遵循<code>ASVisibility</code>协议</td>
+</tr>
+<tr>
+<td>ASTabBarController</td>
+<td>代替UIKit的 <code>UITabBarController</code>，遵循<code>ASVisibility</code>协议</td>
+</tr>
+<tr>
+<td>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/ASDK/">ASDK</a><a href="/tags/AsyncDisplayKit/">AsyncDisplayKit</a><a href="/tags/性能优化/">性能优化</a><a href="/tags/使用/">使用</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2016/11/10/AsyncDisplayKit的组件/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+
+<nav class="pagination">
+  
+  
+  <a href="/page/2/" class="pagination-next">Next</a>
+  
+</nav>
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2020 Zephyr
+    
+  </p>
+</footer>
+    
+<script>
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+    ga('create', 'UA-87098157-1', 'auto');
+    ga('send', 'pageview');
+
+</script>
+
+  </div>
+</div>
+</body>
+</html>
