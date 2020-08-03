@@ -61,6 +61,71 @@
 
   
     
+    <h3 class="article-title"><a href="/2020/08/03/【React-Native】AES加密/"><span>【React Native】AES+Base64加密</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/08/03/【React-Native】AES加密/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-08-03T08:31:27.000Z">
+          2020-08-03
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在移动端App开发中，<strong>AES</strong>加密非常常用，本文主要讲解如何在<code>React Native</code>中封装自己的<strong>AES</strong>加密工具类及会遇到的坑。这里的<strong>AES</strong>加密是基于前端常用的加密库<strong><code>crypto-js</code></strong>。</p>
+<h2 id="安装crypto-js"><a href="#安装crypto-js" class="headerlink" title="安装crypto-js"></a>安装crypto-js</h2><p>使用<strong>NPM</strong>或者<strong>Yarn</strong>安装<code>crypto-js</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># NPM</span><br><span class="line">npm install crypto-js</span><br><span class="line"># Yarn</span><br><span class="line">yarn add crypto-js</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong>使用<code>crypto-js</code><strong>4.0.0</strong>及以上的版本会报找不到Crypto.js的错，这可能是新版本的Bug，需要在<code>package.json</code>中找到<code>crypto-js</code>并把版本号指定为<code>^3.3.0</code>(与3.3.0版本兼容，相当于3.X.X, 即&gt;=3.3.0 &lt; 4.0.0,不改变大版本号)，然后重新执行<code>npm install</code>：</p>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/React-Native/">React Native</a><a href="/tags/React/">React</a><a href="/tags/AES/">AES</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2020/08/03/【React-Native】AES加密/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2020/08/03/【React-Native】Redux自定义中间件/"><span>【React Native】Redux自定义中间件</span></a></h3>
     
   
@@ -640,72 +705,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2017/02/23/制作文字动画/#comment">Comments</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2017/02/23/CAShapeLayer的使用/"><span>CAShapeLayer的使用</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2017/02/23/CAShapeLayer的使用/" rel="bookmark">
-        <time class="entry-date published" datetime="2017-02-23T01:40:24.000Z">
-          2017-02-23
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>官方文档对<code>CAShapeLayer</code>的定义如下：</p>
-<blockquote>
-<p>A layer that draws a cubic Bezier spline in its coordinate space.</p>
-</blockquote>
-<p>可以理解为<code>CAShapeLayer</code>是其坐标空间内绘有贝塞尔曲线的图层。<br>使用<code>CAShapeLayer</code>可以制作蒙板和图层动画，它继承自CALayer，拥有<code>CALayer</code>的全部属性。<code>CAShapeLayer</code>的依赖于贝塞尔曲线<code>UIBezierPath</code>，它决定的ShapeLayer的形状。</p>
-<p><code>StrokeStart</code>和<code>StrokeEnd</code>是<code>ShapeLayer</code>的重要属性，它控制<code>ShapeLayer</code>的<code>cgPath</code>路径的绘制起点和终点，区间都为0~1，0代表从头绘制，1代表绘制到终点。</p>
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/ShapeLayer/">ShapeLayer</a><a href="/tags/CALayer/">CALayer</a><a href="/tags/Animation/">Animation</a><a href="/tags/动画/">动画</a><a href="/tags/下拉/">下拉</a>
-    </span>
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2017/02/23/CAShapeLayer的使用/#comment">Comments</a>
         </span>
       </span>
     </div>
