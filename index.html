@@ -61,6 +61,69 @@
 
   
     
+    <h3 class="article-title"><a href="/2020/12/07/【React-Native教程】StackNavigation与TabNavigation嵌套最佳实践/"><span>【React Native教程】Stack Navigation与Tab Navigation嵌套最佳实践</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/12/07/【React-Native教程】StackNavigation与TabNavigation嵌套最佳实践/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-12-07T09:55:20.000Z">
+          2020-12-07
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p><a href="https://anye3210.github.io/2020/08/03/【React-Native】React-Navigation的使用/">上一篇文章</a>详细讲解了<code>react-navigation</code>的使用，这篇文章主要说一下<code>Stack Navigation</code>与<code>Tab Navigation</code>嵌套的问题。</p>
+<p>在iOS原生开发中，一般是在<code>TabController</code>里嵌套<code>NavigationController</code>，也就是说底部导航控制器里放多个堆栈导航控制器，每个堆栈导航控制器控制有独立的堆栈和状态。</p>
+<p>但如果在使用<code>react-navigation</code>进行这种嵌套方式，由于根控制器是底部的<code>TabNavigation</code>，每次跳转到子控制器时，底部的导航栏不会隐藏。官方文档说可以用属性更改的方法隐藏底部导航栏，但不推荐，会影响性能。因此本文主要讲解如何使用堆栈导航器中嵌套底部导航控制器来解决这个问题。</p>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/React-Native/">React Native</a><a href="/tags/React/">React</a><a href="/tags/Stack-Navigation/">Stack Navigation</a><a href="/tags/Tab-Navigation/">Tab Navigation</a><a href="/tags/嵌套/">嵌套</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2020/12/07/【React-Native教程】StackNavigation与TabNavigation嵌套最佳实践/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2020/08/03/【React-Native】React-Navigation的使用/"><span>【React Native】React Navigation 5.x的使用</span></a></h3>
     
   
@@ -627,81 +690,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2017/04/19/AFNetworking源码上传图片部分完整解析/#comment">Comments</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2017/04/07/超简单的思路实现一个2048游戏/"><span>【iOS】超简单的思路实现2048游戏</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2017/04/07/超简单的思路实现一个2048游戏/" rel="bookmark">
-        <time class="entry-date published" datetime="2017-04-07T08:01:44.000Z">
-          2017-04-07
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>最近在网上下了一个<a href="https://github.com/austinzheng/iOS-2048" target="_blank" rel="noopener">仿2048游戏的Demo</a>，发现里面的实现思路做得比较复杂：将数字块的移动操作封装成模型并保存起来，然后根据操作模型的值对滑块逐块地进行操作，具体的实现方式可以自己下下来感受一下。</p>
-<p>然后我分析了一下这个游戏，重新整理了一种更简单的实现思路，大体可以分为三步：</p>
-<ul>
-<li><strong>界面布局</strong></li>
-<li><strong>数字块操作</strong><ul>
-<li>按方向把所有数字块分成4组，然后进行排序</li>
-<li>查找邻近相同数字块，计算该行（列）合并后的块数</li>
-<li>按方向整行（列）同时移动数字块</li>
-<li>移动块的同时随机添加数字块</li>
-</ul>
-</li>
-<li><strong>游戏结束重置游戏</strong></li>
-</ul>
-<p>实现效果如下：</p>
-<img src="http://ogdqxib8j.bkt.clouddn.com/2048.gif" width="203" height="384">
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/2048/">2048</a><a href="/tags/swift/">swift</a><a href="/tags/Game/">Game</a>
-    </span>
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2017/04/07/超简单的思路实现一个2048游戏/#comment">Comments</a>
         </span>
       </span>
     </div>
