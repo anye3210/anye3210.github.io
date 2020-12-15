@@ -61,6 +61,72 @@
 
   
     
+    <h3 class="article-title"><a href="/2020/12/14/【React-Native进阶】react-native-gesture-handler的使用/"><span>【React Native进阶】React Native Gesture Handler的使用</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/12/14/【React-Native进阶】react-native-gesture-handler的使用/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-12-14T07:09:41.000Z">
+          2020-12-14
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>说到React Navtive的性能优化，首先要了解React Native的运行机制。React Native程序主要运行在三个并行的线程上：</p>
+<ul>
+<li><strong>JS Thread</strong>：我们写的JS代码逻辑都是在这个线程上执行；</li>
+<li><strong>UI Thread</strong>：即原生线程，当我们需要调用原生的渲染或者能力时会运行到这个线程上；</li>
+<li><strong>Shadow Thread</strong>：这个线程创建和管理着Shadow Tree，它类似于虚拟DOM。它通过Yoga引擎着Flexbox布局转化为原生的布局方式。</li>
+</ul>
+<p>这三个线程独立运行的情况下，性能良好，但如果存在和UI线程有交互的情况，就可能出现性能瓶颈。由于UI线程与其他线程通信存在序列化和反序列化这个比较消耗性能的步骤，而且这些通信都是异步的，当UI线程与其他线程交互比较频繁或者其他线程负荷较大计算结果有延迟，就容易出现掉桢的现象。</p>
+<p>我们的RN代码逻辑都是用JS写的，JS线程也是负荷最大的线程。因此在RN的性能优化上主要要考虑两个方面： </p>
+<ul>
+<li>减少与UI线程的通信；</li>
+<li>减少JS线程的负荷；</li>
+</ul>
+<p>而<a href="https://docs.swmansion.com/react-native-gesture-handler/docs/" target="_blank" rel="noopener"><code>React Native Gesture Handler</code></a>正是从这两个方面优化RN在手势操作方面的性能。它旨在替换RN自带的<a href="https://reactnative.dev/docs/gesture-responder-system" target="_blank" rel="noopener">手势处理系统</a>。如果你使用过系统自带的手势处理系统，会发现在JS线程会有大量的计算，这些计算也会频繁与UI线程通信，对性能影响较大。具体代码可以自行比较，这里不再赘述。</p>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2020/12/14/【React-Native进阶】react-native-gesture-handler的使用/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2020/12/07/【React-Native教程】StackNavigation与TabNavigation嵌套最佳实践/"><span>【React Native教程】Stack Navigation与Tab Navigation嵌套最佳实践</span></a></h3>
     
   
@@ -617,79 +683,6 @@
         <i class="icon-comments"></i>
         <span>
           <a href="/2019/05/30/封装自己的自定义转场组件/#comment">Comments</a>
-        </span>
-      </span>
-    </div>
-    
-  </div>
-</article>
-
-
-
-  <article>
-
-  
-    
-    <h3 class="article-title"><a href="/2017/04/19/AFNetworking源码上传图片部分完整解析/"><span>AFNetworking源码上传图片部分完整解析</span></a></h3>
-    
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2017/04/19/AFNetworking源码上传图片部分完整解析/" rel="bookmark">
-        <time class="entry-date published" datetime="2017-04-19T04:00:00.000Z">
-          2017-04-19
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>最近在开发SDK时有上传图片的需求，这个需求用AF的话当然非常简单，多添加一句代码就可以搞定。但为避免第三方耦合并没有使用AFNetworking，这就需要自己走完上传图片的全部流程，所以仔细研究了一下AFNetworking的相关源码，梳理了整个流程，它的流程大致是这样的：</p>
-<p>&lt;img src=”<a href="http://ogdqxib8j.bkt.clouddn.com/image/png%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0.png&quot;" target="_blank" rel="noopener">http://ogdqxib8j.bkt.clouddn.com/image/png%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0.png&quot;</a> title:”AFNetworking图片上传流程”&gt;</p>
-<p>看着有点眼花眼花缭乱是吧，没关系，接着往下看，看完这篇文章，你也可以自己封装一套图片上传网络工具类。</p>
-<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
-<li>基本原理</li>
-<li>具体实现<ul>
-<li>创建<code>NSMutableURLRequest</code>并设置请求方式为<code>POST</code></li>
-<li>自定义<code>HTTPBodyStream</code></li>
-<li>对<code>request</code>进行参数设置</li>
-<li>通过<code>NSURLSession</code>的<code>uploadTaskWithStreamedRequest:</code>方法发起Post请求</li>
-</ul>
-</li>
-</ul>
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/AFNetwork/">AFNetwork</a><a href="/tags/上传图片/">上传图片</a><a href="/tags/源码解析/">源码解析</a>
-    </span>
-    
-
-    </div>
-
-    
-    <div class="article-meta pull-right">
-      <span>
-        <i class="icon-comments"></i>
-        <span>
-          <a href="/2017/04/19/AFNetworking源码上传图片部分完整解析/#comment">Comments</a>
         </span>
       </span>
     </div>

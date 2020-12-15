@@ -61,6 +61,79 @@
 
   
     
+    <h3 class="article-title"><a href="/2017/04/19/AFNetworking源码上传图片部分完整解析/"><span>AFNetworking源码上传图片部分完整解析</span></a></h3>
+    
+  
+
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2017/04/19/AFNetworking源码上传图片部分完整解析/" rel="bookmark">
+        <time class="entry-date published" datetime="2017-04-19T04:00:00.000Z">
+          2017-04-19
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <p>最近在开发SDK时有上传图片的需求，这个需求用AF的话当然非常简单，多添加一句代码就可以搞定。但为避免第三方耦合并没有使用AFNetworking，这就需要自己走完上传图片的全部流程，所以仔细研究了一下AFNetworking的相关源码，梳理了整个流程，它的流程大致是这样的：</p>
+<p>&lt;img src=”<a href="http://ogdqxib8j.bkt.clouddn.com/image/png%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0.png&quot;" target="_blank" rel="noopener">http://ogdqxib8j.bkt.clouddn.com/image/png%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0.png&quot;</a> title:”AFNetworking图片上传流程”&gt;</p>
+<p>看着有点眼花眼花缭乱是吧，没关系，接着往下看，看完这篇文章，你也可以自己封装一套图片上传网络工具类。</p>
+<h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
+<li>基本原理</li>
+<li>具体实现<ul>
+<li>创建<code>NSMutableURLRequest</code>并设置请求方式为<code>POST</code></li>
+<li>自定义<code>HTTPBodyStream</code></li>
+<li>对<code>request</code>进行参数设置</li>
+<li>通过<code>NSURLSession</code>的<code>uploadTaskWithStreamedRequest:</code>方法发起Post请求</li>
+</ul>
+</li>
+</ul>
+      
+    </div>
+
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
+    
+
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/AFNetwork/">AFNetwork</a><a href="/tags/上传图片/">上传图片</a><a href="/tags/源码解析/">源码解析</a>
+    </span>
+    
+
+    </div>
+
+    
+    <div class="article-meta pull-right">
+      <span>
+        <i class="icon-comments"></i>
+        <span>
+          <a href="/2017/04/19/AFNetworking源码上传图片部分完整解析/#comment">Comments</a>
+        </span>
+      </span>
+    </div>
+    
+  </div>
+</article>
+
+
+
+  <article>
+
+  
+    
     <h3 class="article-title"><a href="/2017/04/07/超简单的思路实现一个2048游戏/"><span>【iOS】超简单的思路实现2048游戏</span></a></h3>
     
   
