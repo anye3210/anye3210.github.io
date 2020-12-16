@@ -15,7 +15,7 @@
 
   
   
-  <meta name="keywords" content>
+  <meta name="keywords" content="性能优化,React Native,React Native Gesture Handler,Gesture Handler">
   
 
   <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
@@ -85,17 +85,19 @@
       
         <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>说到React Navtive的性能优化，首先要了解React Native的运行机制。React Native程序主要运行在三个并行的线程上：</p>
 <ul>
-<li><strong>JS Thread</strong>：我们写的JS代码逻辑都是在这个线程上执行；</li>
+<li><strong>JavaScript Thread</strong>：我们写的JavaScript代码逻辑都是在这个线程上执行；</li>
 <li><strong>UI Thread</strong>：即原生线程，当我们需要调用原生的渲染或者能力时会运行到这个线程上；</li>
 <li><strong>Shadow Thread</strong>：这个线程创建和管理着Shadow Tree，它类似于虚拟DOM。它通过Yoga引擎着Flexbox布局转化为原生的布局方式。</li>
 </ul>
-<p>这三个线程独立运行的情况下，性能良好，但如果存在和UI线程有交互的情况，就可能出现性能瓶颈。由于UI线程与其他线程通信存在序列化和反序列化这个比较消耗性能的步骤，而且这些通信都是异步的，当UI线程与其他线程交互比较频繁或者其他线程负荷较大计算结果有延迟，就容易出现掉桢的现象。</p>
-<p>我们的RN代码逻辑都是用JS写的，JS线程也是负荷最大的线程。因此在RN的性能优化上主要要考虑两个方面： </p>
+<p>这三个线程独立运行的情况下，性能良好，但如果涉及到事件驱动与UI线程有交互的情况，React Native的这种设计效果不佳。</p>
+<p>当与触摸屏交互时，用户希望屏幕上的效果是即时的。如果更新发生在单独的线程中，通常情况下，在JavaScript线程中所做的更改无法反映在同一帧中。在React Native中，默认情况下，由于UI和JavaScript线程之间的通信是异步的，并且UI线程从不等待JavaScript线程完成处理事件，因此所有更新都会延迟至少一个帧。</p>
+<p>而且由于UI线程与其他线程通信存在序列化和反序列化这个比较消耗性能的步骤，当UI线程与其他线程交互比较频繁或者其他线程负荷较大时，通常事件无法立即处理，从而造成更严重的延迟。</p>
+<p>我们的RN代码逻辑都是用JavaScript写的，JavaScript线程也是负荷最大的线程。因此在React Native的性能优化上主要要考虑两个方面： </p>
 <ul>
 <li>减少与UI线程的通信；</li>
-<li>减少JS线程的负荷；</li>
+<li>减少JavaScript线程的负荷；</li>
 </ul>
-<p>而<a href="https://docs.swmansion.com/react-native-gesture-handler/docs/" target="_blank" rel="noopener"><code>React Native Gesture Handler</code></a>正是从这两个方面优化RN在手势操作方面的性能。它旨在替换RN自带的<a href="https://reactnative.dev/docs/gesture-responder-system" target="_blank" rel="noopener">手势处理系统</a>。如果你使用过系统自带的手势处理系统，会发现在JS线程会有大量的计算，这些计算也会频繁与UI线程通信，对性能影响较大。具体代码可以自行比较，这里不再赘述。</p>
+<p>而<a href="https://docs.swmansion.com/react-native-gesture-handler/docs/" target="_blank" rel="noopener"><code>React Native Gesture Handler</code></a>正是从这两个方面优化React Native在手势操作方面的性能。它旨在替换React Native自带的<a href="https://reactnative.dev/docs/gesture-responder-system" target="_blank" rel="noopener">手势处理系统</a>。如果你使用过系统自带的手势处理系统，会发现在JavaScript线程会有大量的计算，这些计算也会频繁与UI线程通信，对性能影响较大。具体代码可以自行比较，这里不再赘述。</p>
 <a id="more"></a>
 
 <h1 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h1><p><strong>React Native Gesture Handler</strong>提供了以下功能：</p>
@@ -103,7 +105,7 @@
 <li>提供了包括缩放、旋转、屏蔽滑动等手势的处理系统；</li>
 <li>能够定义多个手势之间的关系。例如：当你在<code>ScrollView</code>里面加入一个滑动手势（pan handler）时，可以让滑动手势响应结束后再响应<code>ScrollView</code>；</li>
 <li>提供了让手势运行在原生线程（UI线程）上并遵从原生平台默认行为机制；</li>
-<li>由于使用了原生的动画驱动，即便在JS线程已经超负荷的情况，也能够提供顺滑的手势交互。</li>
+<li>由于使用了原生的动画驱动，即便在JavaScript线程已经超负荷的情况，也能够提供顺滑的手势交互。</li>
 </ul>
 <h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>整个安装分为三个部分：JS部分、Android部分和iOS部分。其中JS和iOS部分都是统一的，Android在使用了第三方导航库和没使用的情况安装配置方式会有不同。</p>
 <h2 id="JS"><a href="#JS" class="headerlink" title="JS"></a>JS</h2><p>使用<code>yarn</code>安装：</p>
@@ -123,14 +125,14 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &apos;react-native-gesture-handler&apos;;</span><br></pre></td></tr></table></figure>
 
 <h2 id="配合导航库使用"><a href="#配合导航库使用" class="headerlink" title="配合导航库使用"></a>配合导航库使用</h2><p>如果你在项目中使用了像<a href="https://github.com/wix/react-native-navigation" target="_blank" rel="noopener">react-native-navigation</a> 这样的导航库，由于本地导航库和Gesture Handler库都需要它们自己的<code>ReactRootView</code>子类，在安卓不能使用上述配置，需要如下单独配置。</p>
-<p>与上面的修改Java原生代码不同，你需要在JS代码中将每个页面的组件用<code>gestureHandlerRootHOC</code>包裹起来。可以像下面这样配置：</p>
+<p>与上面的修改Java原生代码不同，你需要在JavaScript代码中将每个页面的组件用<code>gestureHandlerRootHOC</code>包裹起来。可以像下面这样配置：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import &#123; gestureHandlerRootHOC &#125; from &apos;react-native-gesture-handler&apos;;</span><br><span class="line">import &#123; Navigation &#125; from &apos;react-native-navigation&apos;;</span><br><span class="line"></span><br><span class="line">import FirstTabScreen from &apos;./FirstTabScreen&apos;;</span><br><span class="line">import SecondTabScreen from &apos;./SecondTabScreen&apos;;</span><br><span class="line">import PushedScreen from &apos;./PushedScreen&apos;;</span><br><span class="line"></span><br><span class="line">// register all screens of the app (including internal ones)</span><br><span class="line">export function registerScreens() &#123;</span><br><span class="line">  Navigation.registerComponent(&apos;example.FirstTabScreen&apos;, () =&gt;</span><br><span class="line">    gestureHandlerRootHOC(FirstTabScreen)</span><br><span class="line">  );</span><br><span class="line">  Navigation.registerComponent(&apos;example.SecondTabScreen&apos;, () =&gt;</span><br><span class="line">    gestureHandlerRootHOC(SecondTabScreen)</span><br><span class="line">  );</span><br><span class="line">  Navigation.registerComponent(&apos;example.PushedScreen&apos;, () =&gt;</span><br><span class="line">    gestureHandlerRootHOC(PushedScreen)</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>这部分的配置也可以参考官方的<a href="https://github.com/henrikra/nativeNavigationGestureHandler" target="_blank" rel="noopener">示例项目</a>。</p>
 <p>记住你需要把每一个页面的组件（也就是导航库里管理的每个页面）都包裹在<code>gestureHandlerRootHOC</code>下，只包裹主页面是不行的。</p>
-<h1 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h1><h2 id="Gesture-Handlers"><a href="#Gesture-Handlers" class="headerlink" title="Gesture Handlers"></a>Gesture Handlers</h2><p>Gesture Handler是这个手势库的核心，它用来描述原生触控系统里的元素，这些元素能够被JS代码使用React的组件进行实例化和控制。</p>
+<h1 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h1><h2 id="Gesture-Handlers"><a href="#Gesture-Handlers" class="headerlink" title="Gesture Handlers"></a>Gesture Handlers</h2><p>Gesture Handler是这个手势库的核心，它用来描述原生触控系统里的元素，这些元素能够被JavaScript代码使用React的组件进行实例化和控制。</p>
 <p>每一个Handler类型都代表了一种手势（例如：滑动、缩放），也包含了每种手势特有的事件（例如：translation, scale）。</p>
-<p>这些Handler可以在UI线程同步地解析触摸事件流，即便在JS线程阻塞的情况下也能保证手势交互不被打断。</p>
+<p>这些Handler可以在UI线程同步地解析触摸事件流，即便在JavaScript线程阻塞的情况下也能保证手势交互不被打断。</p>
 <p>Gesture Handler的组件并不会在原生的视图层级里面创建一个视图，它仅仅是在自己库里面注册然后连接到原生的视图里。所以当我们在使用这些Handler组件的时候，一定要记得 在内部添加一个对应着原生视图的子组件。</p>
 <p>这个库提供了以下几种手势：</p>
 <ul>
@@ -203,6 +205,13 @@
 
     
 
+    
+    
+
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/性能优化/">性能优化</a><a href="/tags/React-Native/">React Native</a><a href="/tags/React-Native-Gesture-Handler/">React Native Gesture Handler</a><a href="/tags/Gesture-Handler/">Gesture Handler</a>
+    </span>
     
 
     </div>
