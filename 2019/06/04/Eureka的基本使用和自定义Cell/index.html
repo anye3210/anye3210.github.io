@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>【iOS】Eureka的基本使用和自定义Cell | Zephyr&#39;s Capsule</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="iOS, Python, Swift, Objective-C, JavaScript">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="【iOS】Eureka的基本使用和自定义Cell | Zephyr&#39;s Capsule">
+    <meta name="twitter:description" content="iOS, Python, Swift, Objective-C, JavaScript">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="【iOS】Eureka的基本使用和自定义Cell | Zephyr&#39;s Capsule">
+    <meta property="og:description" content="iOS, Python, Swift, Objective-C, JavaScript">
+
+    
+    <meta name="author" content="Zephyr">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Zephyr&#39;s Capsule" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://anye3210.github.io/2019/06/04/Eureka的基本使用和自定义Cell/"/>
+
+    
+    <link rel="author" href="https://plus.google.com"/>
+    
+      
+</head>
+
+<body class="home-template no-js">
+    <script src="https://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Zephyr&#39;s Capsule 的主页"><img src="/images/avatar.jpg" width="80" alt="Zephyr&#39;s Capsule logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Zephyr&#39;s Capsule">Zephyr&#39;s Capsule</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">Stay hungry stay foolish</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">不断前行</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="访问博客" class="blog-button">博客</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">收藏</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/time.html">时光机</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+  <li class="navigation__item">
+    <a href="https://weibo.com/" title="我的微博" target="_blank">
+      <i class='social fa fa-weibo'></i>
+      <span class="label">Weibo</span>
+    </a>
+  </li> 
+
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/zephyrw" title="查看我的GitHub主页" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+        <li class="navigation__item">
+            <a href="http://stackoverflow.com/" title="Stack Overflow" target="_blank">
+                <i class='social fa fa-stack-overflow'></i>
+                <span class="label">Stack Overflow</span>
+            </a>
+        </li>
+        
+
+  <!-- Google Plus -->
+  
+  <li class="navigation__item">
+    <a href="https://plus.google.com" title="Google+" target="_blank">
+      <i class='social fa fa-google-plus-square'></i>
+      <span class="label">Google+</span>
+    </a>
+  </li>
+
+
+<!-- Facebook -->
+
+  <li class="navigation__item">
+    <a href="https://www.facebook.com/" title="上Facebook找我" target="_blank">
+      <i class='social fa fa-facebook'></i>
+      <span class="label">Facebook</span>
+    </a>
+  </li>
+
+  
+<!-- Twitter -->
+
+  <li class="navigation__item">
+    <a href="https://twitter.com/" title="上Twitter找我" target="_blank">
+      <i class='social fa fa-twitter'></i>
+      <span class="label">Twitter</span>
+    </a>
+  </li>
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2019-06-04T12:23:24.000Z" class="post-list__meta--date date">2019-06-04</time> &#8226; <span class="post-meta__tags tags">于&nbsp;
+  <a class="tag-link" href="/tags/Custom-Cell/">Custom Cell</a>, <a class="tag-link" href="/tags/Eureka/">Eureka</a>, <a class="tag-link" href="/tags/TableView/">TableView</a>, <a class="tag-link" href="/tags/自动生成/">自动生成</a>
+ </span>
+      <span class="page-pv">
+      &nbsp;阅读&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">【iOS】Eureka的基本使用和自定义Cell</h1>
+  </header>
+
+  <section class="post">
+    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p><code>Eureka</code>是一个纯<code>Swift</code>库，它能帮你快速优雅地创建一个<code>TableView</code>。这个库本身也提供了大量内置的不同功能的<code>Cell</code>，使用上也很简单。如果内置的<code>Cell</code>样式或功能不能满足需要，你也可以自定义<code>Cell</code>。</p>
+<p>使用Eureka设置<code>TableView</code>的代码大概是下面这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">form +++ Section()</span><br><span class="line">         &lt;&lt;&lt; LabelRow() &#123;</span><br><span class="line">            $0.title = &quot;LabelRow&quot;</span><br><span class="line">            $0.value = &quot;Default Value&quot;</span><br><span class="line">            &#125;.cellSetup(&#123; (cell, row) in</span><br><span class="line">                cell.accessoryType = .disclosureIndicator</span><br><span class="line">            &#125;).onCellSelection(&#123; (cell, row) in</span><br><span class="line">                print(&quot;cell selection&quot;)</span><br><span class="line">            &#125;)</span><br></pre></td></tr></table></figure>
+
+<p>本文主要介绍<code>Eureka</code>的基本使用和自定义<code>Cell</code>的步骤。你可以在<a href="https://github.com/zephyrw/EurekaCustomCellDemo" target="_blank" rel="noopener">这里</a>查看本文的Demo。</p>
+<a id="more"></a>
+
+<h2 id="基本使用"><a href="#基本使用" class="headerlink" title="基本使用"></a>基本使用</h2><p><code>Eureka</code>的基本使用主要是三步</p>
+<ul>
+<li><strong>1.</strong> 新建<code>ViewController</code>并将<code>ViewController</code>设置为<code>FormViewController</code>的子类</li>
+<li><strong>2.</strong> 添加<code>Section</code></li>
+<li><strong>3.</strong> 添加<code>Row</code></li>
+</ul>
+<h3 id="新建ViewController"><a href="#新建ViewController" class="headerlink" title="新建ViewController"></a>新建<code>ViewController</code></h3><p> 显示<code>tableView</code>首先得有一个控制器，这里我们新建一个控制器并将它设置成<code>FormViewController</code>的子类，如下所示:</p>
+ <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">class ViewController: FormViewController &#123;</span><br><span class="line">	override func viewDidLoad() &#123;</span><br><span class="line">       super.viewDidLoad()</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>FormViewController</code>本身是<code>UIViewController</code>的子类，而且<code>Eureka</code>框架已经在其中添加和设置好了<code>tableView</code>，所以我们开发时不用操心布局，仅仅关注交互逻辑就可以了。</p>
+<h3 id="添加Section"><a href="#添加Section" class="headerlink" title="添加Section"></a>添加<code>Section</code></h3><p><code>FormViewController</code>里<code>tableView</code>的<code>style</code>属性值为<code>.grouped</code>，这里我们添加多少个<code>Section</code>就会自动生成多少个组，添加语法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">form +++ Section()</span><br></pre></td></tr></table></figure>
+
+<p>有的人看到这里或许有点奇怪，<code>+++</code>是个什么语法，好像没见过啊。其实这是<code>Eureka</code>使用了Swift自定义运算符的特性，定义<code>+++</code>这个中缀运算符，它在源文件里是这么定义的:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">infix operator +++ : FormPrecedence</span><br></pre></td></tr></table></figure>
+
+<p>上面这个添加<code>Section</code>的语法定义是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">@discardableResult</span><br><span class="line">public func +++ (left: Form, right: Section) -&gt; Form &#123;</span><br><span class="line">    left.append(right)</span><br><span class="line">    return left</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里<code>Form</code>遵从了<code>RangeReplaceableCollection</code>这个协议，重写了<code>append</code>这个方法，具体实现有兴趣的可以去看源码。</p>
+<h3 id="添加Row"><a href="#添加Row" class="headerlink" title="添加Row"></a>添加<code>Row</code></h3><p><code>Row</code>的创建和设置是所有步骤的核心，所有的交互逻辑都是在这里完成的。<code>Eureka</code>内置了数十种常用的<code>Row</code>，这里我们添加最常用的三种<code>Row</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">form +++ Section()</span><br><span class="line">            &lt;&lt;&lt; LabelRow() &#123;</span><br><span class="line">            $0.title = &quot;LabelRow&quot;</span><br><span class="line">            $0.value = &quot;Default Value&quot;</span><br><span class="line">            &#125;.cellSetup(&#123; (cell, row) in</span><br><span class="line">                cell.accessoryType = .disclosureIndicator</span><br><span class="line">            &#125;).onCellSelection(&#123; (cell, row) in</span><br><span class="line">                print(&quot;cell selection&quot;)</span><br><span class="line">            &#125;)</span><br><span class="line">            &lt;&lt;&lt; TextRow(tag: &quot;TextRow&quot;)</span><br><span class="line">                .cellSetup(&#123; (cell, row) in</span><br><span class="line">                    row.tag = &quot;TextRow&quot;</span><br><span class="line">                    row.title = &quot;TextRow&quot;</span><br><span class="line">                    row.placeholder = &quot;Input your message&quot;</span><br><span class="line">                &#125;)</span><br><span class="line">                .cellUpdate(&#123; (cell, row) in</span><br><span class="line">                    print(&quot;cell update&quot;)</span><br><span class="line">                &#125;)</span><br><span class="line">            &lt;&lt;&lt; SwitchRow() &#123;</span><br><span class="line">                $0.tag = &quot;SwitchValue&quot;</span><br><span class="line">                $0.title = &quot;SwitchRow&quot;</span><br><span class="line">                $0.value = true</span><br><span class="line">                &#125;.onChange(&#123; (row) in</span><br><span class="line">                    print(&quot;value changed: \(row.value ?? false)&quot;)</span><br><span class="line">                &#125;)</span><br></pre></td></tr></table></figure>
+
+<p><code>&lt;&lt;&lt;</code>同样是<code>Eureka</code>自定义的中缀运算符，作用是将<code>Row</code>添加到对应的<code>Section</code>中。在上面的代码中，我是在<code>Row</code>的生成方法的闭包中为<code>title</code>和<code>value</code>赋值，这个操作同样也可以放在<code>cellSetup</code>方法中（这个操作只会在<code>Row</code>创建时调用），效果是一样的。需要动态刷新的值需要在<code>cellUpdate</code>方法中设置。<code>Eureka</code>同时也提供了<code>onCellSelection</code>和<code>onChange</code>这样的响应方法，在里面定义其实响应逻辑即可。</p>
+<p>至此，<code>Eureka</code>的基本使用就全部完成了。如果<code>Eureka</code>框架自带的<code>Row</code>已经能完全满足你的需求，就不需要往下看了。但如果你不满足于内置<code>Row</code>，那么我们继续看看如何自定义<code>Cell</code>和<code>Row</code></p>
+<h2 id="自定义Cell"><a href="#自定义Cell" class="headerlink" title="自定义Cell"></a>自定义<code>Cell</code></h2><p>这里我们来定义一个模拟软件更新的<code>Cell</code>，效果图如下：</p>
+<p><img src="https://thumbs.gfycat.com/PrestigiousBlondIchidna-small.gif" alt="效果图"></p>
+<h3 id="定义结构体"><a href="#定义结构体" class="headerlink" title="定义结构体"></a>定义结构体</h3><p>首先，我们需要一个结构体<code>Software</code>方便为<code>Cell</code>赋值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">enum UpdateState: Int &#123;</span><br><span class="line">    case toUpdate = 0</span><br><span class="line">    case updating</span><br><span class="line">    case alreadyNewest</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">struct Software: Equatable &#123;</span><br><span class="line">    var name: String</span><br><span class="line">    var updateState: UpdateState</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">func == (lhs: Software, rhs: Software) -&gt; Bool &#123;</span><br><span class="line">    return lhs.name == rhs.name</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这里有一点需要注意的是，定义的类或者结构体必须遵从<code>Equatable</code>协议，否则在自定义<code>Cell</code>里使用时会报错。</p>
+<h3 id="定义Cell"><a href="#定义Cell" class="headerlink" title="定义Cell"></a>定义<code>Cell</code></h3><p>定义好了结构体，接下来就是实现<code>Cell</code>部分。</p>
+<p>自定义<code>Eureka</code>的<code>Cell</code>和自定义普通<code>UITableView</code>的<code>Cell</code>一样，首先要选择使用纯代码创建还是<code>xib</code>创建。这里我们使用<code>xib</code>的方式。新建自定义<code>Cell</code>，如下图：</p>
+<p><img src="https://miao.su/images/2019/06/04/cell05ac1.png" alt="添加Cell"></p>
+<p>自定义布局，<code>Cell</code>连线，<code>UpdateCell</code>的代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line">final class UpdateCell: Cell&lt;Software&gt;, CellType &#123;</span><br><span class="line"></span><br><span class="line">    @IBOutlet weak var titleLabel: UILabel!</span><br><span class="line">    @IBOutlet weak var updateButton: UIButton!</span><br><span class="line">    @IBOutlet weak var aniContainerView: UIView!</span><br><span class="line">    @IBOutlet weak var noNeedUpdateLabel: UILabel!</span><br><span class="line">    </span><br><span class="line">    private var shapeLayer = CAShapeLayer()</span><br><span class="line">    </span><br><span class="line">    override func setup() &#123;</span><br><span class="line">        </span><br><span class="line">        selectionStyle = .none</span><br><span class="line">        height = &#123; return 44 &#125;</span><br><span class="line">        </span><br><span class="line">        //这里省略布局代码</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    override func update() &#123;</span><br><span class="line">        guard let software = row.value else &#123;</span><br><span class="line">            return</span><br><span class="line">        &#125;</span><br><span class="line">        titleLabel.text = software.name</span><br><span class="line">        updateUI(software.updateState)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在创建<code>UpdateCell</code>类的时候，有几点需要注意：</p>
+<ul>
+<li>指明为<code>Cell</code>赋值时使用的类</li>
+<li>遵从<code>CellType</code>协议</li>
+<li>指定<code>Cell</code>的高度</li>
+</ul>
+<p>在上面的代码的，<code>Setup</code>方法只会在<code>Cell</code>创建时调用一次，可以在这里写布局代码，而<code>Update</code>方法会在每次刷新的时候调用，可以在这里给<code>Cell</code>的<code>subViews</code>赋值。</p>
+<h3 id="定义Row"><a href="#定义Row" class="headerlink" title="定义Row"></a>定义<code>Row</code></h3><p>接下来还需要自定义<code>Row</code>，从属于上面我们刚刚定义的<code>Cell</code>，并在里面加载<code>xib</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">final class UpdateRow: Row&lt;UpdateCell&gt;, RowType &#123;</span><br><span class="line">    </span><br><span class="line">    required init(tag: String?) &#123;</span><br><span class="line">        super.init(tag: tag)</span><br><span class="line">        cellProvider = CellProvider&lt;UpdateCell&gt;(nibName: &quot;UpdateCell&quot;)</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="添加自定义Cell到Section中"><a href="#添加自定义Cell到Section中" class="headerlink" title="添加自定义Cell到Section中"></a>添加自定义<code>Cell</code>到<code>Section</code>中</h3><p>自定义<code>Cell</code>创建完成后，就可以像使用框架中自带的<code>Row</code>一样来使用我们的自定义<code>Row</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">&lt;&lt;&lt; UpdateRow() &#123;</span><br><span class="line">                $0.value = Software(name: &quot;My Software&quot;, updateState: .toUpdate)</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>其实<code>Eureka</code>的使用比较简单，熟练操作后会是快速构建<code>UITableView</code>的利器。本文的Demo可以在<a href="https://github.com/zephyrw/EurekaCustomCellDemo" target="_blank" rel="noopener">这里</a>查看。</p>
+
+  </section>
+
+</article>
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">最近的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/2020/01/13/使用SonarQube静态检查OC代码质量/" title="使用SonarQube静态检查OC代码质量">使用SonarQube静态检查OC代码质量</a></h2>
+                <p class="excerpt">
+                
+                前言SonarQube是一个开源的代码质量管理系统，它支持包括ObjectiveC、Java、C/C++、C#、PHP在内的超过25种编程语言。它能够提供包括重复代码、编码标准、单元测试、代码覆盖率、代码复杂度、潜在Bug、注释的报告。它还可以与持续集成工具配合使用实现完全自动化的分析。
+之前在网上搜索学习SonarQube在Mac上的集成和使用教程，发现教程都比较老，使用的都是较老版本的SonarQube，在集成最新的8.1版本时踩了不少坑。本文就是对在Mac系统上安装和使用新版SonarQube的总结。后续会继续更新使用SonarQube静态分析Swift代码及结合Jenkins进行自动化分析。
+注意：SonarQube需要Java 11及以上的运行环境，在终端输入java --version即可查看系统的Java版本，如果不满足，请先自行下载和安装。
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2020-01-13T15:01:17.000Z" class="post-list__meta--date date">2020-01-13</time> &#8226; <span class="post-list__meta--tags tags">于&nbsp;
+  <a class="tag-link" href="/tags/ObjectiveC/">ObjectiveC</a>, <a class="tag-link" href="/tags/SonarQube/">SonarQube</a>, <a class="tag-link" href="/tags/代码质量/">代码质量</a>, <a class="tag-link" href="/tags/静态检查/">静态检查</a>
+</span><a class="btn-border-small" href="/2020/01/13/使用SonarQube静态检查OC代码质量/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">更早的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/2019/05/30/封装自己的自定义转场组件/" title="【iOS】封装自己的自定义转场组件">【iOS】封装自己的自定义转场组件</a></h2>
+                <p class="excerpt">
+                
+                自定义转场这个技术相信大家都用过或者听说过，不过如果你经常使用自定义转场或者自定义转场动画做得比较复杂或许会发现AnimatedTransitioning与目标控制器的交互并没有那么友好。本文旨在提供一个新思路，减少AnimatedTransitioning与目标控制器的耦合，引入封装好的类文件后，只需少量代码，就可以实现一个基础的转场动画。
+首先，我们来看一下实现一个普通的转场动画的流程。
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2019-05-30T13:18:35.000Z" class="post-list__meta--date date">2019-05-30</time> &#8226; <span class="post-list__meta--tags tags">于&nbsp;
+  <a class="tag-link" href="/tags/UIViewControllerAnimatedTransitioning/">UIViewControllerAnimatedTransitioning</a>, <a class="tag-link" href="/tags/自定义转场/">自定义转场</a>
+</span><a class="btn-border-small" href="/2019/05/30/封装自己的自定义转场组件/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+            
+<section class="post-comments">
+  <!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="http://anye3210.github.io/2019/06/04/Eureka的基本使用和自定义Cell/" data-title="【iOS】Eureka的基本使用和自定义Cell" data-url="http://anye3210.github.io/2019/06/04/Eureka的基本使用和自定义Cell/"></div>
+  <!-- 多说评论框 end -->
+  <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+  <script type="text/javascript">
+  var duoshuoQuery = {short_name:"Zephyr&#39;s Capsule"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+</section>
+
+
+            <footer class="footer">
+	<span class="footer__copyright">
+	        <div style="width:200px;margin:0 auto; padding:0px;">
+               <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">©2019 Zephyr</p>
+            </div>
+    </span>
+    <span class="footer__copyright">
+        <div style="width:300px;margin:0 auto; padding:20px 0;">
+                <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=50010802002929" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="/images/beian.png" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">渝公网安备 50010802002929号</p></a>
+            </div>
+    </span>
+</footer>
+        </div>
+    </div>
+
+    
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-87098157-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    
+    </script>
+    
+</body>
+</html>

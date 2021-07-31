@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>【iOS】AsyncDisplayKit的布局 | Zephyr&#39;s Capsule</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="iOS, Python, Swift, Objective-C, JavaScript">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="【iOS】AsyncDisplayKit的布局 | Zephyr&#39;s Capsule">
+    <meta name="twitter:description" content="iOS, Python, Swift, Objective-C, JavaScript">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="【iOS】AsyncDisplayKit的布局 | Zephyr&#39;s Capsule">
+    <meta property="og:description" content="iOS, Python, Swift, Objective-C, JavaScript">
+
+    
+    <meta name="author" content="Zephyr">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Zephyr&#39;s Capsule" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://anye3210.github.io/2016/11/10/AsyncDisplayKit的布局/"/>
+
+    
+    <link rel="author" href="https://plus.google.com"/>
+    
+      
+</head>
+
+<body class="home-template no-js">
+    <script src="https://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Zephyr&#39;s Capsule 的主页"><img src="/images/avatar.jpg" width="80" alt="Zephyr&#39;s Capsule logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Zephyr&#39;s Capsule">Zephyr&#39;s Capsule</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">Stay hungry stay foolish</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">不断前行</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="访问博客" class="blog-button">博客</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">收藏</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/time.html">时光机</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+  <li class="navigation__item">
+    <a href="https://weibo.com/" title="我的微博" target="_blank">
+      <i class='social fa fa-weibo'></i>
+      <span class="label">Weibo</span>
+    </a>
+  </li> 
+
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/zephyrw" title="查看我的GitHub主页" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+        <li class="navigation__item">
+            <a href="http://stackoverflow.com/" title="Stack Overflow" target="_blank">
+                <i class='social fa fa-stack-overflow'></i>
+                <span class="label">Stack Overflow</span>
+            </a>
+        </li>
+        
+
+  <!-- Google Plus -->
+  
+  <li class="navigation__item">
+    <a href="https://plus.google.com" title="Google+" target="_blank">
+      <i class='social fa fa-google-plus-square'></i>
+      <span class="label">Google+</span>
+    </a>
+  </li>
+
+
+<!-- Facebook -->
+
+  <li class="navigation__item">
+    <a href="https://www.facebook.com/" title="上Facebook找我" target="_blank">
+      <i class='social fa fa-facebook'></i>
+      <span class="label">Facebook</span>
+    </a>
+  </li>
+
+  
+<!-- Twitter -->
+
+  <li class="navigation__item">
+    <a href="https://twitter.com/" title="上Twitter找我" target="_blank">
+      <i class='social fa fa-twitter'></i>
+      <span class="label">Twitter</span>
+    </a>
+  </li>
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2016-11-10T14:36:21.000Z" class="post-list__meta--date date">2016-11-10</time> &#8226; <span class="post-meta__tags tags">于&nbsp;
+  <a class="tag-link" href="/tags/ASDK/">ASDK</a>, <a class="tag-link" href="/tags/ASDK布局/">ASDK布局</a>, <a class="tag-link" href="/tags/AsyncDisplayKit/">AsyncDisplayKit</a>
+ </span>
+      <span class="page-pv">
+      &nbsp;阅读&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">【iOS】AsyncDisplayKit的布局</h1>
+  </header>
+
+  <section class="post">
+    <h2 id="AsyncDisplayKit布局的优势"><a href="#AsyncDisplayKit布局的优势" class="headerlink" title="AsyncDisplayKit布局的优势"></a>AsyncDisplayKit布局的优势</h2><p>UIKit由于复杂的层级结构变得越来越expensive，而AsyncDisplayKit的 Layout API 作为一个新的选择，具有以下的优势。</p>
+<ul>
+<li><strong>快速</strong>：与手动布局代码一样快，比自动布局快了很多；</li>
+<li><strong>异步和同步</strong>：布局可以在子线程中进行，避免打断用户的操作；</li>
+<li><strong>声明</strong>：布局声明使用的是不可变的数据结构。这样使布局代码可以更容易开发，注释，预览，调试，介绍和维护；</li>
+<li><strong>缓存管理</strong>：布局的结果是不可变的数据结构，所以可以在后台进行计算和缓存，改善用户的体验；</li>
+<li><strong>可扩展性</strong>：很容易在类共享代码。</li>
+</ul>
+<a id="more"></a>
+
+<h3 id="布局受-CSS3-Flexbox布局的启发"><a href="#布局受-CSS3-Flexbox布局的启发" class="headerlink" title="布局受 CSS3 Flexbox布局的启发"></a>布局受 CSS3 Flexbox布局的启发</h3><p>熟悉Flexbox的人可以注意到这两个系统有很多共同点。但是 AsyncDisplayKit Layout Api 并没有实现全部的CSS。</p>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念"></a>基本概念</h3><p>AsyncDisplayKit 的布局系统有两个核心理念：</p>
+<ol>
+<li>布局说明（ <code>Layout Specs</code> ）</li>
+<li>布局元素（ <code>Layout Elements</code> ）</li>
+</ol>
+<h4 id="布局声明"><a href="#布局声明" class="headerlink" title="布局声明"></a>布局声明</h4><p><code>Layout Specs</code> 是 <code>layout specification</code> 的简写，不是物理上的概念。布局声明的作用是作为一个容器让它的布局元素了解他们是怎么相互联系和影响的。</p>
+<p>AsyncDisplayKit 为 <code>ASLayoutSpec</code> 提供了很多子类，从简单的只包含一个子元素的子类到非常复杂的含有各种各样布局元素的都有。</p>
+<h4 id="布局元素"><a href="#布局元素" class="headerlink" title="布局元素"></a>布局元素</h4><p>布局声明包含和管理布局元素。</p>
+<p>所有的 <code>ASDisplayNode</code> 和 <code>ASLayoutSpec</code> 都遵从 <code>&lt;ASLayoutElement&gt;</code> 协议。因此可以从节点或其他布局声明中组成自己的布局声明。</p>
+<p><code>ASLayoutElement</code> 协议有一些特性可以帮助我们创建非常复杂的布局。而且，布局声明有它自己的设定用来管理它的布局元素。</p>
+<h4 id="结合布局声明和布局元素来创建复杂的界面"><a href="#结合布局声明和布局元素来创建复杂的界面" class="headerlink" title="结合布局声明和布局元素来创建复杂的界面"></a>结合布局声明和布局元素来创建复杂的界面</h4><p>如下图所示，我们可以用 <code>ASTextNode</code> (黄色高亮)，一个 <code>ASVideoNode</code> (顶部的图片) 和 一个 <code>ASStackLayoutSpec</code> （堆栈布局声明）来合成一个复杂的布局。</p>
+<img src="http://asyncdisplaykit.org/static/images/layout-spec-relationship-1.png" title="复杂布局示意图" width="300" height="200">
+
+<p>顶部图片中间的播放按钮布局使用的是一个 <code>ASCenterLayoutSpec</code> 和一个 <code>ASOverlayLayoutSpec</code>。</p>
+<img src="http://asyncdisplaykit.org/static/images/layout-spec-relationship-2.png" title="布局示意图" width="300" height="200">
+
+<h4 id="一些节点需要设置尺寸"><a href="#一些节点需要设置尺寸" class="headerlink" title="一些节点需要设置尺寸"></a>一些节点需要设置尺寸</h4><p>一些节点的尺寸根据它的内容计算有它固有的尺寸。比如 <code>ASTextNode</code> 可以根据它的 attibuted string 来计算尺寸。其它有固有尺寸的节点包括：</p>
+<ul>
+<li><code>ASImageNode</code></li>
+<li><code>ASTextNode</code></li>
+<li><code>ASButtonNode</code></li>
+<li><code>ASTextNode</code></li>
+</ul>
+<p>其他的节点没有自己的固有尺寸或者它的数据加载完成之后才有自己的固有尺寸。比如 <code>ASNetworkImageNode</code> ，在图片下载完成之前并不知道图片的尺寸。这一类的节点包括：</p>
+<ul>
+<li><code>ASVideoNode</code></li>
+<li><code>ASVideoPlayerNode</code></li>
+<li><code>ASNetworkImageNode</code></li>
+<li><code>ASEditableTextNode</code></li>
+</ul>
+<p>这些节点必须在初始化的时候通过 <code>ASRatioLayoutSpec</code> 、 <code>ASAbsoluteLayoutSpec</code> 或者尺寸属性设置尺寸。</p>
+<h4 id="布局调试"><a href="#布局调试" class="headerlink" title="布局调试"></a>布局调试</h4><p><code>ASDisplayNode</code> 或者 <code>ASLayoutSpec</code> 调用 <code>-asciiArtString</code> 就可以显示一个包含元素和子元素的 ascii-art 图形，如下图所示。同样你也可以通过 <code>.debugName</code> 来打印图形。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">-----------------------ASStackLayoutSpec----------------------</span><br><span class="line">|  -----ASStackLayoutSpec-----  -----ASStackLayoutSpec-----  |</span><br><span class="line">|  |       ASImageNode       |  |       ASImageNode       |  |</span><br><span class="line">|  |       ASImageNode       |  |       ASImageNode       |  |</span><br><span class="line">|  ---------------------------  ---------------------------  |</span><br><span class="line">--------------------------------------------------------------</span><br></pre></td></tr></table></figure>
+
+<p>你也可以通过打印布局元素来进行调试，这在调试尺寸属性的时候非常有用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">(lldb) po _photoImageNode.style</span><br><span class="line">Layout Size = min &#123;414pt, 414pt&#125; &lt;= preferred &#123;20%, 50%&#125; &lt;= max &#123;414pt, 414pt&#125;</span><br></pre></td></tr></table></figure>
+
+
+  </section>
+
+</article>
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">最近的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/11/23/Carthage的使用/" title="Carthage的使用">Carthage的使用</a></h2>
+                <p class="excerpt">
+                
+                简介Cathage 一直致力于成为给 Cocoa 应用添加框架最简单的方式。它的使用流程如下：
+
+创建一个 Cathage ，在里面列出你的项目要使用的第三方框架；
+运行 Cathage， Cathage 会获取并创建你列出的所有框架；
+把生成的 .frameword 二进制文件拖到你的工程文件中。
+
+Cathage 帮你创建第三方依赖、提供二进制的 framework 文件，并且不会改变你的项目架构和创建。
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-11-23T13:13:32.000Z" class="post-list__meta--date date">2016-11-23</time> &#8226; <span class="post-list__meta--tags tags">于&nbsp;
+  <a class="tag-link" href="/tags/Cathage/">Cathage</a>, <a class="tag-link" href="/tags/CocoaPods/">CocoaPods</a>, <a class="tag-link" href="/tags/框架管理/">框架管理</a>, <a class="tag-link" href="/tags/第三方库/">第三方库</a>
+</span><a class="btn-border-small" href="/2016/11/23/Carthage的使用/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">更早的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/11/10/AsyncDisplayKit介绍/" title="【iOS】AsyncDisplayKit初识">【iOS】AsyncDisplayKit初识</a></h2>
+                <p class="excerpt">
+                
+                简介  AsyncDisplayKit 是 Facebook 开源的一个用于保持 iOS 界面流畅的库。
+  在 ASDK 中最基本的单位就是 ASDisplayNode，每一个 node 都是对 UIView 以及 CALayer 的抽象。但是与 UIView 不同的是，ASDisplayNode 是线程安全的，它可以在后台线程中完成初始化以及配置工作。
+  如果按照 60 FPS 的刷新频率来计算，每一帧的渲染时间只有 16ms，在 16ms 的时间内要完成对 UIView 的创建、布局、绘制以及渲染，CPU 和 GPU 面临着巨大的压力。
+  但是从 A5 处理器之后，多核的设备成为了主流，原有的将所有操作放入主线程的实践已经不能适应复杂的 UI 界面，所以 ASDK 将耗时的 CPU 操作以及 GPU 渲染纹理（Texture）的过程全部放入后台进程，使主线程能够快速响应用户操作。
+  ASDK 通过独特的渲染技巧、代替 AutoLayout 的布局系统、智能的预加载方式等模块来实现对 App 性能的优化。
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-11-10T13:38:58.000Z" class="post-list__meta--date date">2016-11-10</time> &#8226; <span class="post-list__meta--tags tags">于&nbsp;
+  <a class="tag-link" href="/tags/ASDK/">ASDK</a>, <a class="tag-link" href="/tags/AsyncDisplayKit/">AsyncDisplayKit</a>, <a class="tag-link" href="/tags/UIKit/">UIKit</a>, <a class="tag-link" href="/tags/性能优化/">性能优化</a>
+</span><a class="btn-border-small" href="/2016/11/10/AsyncDisplayKit介绍/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+            
+<section class="post-comments">
+  <!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="http://anye3210.github.io/2016/11/10/AsyncDisplayKit的布局/" data-title="【iOS】AsyncDisplayKit的布局" data-url="http://anye3210.github.io/2016/11/10/AsyncDisplayKit的布局/"></div>
+  <!-- 多说评论框 end -->
+  <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+  <script type="text/javascript">
+  var duoshuoQuery = {short_name:"Zephyr&#39;s Capsule"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+</section>
+
+
+            <footer class="footer">
+	<span class="footer__copyright">
+	        <div style="width:200px;margin:0 auto; padding:0px;">
+               <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">©2019 Zephyr</p>
+            </div>
+    </span>
+    <span class="footer__copyright">
+        <div style="width:300px;margin:0 auto; padding:20px 0;">
+                <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=50010802002929" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="/images/beian.png" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">渝公网安备 50010802002929号</p></a>
+            </div>
+    </span>
+</footer>
+        </div>
+    </div>
+
+    
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-87098157-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    
+    </script>
+    
+</body>
+</html>

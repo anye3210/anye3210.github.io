@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>【React Native进阶】React Native Reanimated的使用 | Zephyr&#39;s Capsule</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="iOS, Python, Swift, Objective-C, JavaScript">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="【React Native进阶】React Native Reanimated的使用 | Zephyr&#39;s Capsule">
+    <meta name="twitter:description" content="iOS, Python, Swift, Objective-C, JavaScript">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="【React Native进阶】React Native Reanimated的使用 | Zephyr&#39;s Capsule">
+    <meta property="og:description" content="iOS, Python, Swift, Objective-C, JavaScript">
+
+    
+    <meta name="author" content="Zephyr">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Zephyr&#39;s Capsule" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://anye3210.github.io/2020/12/15/【React-Native进阶】React-Native-Reanimated的使用/"/>
+
+    
+    <link rel="author" href="https://plus.google.com"/>
+    
+      
+</head>
+
+<body class="home-template no-js">
+    <script src="https://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Zephyr&#39;s Capsule 的主页"><img src="/images/avatar.jpg" width="80" alt="Zephyr&#39;s Capsule logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Zephyr&#39;s Capsule">Zephyr&#39;s Capsule</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">Stay hungry stay foolish</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">不断前行</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="访问博客" class="blog-button">博客</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">收藏</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/time.html">时光机</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+  <li class="navigation__item">
+    <a href="https://weibo.com/" title="我的微博" target="_blank">
+      <i class='social fa fa-weibo'></i>
+      <span class="label">Weibo</span>
+    </a>
+  </li> 
+
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/zephyrw" title="查看我的GitHub主页" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+        <li class="navigation__item">
+            <a href="http://stackoverflow.com/" title="Stack Overflow" target="_blank">
+                <i class='social fa fa-stack-overflow'></i>
+                <span class="label">Stack Overflow</span>
+            </a>
+        </li>
+        
+
+  <!-- Google Plus -->
+  
+  <li class="navigation__item">
+    <a href="https://plus.google.com" title="Google+" target="_blank">
+      <i class='social fa fa-google-plus-square'></i>
+      <span class="label">Google+</span>
+    </a>
+  </li>
+
+
+<!-- Facebook -->
+
+  <li class="navigation__item">
+    <a href="https://www.facebook.com/" title="上Facebook找我" target="_blank">
+      <i class='social fa fa-facebook'></i>
+      <span class="label">Facebook</span>
+    </a>
+  </li>
+
+  
+<!-- Twitter -->
+
+  <li class="navigation__item">
+    <a href="https://twitter.com/" title="上Twitter找我" target="_blank">
+      <i class='social fa fa-twitter'></i>
+      <span class="label">Twitter</span>
+    </a>
+  </li>
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2020-12-15T15:32:58.000Z" class="post-list__meta--date date">2020-12-15</time> &#8226; <span class="post-meta__tags tags">于&nbsp;
+  <a class="tag-link" href="/tags/React-Native/">React Native</a>, <a class="tag-link" href="/tags/React-Native-Reanimated/">React Native Reanimated</a>, <a class="tag-link" href="/tags/Reanimated/">Reanimated</a>, <a class="tag-link" href="/tags/性能优化/">性能优化</a>, <a class="tag-link" href="/tags/进阶/">进阶</a>
+ </span>
+      <span class="page-pv">
+      &nbsp;阅读&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">【React Native进阶】React Native Reanimated的使用</h1>
+  </header>
+
+  <section class="post">
+    <h1 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h1><p><a href="https://anye3210.github.io/2020/12/14/【React-Native进阶】react-native-gesture-handler的使用/">上一篇文章</a>讲解了React Native性能优化的总体思路，并进一步讲解了React Native Gesture Handler的使用。本文讲解另外一个库<a href="https://docs.swmansion.com/react-native-reanimated/docs/about" target="_blank" rel="noopener">React Native Reanimated</a>，这个库旨在解决React Native在动画方面的性能问题，让我们能够创建运行在UI线程上的顺滑动画和流畅交互。</p>
+<h2 id="Reanimated实现动机"><a href="#Reanimated实现动机" class="headerlink" title="Reanimated实现动机"></a>Reanimated实现动机</h2><p>上一篇文章讲了React Native中业务逻辑和计算都是在JavaScript线程中，渲染是在UI线程中，两个线程是通信又是异步的，因此渲染并不是实时的，至少会有1桢的延迟，在动画方面也是同样的。</p>
+<p>Reanimated将JavaScript线程上的动画和事件处理逻辑转移到了UI线程。它通过定义Reanimated worklet(可以被移动到一个单独的JavaScript 虚拟机并在UI线程上同步运行的一小段JavaScript代码）来实现。这种机制让我们的触摸事件可以立即被响应并在同一桢上更新UI，不必再担心JavaScript加载和同步这些问题。</p>
+<p><strong>注意：</strong>本文讲解的是当前最新的版本2.0.0-alpha.9，它与版本1有较大的差异。</p>
+<a id="more"></a>
+
+<h2 id="当前版本的问题和限制"><a href="#当前版本的问题和限制" class="headerlink" title="当前版本的问题和限制"></a>当前版本的问题和限制</h2><p>Reanimated 第二个版本当前还处于早期。由于制作这个库的团队想尽早向公众分享它，这个库还存在一些瑕疵和限制，他们计划很快解决。但有一些限制是来自Reanimated 2所依赖的 React Native 的TurboModules 架构的成熟。这个版本计划解决的一些问题可能需要全面支持TurboModules，而TurboModules尚未向公众开放。</p>
+<p>下面就是这个版本的一些问题：</p>
+<ul>
+<li>安装步骤比较复杂。这源于TurboModules尚未在React Native应用程序模板中推出；</li>
+<li>目前只在Android上支持Hermes JS VM;</li>
+<li>由于这个库使用了JSI进行同步本机方法访问，这导致远程调试就没办法使用了。可以使用Flipper调试JS代码，但不支持将调试器连接到UI线程上运行的JS上下文；</li>
+<li>库在开发模式下重新加载JS捆绑包或热加载时偶尔会崩溃。</li>
+<li>在 worklets 中抛出的JavaScript异常有时会产生非描述性错误，并可能导致应用程序崩溃;</li>
+<li>从React Native传递给 worklets 的对象在 JavaScript 中没有正解的 prototype。因此，此类对象不可枚举，即不能使用“for in”构造、扩展运算符（三个点）或Object.assign等函数。</li>
+</ul>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>Reanimated 2主要使用Turbo Modules架构并在C++中构建，该架构尚未完全部署在React Native（特别是在Android上）。因此，安装新的Reanimated除了向package.json添加依赖项外，还需要额外的步骤。</p>
+<p>由于上述原因，React Native的最低支持版本是v0.62。在继续安装之前，请确保我们的项目正在运行在受支持的React Native版本上。</p>
+<h2 id="安装包"><a href="#安装包" class="headerlink" title="安装包"></a>安装包</h2><p>首先在项目中安装<code>react-native-reanimated</code> alpha 依赖：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&gt; yarn add react-native-reanimated@alpha</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置-Android"><a href="#配置-Android" class="headerlink" title="配置 Android"></a>配置 Android</h2><p>修改<code>android/app/build.gradle</code>，打开 Hermes 引擎</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">project.ext.react = [</span><br><span class="line">  enableHermes: true  // &lt;- here | clean and rebuild if changing</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>在<code>MainApplication.java</code>中插入 Reanimated </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">import com.facebook.react.bridge.JSIModulePackage; // &lt;- add</span><br><span class="line">import com.swmansion.reanimated.ReanimatedJSIModulePackage; // &lt;- add</span><br><span class="line">...</span><br><span class="line">private final ReactNativeHost mReactNativeHost = new ReactNativeHost(this) &#123;</span><br><span class="line">...</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected String getJSMainModuleName() &#123;</span><br><span class="line">      return &quot;index&quot;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    protected JSIModulePackage getJSIModulePackage() &#123;</span><br><span class="line">      return new ReanimatedJSIModulePackage(); // &lt;- add</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">...</span><br></pre></td></tr></table></figure>
+
+<h2 id="配置iOS"><a href="#配置iOS" class="headerlink" title="配置iOS"></a>配置iOS</h2><p>在 iOS 上的安装是自动的，不需要额外配置。</p>
+<h1 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h1><h2 id="Worklets"><a href="#Worklets" class="headerlink" title="Worklets"></a>Worklets</h2><p>worklets 的最终目标是定义一小段运行在 UI 线程用来更新视图属性和响应事件的 JavaScript 代码。正常这种结构用 JavaScript 来实现就会是一个简单的方法。在这个版本中有一个次级的运行在 UI 线程的 JS 上下文，JavaScript 代码能够在这个上下文里面运行。实现这个 worklets 方法只需要在方法内部第一行加上”worklet”命令即可：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">function someWorklet(greeting) &#123;</span><br><span class="line">  &apos;worklet&apos;;</span><br><span class="line">  console.log(&quot;Hey I&apos;m running on the UI thread&quot;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>我们在使用这些方法的时候还可以传递参数。每个 worklet 方法如果你直接在代码里面调用就会运行在 React Native 的主线程上，如果使用<code>runOnUI</code>方法调用就可以运行在 UI 线程上。注意这种调用在使用者的视角上看是异步的（即调用与运行不在同一个线程上）。当你传递了参数，那这个参数会被复制到 UI 线程的 JS 上下文中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function someWorklet(greeting) &#123;</span><br><span class="line">  &apos;worklet&apos;;</span><br><span class="line">  console.log(greeting, &apos;From the UI thread&apos;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function onPress() &#123;</span><br><span class="line">  runOnUI(someWorklet)(&apos;Howdy&apos;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果你在 worklet 方法外部定义了一个变量并在方法里使用了它，那么这个变量同样会被复制进来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const width = 135.5;</span><br><span class="line"></span><br><span class="line">function otherWorklet() &#123;</span><br><span class="line">  &apos;worklet&apos;;</span><br><span class="line">  console.log(&apos;Captured width is&apos;, width);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>worklet 也可以从其他的 worklet 方法中获取参数，当这些方法被调用时，它们是在 UI 线程同步运行的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">function returningWorklet() &#123;</span><br><span class="line">  &apos;worklet&apos;;</span><br><span class="line">  return &quot;I&apos;m back&quot;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function someWorklet() &#123;</span><br><span class="line">  &apos;worklet&apos;;</span><br><span class="line">  let what = returningWorklet();</span><br><span class="line">  console.log(&apos;On the UI thread, other worklet says&apos;, what);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这个特性也同样适用于普通方法。需要注意的是，<code>console.log</code>只在 React Native 上下文中定义了的，在 UI 线程是没有这个方法的，因此上面的这些例子中<code>console.log</code>都是运行在 React Native 主线程上的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">function callback(text) &#123;</span><br><span class="line">  console.log(&apos;Running on the RN thread&apos;, text);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function someWorklet() &#123;</span><br><span class="line">  &apos;worklet&apos;;</span><br><span class="line">  console.log(&quot;I&apos;m on UI but can call methods from the RN thread&quot;);</span><br><span class="line">  callback(&apos;can pass arguments too&apos;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="使用勾子函数（hooks）"><a href="#使用勾子函数（hooks）" class="headerlink" title="使用勾子函数（hooks）"></a>使用勾子函数（hooks）</h3><p>在平常使用时，我们很少自己去去写”worklet”命令去定义 worklet 方法，一般情况都是直接使用这个库中已经定义好的勾子函数，比如：<code>useAnimatedStyle</code>, <code>useDerivedValue</code>, <code>useAnimatedGestureHandler</code>等。当我们使用这些勾子函数时，系统会自动识别到这是一个 worklet 并运行到 UI 线程上。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">const style = useAnimatedStyle(() =&gt; &#123;</span><br><span class="line">  console.log(&quot;Running on the UI thread&quot;);</span><br><span class="line">  return &#123;</span><br><span class="line">    opacity: 0.5</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<h2 id="Shared-Values"><a href="#Shared-Values" class="headerlink" title="Shared Values"></a>Shared Values</h2><p>Shared Values 是 Reanimated 2.0 最基础的理念之一。它有点类似于 React Native 内置的 <a href="https://reactnative.dev/docs/animated" target="_blank" rel="noopener">Animated.API</a>。它们都服务于相似的目标：携带动画所需要的数据，提供响应式和驱动式的动画。下面几个小节会详细介绍 Shared Values 的这些关键角色。后面也会有表格详细对照 Shared Values 与 Animated.Value 区别。</p>
+<h3 id="携带数据"><a href="#携带数据" class="headerlink" title="携带数据"></a>携带数据</h3><p>Shared Values 的主要目的是提供共享内存的概念。在前面学习 worklet 时我们了解到 Reanimated 2.0 的动画代码是使用单独的 JS VM 上下文运行在单独的线程中的。Shared Values 就能够对可变数据保持引用以便这些数据能够在不同的线程中被读取和修改。</p>
+<p>Shared Value 对象对这些共享数据提供了引用，这些共享数据可以通过对象的<code>.value</code>属性来获取和修改。记住无论是获取数据还是修改数据，都需要使用<code>.value</code>(最经常看到的错误就是直接使用 Shared Value 来获取和修改数据而不是使用它的<code>.value</code>属性）。</p>
+<p>为了兼顾安全和速度，Reanimated 2.0 在设计的时候会做一些权衡。使用 worklet 在主线程读取和修改的数据能够立即更新渲染到屏幕上。而在 JavaScript 线程上的更新操作不会立刻执行，变成一个更新计划之后再提交到 UI 线程上执行。这种方式类似于 React Native 的状态管理：我们更新了状态，这些状态不会立即被执行，而是在下一个 re-render 的时候执行。</p>
+<p>创建一个 Shared Value 需要使用勾子函数<code>useSharedValue</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">const sharedVal = useSharedValue(3.1415)</span><br></pre></td></tr></table></figure>
+
+<p>这个 Shared Value 构造器勾子函数需要传入一个参数作为初始变量值。这个初始数据可以是对象、数组、数字、字符串或者布尔值。</p>
+<p>更新 Shared Value 需要使用<code>.value</code>赋一个新的值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">import &#123; useSharedValue &#125; from &apos;react-native-reanimated&apos;;</span><br><span class="line"></span><br><span class="line">function SomeComponent() &#123;</span><br><span class="line">  const sharedVal = useSharedValue(0);</span><br><span class="line">  return (</span><br><span class="line">    &lt;Button</span><br><span class="line">      onPress=&#123;() =&gt; (sharedVal.value = Math.random())&#125;</span><br><span class="line">      title=&quot;Randomize&quot;</span><br><span class="line">    /&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面这个例子我们是在 JavaScript 线程上更新的数据，这个更新是异步的。使用<code>worklet</code>能够让这个更新变成同步的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">import Animated, &#123; useSharedValue, useAnimatedScrollHandler &#125; from &apos;react-native-reanimated&apos;;</span><br><span class="line"></span><br><span class="line">function SomeComponent(&#123; children &#125;) &#123;</span><br><span class="line"></span><br><span class="line">  const scrollOffset = useSharedValue(0);</span><br><span class="line"></span><br><span class="line">  const scrollHandler = useAnimatedScrollHandler(&#123;</span><br><span class="line">    onScroll: event =&gt; &#123;</span><br><span class="line">      scrollOffset.value = event.contentOffset.y;</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  return (</span><br><span class="line">    &lt;Animated.ScrollView onScroll=&#123;scrollHandler&#125;&gt;</span><br><span class="line">      &#123;children&#125;</span><br><span class="line">    &lt;/Animated.ScrollView&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的 scroll handler 就是一个 worklet，它的滚动事件是在 UI 线程上运行的。因此它里面的更新也是同步的。</p>
+<h3 id="Shared-Values-的响应性"><a href="#Shared-Values-的响应性" class="headerlink" title="Shared Values 的响应性"></a>Shared Values 的响应性</h3><p>Shared Values 第二个非常重要的特性就是为 Reanimated 提供了响应性的理念。基于这个特性，Shared Value 可以驱动相应的代码在 UI 线程执行，也可以执行开始动画、更新视图等操作。</p>
+<p>当前两种方法创建反应式的 worklet，分别是<code>useAnimatedStyle</code>和<code>useDerivedValue</code>。当这样的勾子函数捕获了一个 Shared Value，每当 Shared Value的数据被更新时，这些勾子函数都会重新运行。Reanimated 引擎会创建一个 Shared Value 与 worklet 对应关系的表以保证我们只执行需要更新的代码以及执行的顺序。比如，当我们有一个 Shared Value <code>x</code>、一个基于<code>x</code>值变化的变量<code>y</code>和同时使用<code>x</code>与<code>y</code>的 animated style，那么当<code>x</code>的值更新时，只会重新运行起源于<code>x</code>的 worklet。在这个例子中，由于 animated style 会基于<code>y</code>的值，<code>y</code>的值会优先更新以保证 animated style 的更新。</p>
+<p>示例代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">import Animated, &#123; useSharedValue, useAnimatedStyle &#125; from &apos;react-native-reanimated&apos;;</span><br><span class="line"></span><br><span class="line">function Box() &#123;</span><br><span class="line">  const offset = useSharedValue(0);</span><br><span class="line"></span><br><span class="line">  const animatedStyles = useAnimatedStyle(() =&gt; &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      transform: [&#123; translateX: offset.value * 255 &#125;],</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  return (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &lt;Animated.View style=&#123;[styles.box, animatedStyles]&#125; /&gt;</span><br><span class="line">      &lt;Button onPress=&#123;() =&gt; (offset.value = Math.random())&#125; title=&quot;Move&quot; /&gt;</span><br><span class="line">    &lt;/&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中，我们定义了 Shared Value <code>offset</code>，并把它使用在了<code>useAnimatedStyle</code>这个 worklet 里。<code>offset</code>的初始值是0，然后我们添加了一个按钮通过<code>Math.random()</code>函数更新<code>offset</code>的值。因此每当我们点击一次按钮，<code>offset</code>的值就会更新为一个<code>0</code>到<code>1</code>区间中的平均数。由于 animated style 的 worklet 是响应式的，在这个例子中它是基于<code>offset</code>的值响应，只有初始化的时候或者<code>offset</code>值更新的时候这个 worklet 才会运行。由于在 worklet 里作了一个 <code>* 255</code>的计算，因此实际的<code>translateX</code>在按钮的点击下在<code>0</code>到<code>255</code>变动。</p>
+<p><img src="https://docs.swmansion.com/react-native-reanimated/docs/shared-values/sv-immediate.gif" alt="图片"></p>
+<h3 id="操作动画"><a href="#操作动画" class="headerlink" title="操作动画"></a>操作动画</h3><p>动画是 Reanimated 2里的重中之重，在这个库中有大量帮助我们运行和自定义动画的实用方法。其中一种动画的方式就是使 Shared Value 的值进行动态变化。它可以通过用 reanimated 库里的方法（例如：<code>withTiming</code>、<code>withSpring</code>）把目标值包装起来来实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import &#123; withTiming &#125; from &apos;react-native-reanimated&apos;;</span><br><span class="line"></span><br><span class="line">someSharedValue.value = withTiming(50);</span><br></pre></td></tr></table></figure>
+
+<p>在上面的代码中<code>offset</code>的值没有直接被设定成<code>50</code>，而是随着时间推移从当前值渐变到<code>50</code>。当然，这种动画形式可以在 UI 线程上实现也可以在 React Native 主线程上实现。下面是完整的从上面小节例子上修改之后的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import Animated, &#123; withSpring &#125; from &apos;react-native-reanimated&apos;;</span><br><span class="line"></span><br><span class="line">function Box() &#123;</span><br><span class="line">  const offset = useSharedValue(0);</span><br><span class="line"></span><br><span class="line">  const animatedStyles = useAnimatedStyle(() =&gt; &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      transform: [&#123; translateX: offset.value * 255 &#125;],</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  return (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &lt;Animated.View style=&#123;[styles.box, animatedStyles]&#125; /&gt;</span><br><span class="line">      &lt;Button</span><br><span class="line">        onPress=&#123;() =&gt; &#123;</span><br><span class="line">          offset.value = withSpring(Math.random());</span><br><span class="line">        &#125;&#125;</span><br><span class="line">        title=&quot;Move&quot;</span><br><span class="line">      /&gt;</span><br><span class="line">    &lt;/&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码中我们所做的修改仅仅是将<code>Math.random()</code>包裹在了<code>withSpring</code>方法中。加上这个方法后动画会更平滑：</p>
+<p><img src="https://docs.swmansion.com/react-native-reanimated/docs/shared-values/sv-spring.gif" alt="spring animation"></p>
+<p>关于<a href="https://docs.swmansion.com/react-native-reanimated/docs/api/withTiming/" target="_blank" rel="noopener">withTiming</a>、<a href="https://docs.swmansion.com/react-native-reanimated/docs/api/withSpring/" target="_blank" rel="noopener">withSpring</a>等方法的更多信息可以参考官方文档的介绍。</p>
+<h4 id="动画进度"><a href="#动画进度" class="headerlink" title="动画进度"></a>动画进度</h4><p>我们可以通过<code>.value</code>来获取基于 Shared Value 的动画的当前状态。当 Shared Value 的<br>过渡动画开始之后，<code>.value</code>的值将会与动画的进度同步。也就是说，当动画开始时的初始值为<code>0</code>而且使用了<code>withTiming(50)</code>方法，完成这个过渡默认是300毫秒，我们可以在动画进行时通过<code>.value</code>来获取到从<code>0</code>到<code>50</code>之间动画的进度。</p>
+<h4 id="中断动画"><a href="#中断动画" class="headerlink" title="中断动画"></a>中断动画</h4><p>由于 Shared Value 保持其动画过渡状态，我们可以使所有的动画都完全中断。这意味着即使 Shared Value 当前正在运行动画，我们也可以对 Shared Value 进行更新，而不必担心这会导致意外和突然的动画故障。在这种情况下，重新赋值会导致之前的动画中断。如果新分配的值是一个数字（或其他任何常量值），则该新值将立即分配给 Shared Value，之前运行的动画将被取消。如果新分配的值也是动画，那么之前运行的动画将顺利过渡到新的动画中。速度等动画参数也会转变，这在基于 spring 的动画中尤为重要。这种行为模式在下面的动图中就可以看出，我们只是更频繁地点击按钮，这样新动画就会在前一个动画仍在运行时启动（与前一个示例相比没有代码更改）。</p>
+<p><img src="https://docs.swmansion.com/react-native-reanimated/docs/shared-values/sv-interruption.gif" alt="quick click"></p>
+<h4 id="取消动画"><a href="#取消动画" class="headerlink" title="取消动画"></a>取消动画</h4><p>我们可以通过使用<code>cancelAnimation</code>方法实现不开始新动画的情况直接取消当前动画：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">import &#123; cancelAnimation &#125; from &apos;react-native-reanimated&apos;</span><br><span class="line"></span><br><span class="line">cancelAnimation(someSharedValue);</span><br></pre></td></tr></table></figure>
+
+<p>动画可以在 UI 线程被取消，也可以在 React Native 的 JS 线程上被取消。</p>
+<h3 id="Shared-Values-与-Animated-Value-对比"><a href="#Shared-Values-与-Animated-Value-对比" class="headerlink" title="Shared Values 与 Animated.Value 对比"></a>Shared Values 与 Animated.Value 对比</h3><style>
+table th:first-of-type {
+    width: 10%;
+}
+table th:nth-of-type(2) {
+    width: 450%;
+}
+table th:nth-of-type(3) {
+    width: 45%;
+}
+</style>
+
+
+<table>
+<thead>
+<tr>
+<th>特性</th>
+<th>Animated Value</th>
+<th>Shared Value</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Payload</td>
+<td><div style="width=100pt">仅支持数值或字符串类型</div></td>
+<td>任何原始或嵌套数据结构（如对象、数组、字符串、数字、布尔值）</td>
+</tr>
+<tr>
+<td>连接到视图的属性</td>
+<td>直接把<code>Animated.Value</code>当作属性传递</td>
+<td>Shared Value 不能直接与视图的属性进行锚定。我们应该使用<code>useAnimatedStyle</code>或者<code>useAnimatedProps</code>并在这些方法里面获取到 Shared Value 的值并将计算后的 styles 返回回去</td>
+</tr>
+<tr>
+<td>更新值</td>
+<td>使用<code>value.setValue</code>方法（如果使用了 native driver 值的更新就是异步的）</td>
+<td>通过更新<code>.value</code>属性，如果在 UI 线程进行更新就是同步的，其他线程更新就是异步的</td>
+</tr>
+<tr>
+<td>读取值</td>
+<td>通过<code>value.addListener</code>来注册监听器来动态获取更新的值</td>
+<td>直接通过<code>.value</code>属性就能获取存储在 Shared Value 里的值（UI 线程和 React Native 的 JS 线程都可以）</td>
+</tr>
+<tr>
+<td>运行动画</td>
+<td>使用<code>Animated.spring</code>、<code>Animated.timing</code>或其他方法，将 Animated Value 作为参数，通过 <code>.start()</code>方法启动动画。</td>
+<td>把目标值用动画方法（例如：<code>withTiming</code>）包装起来并更新它的值即可</td>
+</tr>
+<tr>
+<td>停止动画</td>
+<td>通过<code>Animated.timing</code>的返回值获取动画对象的引用，并让它调用<code>stopAnimation()</code>方法</td>
+<td>把 Shared Value 作为参数传递给<code>cancelAnimation</code>即可</td>
+</tr>
+<tr>
+<td>插值</td>
+<td>使用 Animated Value 的<code>interplate()</code>方法</td>
+<td>使用带数字和配置参数的方法<code>interpolated</code>，并从这个方法返回插值。如果你需要让一个 Shared Value 自动跟踪另一个 Shared Value 的插值也可以单独使用<code>useDerivedValue</code></td>
+</tr>
+</tbody></table>
+<h2 id="动画"><a href="#动画" class="headerlink" title="动画"></a>动画</h2><p>接下来讲一下如何使用各种辅助方法进一步自定义动画。</p>
+<h3 id="useAnimatedStyle"><a href="#useAnimatedStyle" class="headerlink" title="useAnimatedStyle"></a>useAnimatedStyle</h3><p>除了在给 Shared Value 赋值的时候使用类似<code>withSpring</code>的过渡方法制作动画以外，还可以直接在<code>useAnimatedStyle</code>方法里面使用这些过渡动画方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const animatedStyles = useAnimatedStyle(() =&gt; &#123;</span><br><span class="line">  return &#123;</span><br><span class="line">    transform: [</span><br><span class="line">      &#123;</span><br><span class="line">        translateX: withSpring(offset.value * 255),</span><br><span class="line">      &#125;,</span><br><span class="line">    ],</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码中，我们将<code>offset</code>的值转换后再包裹在<code>withSpring</code>方法中。效果与之前给<code>offset</code>赋值之前就使用<code>withSpring</code>这个方法相同。这种写法的好处是将动画逻辑的代码都写在一起，在其他地方只需要给 Shared Value 赋值即可。经过上面的修改后，按钮部分的代码就可以改成下面这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;Button onPress=&#123;() =&gt; (offset.value = Math.random())&#125; title=&quot;Move&quot; /&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="自定义动画"><a href="#自定义动画" class="headerlink" title="自定义动画"></a>自定义动画</h3><p>Reanimated 目前内置了三个动画辅助方法：<a href="https://docs.swmansion.com/react-native-reanimated/docs/api/withTiming" target="_blank" rel="noopener"><code>withTiming</code></a>、<a href="https://docs.swmansion.com/react-native-reanimated/docs/api/withSpring/" target="_blank" rel="noopener"><code>withSpring</code></a>和<a href="https://docs.swmansion.com/react-native-reanimated/docs/api/withDecay/" target="_blank" rel="noopener"><code>withDecay</code></a>。下面介绍一下前两种方法的常用配置选项。</p>
+<p>这些动画辅助方法都有类似的结构。方法的第一个参数是目标值，第二个参数是配置选项，第三个参数是回调函数。回调函数会在动画完成或动画被中断或取消时运行，函数里有一个布尔值的参数，代表动画是否顺利完成而没有被取消：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">&lt;Button</span><br><span class="line">  onPress=&#123;() =&gt; &#123;</span><br><span class="line">    offset.value = withSpring(Math.random(), &#123;&#125;, (finished) =&gt; &#123;</span><br><span class="line">      if (finished) &#123;</span><br><span class="line">        console.log(&quot;ANIMATION ENDED&quot;);</span><br><span class="line">      &#125; else &#123;</span><br><span class="line">        console.log(&quot;ANIMATION GOT CANCELLED&quot;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;&#125;</span><br><span class="line">  title=&quot;Move&quot;</span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+
+<h4 id="Timing"><a href="#Timing" class="headerlink" title="Timing"></a>Timing</h4><p>配置选项这个参数根据运行的动画不同也存在不同。对于 timing 动画而言，我们可以设置持续时间和 easing 方法（缓动方法）。你可能希望动画先快速加速然后减速，或者缓慢开始，然后在结束时再次加速和减速。我们可以通过 Reanimated 包中的<code>Easing.bezier</code>方法使用贝塞尔曲线来描述这种 easing 。但大多数情况，使用<code>Easing.in</code>、<code>Easing.out</code>或者<code>Easing.inOut</code>分别调整起点、终点或两端的时序曲线就足够了。Timing 动画默认持续时间为300毫秒，默认为平滑进出的曲线(<code>Easing.inOut(Easing.quad)</code>)：</p>
+<p><img src="https://docs.swmansion.com/react-native-reanimated/docs/animations/easeInOutQuad.png" alt="timing"></p>
+<p>下面就是如何自定义 timing 动画的配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">import &#123; Easing, withTiming &#125; from &apos;react-native-reanimated&apos;;</span><br><span class="line"></span><br><span class="line">offset.value = withTiming(0, &#123;</span><br><span class="line">  duration: 500,</span><br><span class="line">  easing: Easing.out(Easing.exp),</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+
+<p>你也可以查看<a href="https://easings.net" target="_blank" rel="noopener">easings.net</a>这个网站来查看不同 timing 动画的 easing 效果。Reanimated 所有的 easing 方法都是在<a href="https://github.com/software-mansion/react-native-reanimated/blob/master/src/reanimated2/Easing.js" target="_blank" rel="noopener">Easing.js</a>文件里定义的，如果在使用的有问题可以参考这个文件。</p>
+<h4 id="Spring"><a href="#Spring" class="headerlink" title="Spring"></a>Spring</h4><p>与 Timing 动画不同的是，Spring 动画不将持续时间作为参数。Spring 动画的持续时间由 spring 物理特性、初始速度和行进距离决定。下面我们通过例子来了解如何自定义 spring 动画并将它与默认的 spring 动画设定进行对比：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line">import Animated, &#123;</span><br><span class="line">  withSpring,</span><br><span class="line">  useAnimatedStyle,</span><br><span class="line">  useSharedValue,</span><br><span class="line">&#125; from &apos;react-native-reanimated&apos;;</span><br><span class="line"></span><br><span class="line">function Box() &#123;</span><br><span class="line">  const offset = useSharedValue(0);</span><br><span class="line"></span><br><span class="line">  const defaultSpringStyles = useAnimatedStyle(() =&gt; &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      transform: [&#123; translateX: withSpring(offset.value * 255) &#125;],</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  const customSpringStyles = useAnimatedStyle(() =&gt; &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      transform: [</span><br><span class="line">        &#123;</span><br><span class="line">          translateX: withSpring(offset.value * 255, &#123;</span><br><span class="line">            damping: 20,</span><br><span class="line">            stiffness: 90,</span><br><span class="line">          &#125;),</span><br><span class="line">        &#125;,</span><br><span class="line">      ],</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  return (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &lt;Animated.View style=&#123;[styles.box, defaultSpringStyles]&#125; /&gt;</span><br><span class="line">      &lt;Animated.View style=&#123;[styles.box, customSpringStyles]&#125; /&gt;</span><br><span class="line">      &lt;Button onPress=&#123;() =&gt; (offset.value = Math.random())&#125; title=&quot;Move&quot; /&gt;</span><br><span class="line">    &lt;/&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="https://docs.swmansion.com/react-native-reanimated/docs/animations/twosprings.gif" alt="spring"></p>
+<p>与前面的例子不同，这里使用了<code>useAnimatedStyle</code>函数。这样就可以使用一个 Shared Value 来驱动两个不同的动画效果。</p>
+<h3 id="动画修饰器"><a href="#动画修饰器" class="headerlink" title="动画修饰器"></a>动画修饰器</h3><p>除了自定义配置参数以外，另外一种自定义动画的方法就是使用动画修饰器。目前，Reanimated 有三个修饰器：<a href="https://docs.swmansion.com/react-native-reanimated/docs/api/withDelay/" target="_blank" rel="noopener"><code>withDecay</code></a>、<a href="https://docs.swmansion.com/react-native-reanimated/docs/api/withSequence/" target="_blank" rel="noopener"><code>withSequence</code></a>和<a href="https://docs.swmansion.com/react-native-reanimated/docs/api/withRepeat/" target="_blank" rel="noopener"><code>withRepeat</code></a>。顾名思义，<code>withDelay</code>修饰器让动画在指定的延时之后开始，<code>withSequence</code>修饰器允许传入多个动画作为参数，并让它们依次运行，<code>withRepeat</code>修饰符可以让动画重复执行。</p>
+<p>修饰器通过将一个或多个动画作为参数传入，并返回一个修改后的动画对象。这样就可以让这些动画方法嵌套，或者让这些动画修饰器组成一个修饰链。</p>
+<p>现在让我们来练习一下动画修饰器的使用。下面的例子我们来实现单击按钮触发矩形按钮的摆动效果。首先我们先定义需要渲染的视图和需要用到的 Shared Value。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import Animated, &#123; useSharedValue, useAnimatedStyle &#125; from &apos;react-native-reanimated&apos;;</span><br><span class="line"></span><br><span class="line">function WobbleExample(props) &#123;</span><br><span class="line">  const rotation = useSharedValue(0);</span><br><span class="line"></span><br><span class="line">  const animatedStyle = useAnimatedStyle(() =&gt; &#123;</span><br><span class="line">    return &#123;</span><br><span class="line">      transform: [&#123; rotateZ: `$&#123;rotation.value&#125;deg` &#125;],</span><br><span class="line">    &#125;;</span><br><span class="line">  &#125;);</span><br><span class="line"></span><br><span class="line">  return (</span><br><span class="line">    &lt;&gt;</span><br><span class="line">      &lt;Animated.View style=&#123;[styles.box, animatedStyle]&#125; /&gt;</span><br><span class="line">      &lt;Button</span><br><span class="line">        title=&quot;wobble&quot;</span><br><span class="line">        onPress=&#123;() =&gt; &#123;</span><br><span class="line">          // will be filled in later</span><br><span class="line">        &#125;&#125;</span><br><span class="line">      /&gt;</span><br><span class="line">    &lt;/&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在上面的示例中我们定义的 Shared Value 将会用来代表视图的旋转。然后，在<code>useAnimatedStyle</code>我们通过添加 “deg” 后缀将变量的单位更改为度。下面在按钮的<code>onPress</code>方法中添加修饰器代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">rotation.value = withRepeat(withTiming(10), 6, true)</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码表示视图将从初始角度<code>0</code>到目标角度<code>10</code>之间重复旋转6次，第三个参数设置代表动画运行到终点时是否需要反向回到起点。将第三个参数设置为<code>true</code>将使旋转进行完整三个循环，最终回到原点。当我们点击按钮时，效果如下：</p>
+<p><img src="https://docs.swmansion.com/react-native-reanimated/docs/animations/swing.gif" alt="rotation"></p>
+<p>上面的代码让旋转只在<code>0</code>度和<code>10</code>度之间进行。为了让视图也向左摆，我们可以从角度<code>-10</code>旋转到<code>10</code>度。但如果我们直接把初始值更改为<code>-10</code>，那个矩形一开始就会是斜的。解决这个问题的方法就是使用<code>withSequence</code>，从<code>0</code>度开始，将第一个动画最终值设置为<code>-10</code>度，然后视图从<code>-10</code>度到<code>10</code>度摆动6次，最后再从<code>-10</code>度回到初始位置<code>0</code>度。下面是修改后的代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">rotation.value = withSequence(</span><br><span class="line">  withTiming(-10, &#123; duration: 50 &#125;),</span><br><span class="line">  withRepeat(withTiming(ANGLE, &#123; duration: 100 &#125;), 6, true),</span><br><span class="line">  withTiming(0, &#123; duration: 50 &#125;)</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>上面的代码对三个动画设置了不同的持续时长，以保证矩形以相同的速度旋转，下面就是最后的实现效果：</p>
+<p><img src="https://docs.swmansion.com/react-native-reanimated/docs/animations/wobble.gif" alt="sequence animation"></p>
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>至此，关于 React Native Reanimated 的使用就已经学习完了，如果想要进一步学习可以查看<a href="https://docs.swmansion.com/react-native-reanimated/docs/about" target="_blank" rel="noopener">官方文档</a>。后面文章会继续讲解 React Native Gesture Handler 与 React Native Reanimated 配合使用。</p>
+
+  </section>
+
+</article>
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">最近的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/2021/07/31/JMM-Java-内存模型/" title="JMM - Java 内存模型">JMM - Java 内存模型</a></h2>
+                <p class="excerpt">
+                
+                JMM定义JMM 即 Java Memory Model，也叫 Java 内存模型。JMM 就是一种规范，它定义了什么情况开发者不需要去感知计算机的各种重排序，什么情况需要开发者去干涉重排序，以保证程序的执行结果可预测。
+JMM的由来计算机这么多年来整体运行速度不断地提升，除了像CPU时钟频率、内存读写速度等硬件性能不断提升之外，还要归功于计算机科学家对于计算机对于各种指令处理效率的不断优化，包括超标量流水线技术，动态指令调度，猜测执行，多级缓存技术等。在这其中，允许重排序对于计算机运行效率的提升产生了重要的作用，但同时也带来了一些问题。计算机只能确保单线程情况下重排序对于运行结果没有影响，对于多线程就无能为力了。这个时候就需要一个规范来保证开发者既能享受重排序带来的性能的提升又能让复杂情况下的运行结果可控，JMM 就是这样一个规范。JMM 规定了 JVM 必须遵循的一组最小保证，这组保证规定了对变量的操作何时对其他线程可见。换句话说，JMM 对内存可见性作出了一些承诺，在承诺之外，开发者需要自己去处理内存可见性问题。
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2021-07-31T14:57:14.000Z" class="post-list__meta--date date">2021-07-31</time> &#8226; <span class="post-list__meta--tags tags">于&nbsp;
+  <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/happen-before/">happen-before</a>, <a class="tag-link" href="/tags/内存可见性/">内存可见性</a>, <a class="tag-link" href="/tags/内存模型/">内存模型</a>, <a class="tag-link" href="/tags/重排序/">重排序</a>
+</span><a class="btn-border-small" href="/2021/07/31/JMM-Java-内存模型/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">更早的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/2020/12/14/【React-Native进阶】react-native-gesture-handler的使用/" title="【React Native进阶】React Native Gesture Handler的使用">【React Native进阶】React Native Gesture Handler的使用</a></h2>
+                <p class="excerpt">
+                
+                背景说到React Navtive的性能优化，首先要了解React Native的运行机制。React Native程序主要运行在三个并行的线程上：
+
+JavaScript Thread：我们写的JavaScript代码逻辑都是在这个线程上执行；
+UI Thread：即原生线程，当我们需要调用原生的渲染或者能力时会运行到这个线程上；
+Shadow Thread：这个线程创建和管理着Shadow Tree，它类似于虚拟DOM。它通过Yoga引擎着Flexbox布局转化为原生的布局方式。
+
+这三个线程独立运行的情况下，性能良好，但如果涉及到事件驱动与UI线程有交互的情况，React Native的这种设计效果不佳。
+当与触摸屏交互时，用户希望屏幕上的效果是即时的。如果更新发生在单独的线程中，通常情况下，在JavaScript线程中所做的更改无法反映在同一帧中。在React Native中，默认情况下，由于UI和JavaScript线程之间的通信是异步的，并且UI线程从不等待JavaScript线程完成处理事件，因此所有更新都会延迟至少一个帧。
+而且由于UI线程与其他线程通信存在序列化和反序列化这个比较消耗性能的步骤，当UI线程与其他线程交互比较频繁或者其他线程负荷较大时，通常事件无法立即处理，从而造成更严重的延迟。
+我们的RN代码逻辑都是用JavaScript写的，JavaScript线程也是负荷最大的线程。因此在React Native的性能优化上主要要考虑两个方面： 
+
+减少与UI线程的通信；
+减少JavaScript线程的负荷；
+
+而React Native Gesture Handler正是从这两个方面优化React Native在手势操作方面的性能。它旨在替换React Native自带的手势处理系统。如果你使用过系统自带的手势处理系统，会发现在JavaScript线程会有大量的计算，这些计算也会频繁与UI线程通信，对性能影响较大。具体代码可以自行比较，这里不再赘述。
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2020-12-14T14:09:41.000Z" class="post-list__meta--date date">2020-12-14</time> &#8226; <span class="post-list__meta--tags tags">于&nbsp;
+  <a class="tag-link" href="/tags/Gesture-Handler/">Gesture Handler</a>, <a class="tag-link" href="/tags/React-Native/">React Native</a>, <a class="tag-link" href="/tags/React-Native-Gesture-Handler/">React Native Gesture Handler</a>, <a class="tag-link" href="/tags/性能优化/">性能优化</a>
+</span><a class="btn-border-small" href="/2020/12/14/【React-Native进阶】react-native-gesture-handler的使用/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+            
+<section class="post-comments">
+  <!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="http://anye3210.github.io/2020/12/15/【React-Native进阶】React-Native-Reanimated的使用/" data-title="【React Native进阶】React Native Reanimated的使用" data-url="http://anye3210.github.io/2020/12/15/【React-Native进阶】React-Native-Reanimated的使用/"></div>
+  <!-- 多说评论框 end -->
+  <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+  <script type="text/javascript">
+  var duoshuoQuery = {short_name:"Zephyr&#39;s Capsule"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+</section>
+
+
+            <footer class="footer">
+	<span class="footer__copyright">
+	        <div style="width:200px;margin:0 auto; padding:0px;">
+               <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">©2019 Zephyr</p>
+            </div>
+    </span>
+    <span class="footer__copyright">
+        <div style="width:300px;margin:0 auto; padding:20px 0;">
+                <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=50010802002929" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="/images/beian.png" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">渝公网安备 50010802002929号</p></a>
+            </div>
+    </span>
+</footer>
+        </div>
+    </div>
+
+    
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-87098157-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    
+    </script>
+    
+</body>
+</html>

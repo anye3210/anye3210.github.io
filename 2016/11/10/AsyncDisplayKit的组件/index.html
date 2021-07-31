@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>【iOS】AsyncDisplayKit的组件 | Zephyr&#39;s Capsule</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="iOS, Python, Swift, Objective-C, JavaScript">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="【iOS】AsyncDisplayKit的组件 | Zephyr&#39;s Capsule">
+    <meta name="twitter:description" content="iOS, Python, Swift, Objective-C, JavaScript">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="【iOS】AsyncDisplayKit的组件 | Zephyr&#39;s Capsule">
+    <meta property="og:description" content="iOS, Python, Swift, Objective-C, JavaScript">
+
+    
+    <meta name="author" content="Zephyr">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Zephyr&#39;s Capsule" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://anye3210.github.io/2016/11/10/AsyncDisplayKit的组件/"/>
+
+    
+    <link rel="author" href="https://plus.google.com"/>
+    
+      
+</head>
+
+<body class="home-template no-js">
+    <script src="https://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Zephyr&#39;s Capsule 的主页"><img src="/images/avatar.jpg" width="80" alt="Zephyr&#39;s Capsule logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Zephyr&#39;s Capsule">Zephyr&#39;s Capsule</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">Stay hungry stay foolish</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">不断前行</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="访问博客" class="blog-button">博客</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">收藏</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/time.html">时光机</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+  <li class="navigation__item">
+    <a href="https://weibo.com/" title="我的微博" target="_blank">
+      <i class='social fa fa-weibo'></i>
+      <span class="label">Weibo</span>
+    </a>
+  </li> 
+
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/zephyrw" title="查看我的GitHub主页" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+        <li class="navigation__item">
+            <a href="http://stackoverflow.com/" title="Stack Overflow" target="_blank">
+                <i class='social fa fa-stack-overflow'></i>
+                <span class="label">Stack Overflow</span>
+            </a>
+        </li>
+        
+
+  <!-- Google Plus -->
+  
+  <li class="navigation__item">
+    <a href="https://plus.google.com" title="Google+" target="_blank">
+      <i class='social fa fa-google-plus-square'></i>
+      <span class="label">Google+</span>
+    </a>
+  </li>
+
+
+<!-- Facebook -->
+
+  <li class="navigation__item">
+    <a href="https://www.facebook.com/" title="上Facebook找我" target="_blank">
+      <i class='social fa fa-facebook'></i>
+      <span class="label">Facebook</span>
+    </a>
+  </li>
+
+  
+<!-- Twitter -->
+
+  <li class="navigation__item">
+    <a href="https://twitter.com/" title="上Twitter找我" target="_blank">
+      <i class='social fa fa-twitter'></i>
+      <span class="label">Twitter</span>
+    </a>
+  </li>
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2016-11-10T12:30:58.000Z" class="post-list__meta--date date">2016-11-10</time> &#8226; <span class="post-meta__tags tags">于&nbsp;
+  <a class="tag-link" href="/tags/ASDK/">ASDK</a>, <a class="tag-link" href="/tags/AsyncDisplayKit/">AsyncDisplayKit</a>, <a class="tag-link" href="/tags/使用/">使用</a>, <a class="tag-link" href="/tags/性能优化/">性能优化</a>
+ </span>
+      <span class="page-pv">
+      &nbsp;阅读&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">【iOS】AsyncDisplayKit的组件</h1>
+  </header>
+
+  <section class="post">
+    <h2 id="节点容器"><a href="#节点容器" class="headerlink" title="节点容器"></a>节点容器</h2><h3 id="在容器中使用Nodes"><a href="#在容器中使用Nodes" class="headerlink" title="在容器中使用Nodes"></a>在容器中使用Nodes</h3><p>AsyncDisplayKit有以下几种 <code>Container</code></p>
+<table>
+<thead>
+<tr>
+<th>ASDK Node Container</th>
+<th>UIKit Equivalent</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ASCollectionNode</td>
+<td>代替UIKit的 <code>UICollectionView</code></td>
+</tr>
+<tr>
+<td>ASPagerNode</td>
+<td>代替UIKit的 <code>UIPageViewController</code></td>
+</tr>
+<tr>
+<td>ASTableNode</td>
+<td>代替UIKit的 <code>UITableView</code></td>
+</tr>
+<tr>
+<td>ASViewController</td>
+<td>代替UIKit的 <code>UIViewController</code></td>
+</tr>
+<tr>
+<td>ASNavigationControllerv</td>
+<td>代替UIKit的 <code>UINavigationController</code>，遵循<code>ASVisibility</code>协议</td>
+</tr>
+<tr>
+<td>ASTabBarController</td>
+<td>代替UIKit的 <code>UITabBarController</code>，遵循<code>ASVisibility</code>协议</td>
+</tr>
+<tr>
+<td><a id="more"></a></td>
+<td></td>
+</tr>
+<tr>
+<td>### Node Container的优势</td>
+<td></td>
+</tr>
+</tbody></table>
+<p><code>Node Container</code>可以自动地管理<code>node</code>的智能预加载，它会保证<code>node</code>的的布局计算、数据获取、解码和渲染会以异步的方式进行。</p>
+<h2 id="Node的子类"><a href="#Node的子类" class="headerlink" title="Node的子类"></a>Node的子类</h2><p>AsyncDisplayKit提供了以下几种<code>node</code>。</p>
+<p>相对UIKit的组件来说 <code>node</code> 最大的改进就是将所有布局和显示都放在子线程，因此主线程就能够即时地响应各种事件。</p>
+<table>
+<thead>
+<tr>
+<th>ASDK Node</th>
+<th>UIKit Equivalent</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>ASDisplayNode</td>
+<td>代替UIKit的 <code>UIView</code> ，其他的node都继承于它</td>
+</tr>
+<tr>
+<td>ASCellNode</td>
+<td>代替UIKit的 <code>UITableViewCell</code> 和 <code>UICollectionViewCell</code>，用在 <code>ASTableNode</code> , <code>ASCollectionNode</code> 和 <code>ASPagerNode</code>中</td>
+</tr>
+<tr>
+<td>ASScrollNode</td>
+<td>代替UIKit的 <code>UIScrollView</code>，这个 <code>node</code> 用在自定义滚动区域上非常有用</td>
+</tr>
+<tr>
+<td>ASEditableTextNode</td>
+<td>代替UIKit的 <code>UITextView</code></td>
+</tr>
+<tr>
+<td>ASTextNode</td>
+<td>代替UIKit的 <code>UILabel</code></td>
+</tr>
+<tr>
+<td>ASImageNode</td>
+<td>代替UIKit的 <code>UIImage</code></td>
+</tr>
+<tr>
+<td>ASNetworkImageNode</td>
+<td></td>
+</tr>
+<tr>
+<td>ASMultiplexImageNode</td>
+<td></td>
+</tr>
+<tr>
+<td>ASVideoNode</td>
+<td>代替UIKit的 <code>AVPlayerLayer</code></td>
+</tr>
+<tr>
+<td>ASVideoPlayerNode</td>
+<td>代替UIKit的 <code>UIMoviePlayer</code></td>
+</tr>
+<tr>
+<td>SControlNode</td>
+<td>代替UIKit的 <code>UIControl</code></td>
+</tr>
+<tr>
+<td>ASButtonNode</td>
+<td>代替UIKit的 <code>UIButton</code></td>
+</tr>
+<tr>
+<td>ASMapNode</td>
+<td>代替UIKit的 <code>MKMapView</code></td>
+</tr>
+</tbody></table>
+<p>AsyncDisplayKit 中的 <code>node</code> 相比UIKit中的组件更先进而且更方便。比如 <code>ASNetworkImageNode</code> 可以自动地加载和进行内存管理，而且还支持逐步加载Jpeg和动态gif图片。</p>
+<p><code>node</code> 的层级结构如下</p>
+<img src="http://ogdqxib8j.bkt.clouddn.com/node-hierarchy.png" width="400" height="534" alt="Node的层级结构" align="center">
+
+<p>上图中蓝色高亮的node是对UIKit元素的封装而成。比如 <code>ASScrollNode</code> 封装自 <code>UIScrollView</code> ， <code>ASCollectionNode</code> 封装自 <code>UICollectionView</code> ，<code>ASMapNode</code> 在实时地图模式中就是 <code>UIMapView</code> 封装。</p>
+<h2 id="基本重载方法"><a href="#基本重载方法" class="headerlink" title="基本重载方法"></a>基本重载方法</h2><blockquote>
+<p>创建子类时，子类是 <code>ASViewController</code> 还是 <code>ASDisplayNode</code> 有很大的区别。这感觉上是显而易见的，但是有的区别是很微妙的，所有也需要特别注意。</p>
+</blockquote>
+<h3 id="ASDisplayNode"><a href="#ASDisplayNode" class="headerlink" title="ASDisplayNode"></a>ASDisplayNode</h3><p>如果你使用的 <code>node</code> 组件类型于 <code>UIView</code> 的子控件，就必须注意下面几条准则以确保你充分发挥了这个框架的潜力， <code>node</code> 也能很好的显示。</p>
+<h4 id="init"><a href="#init" class="headerlink" title="-init"></a>-init</h4><p>当使用 <code>nodeBlock</code> 的时候这个方法是在子线程进行的。但是，如何 <code>-init</code> 没有运行完，其他方法就无法运行，所以这个方法永远不要上锁。</p>
+<p>最重要的是你的 <code>init</code> 方法一定要能在任何队列中调用。尤其是不要在初始化的时候初始化任何 <code>UIKit</code> 控件、点击 <code>node</code> 的 <code>view</code> 或者 <code>layer</code> 或者添加任何手势。这些事情应该放在 <code>-didLoad</code> 中。</p>
+<h4 id="didLoad"><a href="#didLoad" class="headerlink" title="-didLoad"></a>-didLoad</h4><p>这个方法在概念上类似于 <code>UIViewController</code> 的 <code>-viewDidLoad</code> 方法，它代表着后台的 <code>view</code> 已经被加载完成了。要确保它是在主线程中执行的，在这个方法中很适合处理 <code>UIKit</code> 的各种操作（比如添加手势，点击 <code>view</code> 或者 <code>layer</code>，初始化 <code>UIKit</code> 组件）。</p>
+<h4 id="layout"><a href="#layout" class="headerlink" title="-layout"></a>-layout</h4><p>在这个方法里调用 <code>super</code> 之后，布局规则对象会把所有的子节点都计算并且定位好，所以这个时间点是你手动进行布局所有子view的时机。或许更有用的是，有时候你想手动布局，但并不太容易创建一个布局规则对象，或者有时候你不想等所有子节点布局完毕，而只是很简单的手动设置frame，如果是这样的话，就在这个方法里写。</p>
+<h4 id="layoutSpecThatFits"><a href="#layoutSpecThatFits" class="headerlink" title="layoutSpecThatFits"></a>layoutSpecThatFits</h4><p>这个方法就是用来建立布局规则对象，产生 <code>node</code> 大小以及所有子 <code>node</code> 大小的地方，你创建的布局规则对象一直持续到这个方法返回的时间点，经过了这个时间点后，它就不可变了。尤其重要要记住的一点事，千万不要缓存布局规则对象，当你以后需要他的时候，请重新创建。</p>
+<h3 id="ASViewController"><a href="#ASViewController" class="headerlink" title="ASViewController"></a>ASViewController</h3><p><code>ASViewController</code> 是 <code>UIViewController</code> 的子类，包含了管理 <code>node</code> 的特性。因此它的所有方法一定要在主线程中使用。</p>
+<h4 id="init-1"><a href="#init-1" class="headerlink" title="-init"></a>-init</h4><p>这个方法只调用一次，是在 <code>ASViewController</code> 的生命周期的最开始的时候调用。在它初始化的过程中，不要使用 <code>self.view</code> 或者 <code>self.node.view</code> ，它会强制 <code>view</code> 被提前创建。这些事情应该在 <code>viewDidLoad</code> 中完成。</p>
+<p><code>ASViewController</code> 的初始化方法是 <code>initWithNode:</code> ，代码如下所示。一个 <code>ASViewController</code> 管理节点就像 <code>UIViewController</code> 管理 <code>view</code> 一样，但是初始化的过程有小小的差异。</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">instancetype</span>)init &#123;</span><br><span class="line"></span><br><span class="line">	_pagerNode = [[ASPagerNode alloc] init];</span><br><span class="line">	<span class="keyword">self</span> = [<span class="keyword">super</span> initWithNode:_pagerNode];</span><br><span class="line">	  </span><br><span class="line">	<span class="comment">// setup any instance variables or properties here</span></span><br><span class="line">	<span class="keyword">if</span> (<span class="keyword">self</span>) &#123;</span><br><span class="line">		_pagerNode.dataSource = <span class="keyword">self</span>;</span><br><span class="line">		_pagerNode.delegate = <span class="keyword">self</span>;</span><br><span class="line">	&#125;</span><br><span class="line">	  </span><br><span class="line">	<span class="keyword">return</span> <span class="keyword">self</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="loadView"><a href="#loadView" class="headerlink" title="-loadView"></a>-loadView</h4><p>建议不要使用这个方法，因为它相对于 <code>viewDidLoad</code> 来说没有明显的优势反而有很多不足的地方。但如果你不去设置 <code>self.view</code> 的属性就没什么问题。调用 <code>[super loadView]</code> 它就会执行 <code>node.view</code> 。</p>
+<h4 id="viewDidLoad"><a href="#viewDidLoad" class="headerlink" title="-viewDidLoad"></a>-viewDidLoad</h4><p>它会在 <code>ASViewController</code> 的生命周期的最开始调用，仅次于 <code>-loadView</code> 。这是你使用节点的 <code>view</code> 最早的时机。在这个方法里适合放只执行一次并且要使用 <code>view/layer</code> 的代码，比如加手势。</p>
+<p>布局的代码千万不要放在这个方法里，因为界面发生改变也不会再调用这个方法重新布局。</p>
+<h4 id="viewWillLayoutSubviews"><a href="#viewWillLayoutSubviews" class="headerlink" title="-viewWillLayoutSubviews"></a>-viewWillLayoutSubviews</h4><p>这个方法调用的时机和节点 <code>-layout</code> 方法调用的时机一样，它可以被执行很多次。只要它的节点被改变（比如旋转，分屏，显示键盘）或者继承（）都会立即被调用。</p>
+
+  </section>
+
+</article>
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">最近的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/2016/11/10/AsyncDisplayKit介绍/" title="【iOS】AsyncDisplayKit初识">【iOS】AsyncDisplayKit初识</a></h2>
+                <p class="excerpt">
+                
+                简介  AsyncDisplayKit 是 Facebook 开源的一个用于保持 iOS 界面流畅的库。
+  在 ASDK 中最基本的单位就是 ASDisplayNode，每一个 node 都是对 UIView 以及 CALayer 的抽象。但是与 UIView 不同的是，ASDisplayNode 是线程安全的，它可以在后台线程中完成初始化以及配置工作。
+  如果按照 60 FPS 的刷新频率来计算，每一帧的渲染时间只有 16ms，在 16ms 的时间内要完成对 UIView 的创建、布局、绘制以及渲染，CPU 和 GPU 面临着巨大的压力。
+  但是从 A5 处理器之后，多核的设备成为了主流，原有的将所有操作放入主线程的实践已经不能适应复杂的 UI 界面，所以 ASDK 将耗时的 CPU 操作以及 GPU 渲染纹理（Texture）的过程全部放入后台进程，使主线程能够快速响应用户操作。
+  ASDK 通过独特的渲染技巧、代替 AutoLayout 的布局系统、智能的预加载方式等模块来实现对 App 性能的优化。
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2016-11-10T13:38:58.000Z" class="post-list__meta--date date">2016-11-10</time> &#8226; <span class="post-list__meta--tags tags">于&nbsp;
+  <a class="tag-link" href="/tags/ASDK/">ASDK</a>, <a class="tag-link" href="/tags/AsyncDisplayKit/">AsyncDisplayKit</a>, <a class="tag-link" href="/tags/UIKit/">UIKit</a>, <a class="tag-link" href="/tags/性能优化/">性能优化</a>
+</span><a class="btn-border-small" href="/2016/11/10/AsyncDisplayKit介绍/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+        
+     
+   
+   
+  
+</section>
+
+            
+<section class="post-comments">
+  <!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="http://anye3210.github.io/2016/11/10/AsyncDisplayKit的组件/" data-title="【iOS】AsyncDisplayKit的组件" data-url="http://anye3210.github.io/2016/11/10/AsyncDisplayKit的组件/"></div>
+  <!-- 多说评论框 end -->
+  <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+  <script type="text/javascript">
+  var duoshuoQuery = {short_name:"Zephyr&#39;s Capsule"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+</section>
+
+
+            <footer class="footer">
+	<span class="footer__copyright">
+	        <div style="width:200px;margin:0 auto; padding:0px;">
+               <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">©2019 Zephyr</p>
+            </div>
+    </span>
+    <span class="footer__copyright">
+        <div style="width:300px;margin:0 auto; padding:20px 0;">
+                <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=50010802002929" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="/images/beian.png" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">渝公网安备 50010802002929号</p></a>
+            </div>
+    </span>
+</footer>
+        </div>
+    </div>
+
+    
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-87098157-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    
+    </script>
+    
+</body>
+</html>

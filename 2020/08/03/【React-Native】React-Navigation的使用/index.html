@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>【React Native】React Navigation 5.x的使用 | Zephyr&#39;s Capsule</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="iOS, Python, Swift, Objective-C, JavaScript">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="【React Native】React Navigation 5.x的使用 | Zephyr&#39;s Capsule">
+    <meta name="twitter:description" content="iOS, Python, Swift, Objective-C, JavaScript">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="【React Native】React Navigation 5.x的使用 | Zephyr&#39;s Capsule">
+    <meta property="og:description" content="iOS, Python, Swift, Objective-C, JavaScript">
+
+    
+    <meta name="author" content="Zephyr">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Zephyr&#39;s Capsule" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://anye3210.github.io/2020/08/03/【React-Native】React-Navigation的使用/"/>
+
+    
+    <link rel="author" href="https://plus.google.com"/>
+    
+      
+</head>
+
+<body class="home-template no-js">
+    <script src="https://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Zephyr&#39;s Capsule 的主页"><img src="/images/avatar.jpg" width="80" alt="Zephyr&#39;s Capsule logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Zephyr&#39;s Capsule">Zephyr&#39;s Capsule</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">Stay hungry stay foolish</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">不断前行</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="访问博客" class="blog-button">博客</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">收藏</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/time.html">时光机</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+  <li class="navigation__item">
+    <a href="https://weibo.com/" title="我的微博" target="_blank">
+      <i class='social fa fa-weibo'></i>
+      <span class="label">Weibo</span>
+    </a>
+  </li> 
+
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/zephyrw" title="查看我的GitHub主页" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+        <li class="navigation__item">
+            <a href="http://stackoverflow.com/" title="Stack Overflow" target="_blank">
+                <i class='social fa fa-stack-overflow'></i>
+                <span class="label">Stack Overflow</span>
+            </a>
+        </li>
+        
+
+  <!-- Google Plus -->
+  
+  <li class="navigation__item">
+    <a href="https://plus.google.com" title="Google+" target="_blank">
+      <i class='social fa fa-google-plus-square'></i>
+      <span class="label">Google+</span>
+    </a>
+  </li>
+
+
+<!-- Facebook -->
+
+  <li class="navigation__item">
+    <a href="https://www.facebook.com/" title="上Facebook找我" target="_blank">
+      <i class='social fa fa-facebook'></i>
+      <span class="label">Facebook</span>
+    </a>
+  </li>
+
+  
+<!-- Twitter -->
+
+  <li class="navigation__item">
+    <a href="https://twitter.com/" title="上Twitter找我" target="_blank">
+      <i class='social fa fa-twitter'></i>
+      <span class="label">Twitter</span>
+    </a>
+  </li>
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2020-08-03T13:29:05.000Z" class="post-list__meta--date date">2020-08-03</time> &#8226; <span class="post-meta__tags tags">于&nbsp;
+  <a class="tag-link" href="/tags/Navigation/">Navigation</a>, <a class="tag-link" href="/tags/React/">React</a>, <a class="tag-link" href="/tags/React-Native/">React Native</a>
+ </span>
+      <span class="page-pv">
+      &nbsp;阅读&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">【React Native】React Navigation 5.x的使用</h1>
+  </header>
+
+  <section class="post">
+    <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在App中，底部<code>TabBar</code>导航和顶部的导航栏导航是最常见的页面导航方式，而<strong>React Native</strong>官方推荐的第三方库是<code>@react-navigation</code>，正好今年<code>React Navigation</code>发布了5.0版本，与前面的版本差别还挺大，不过使用上更方便了。本文主要讲解<code>React Navigation</code>5.0及以上版本的使用。</p>
+<h2 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h2><p>安装核心包</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># NPM</span><br><span class="line">npm install @react-navigation/native</span><br><span class="line"># Yarn</span><br><span class="line">yarn add @react-navigation/native</span><br></pre></td></tr></table></figure>
+
+<a id="more"></a>
+
+<p>安装依赖</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># NPM</span><br><span class="line">npm install react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view</span><br><span class="line">#Yarn</span><br><span class="line">yarn add react-native-reanimated react-native-gesture-handler react-native-screens react-native-safe-area-context @react-native-community/masked-view</span><br></pre></td></tr></table></figure>
+
+<p><strong>React Native</strong> 0.60及以上版本是自动链接库的，不需要手动运行<code>react-native link</code>，但如果你用<strong>React Native</strong>开发的是iOS，还需要手动安装<code>pods</code>来完成库的链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npx pod-install ios</span><br></pre></td></tr></table></figure>
+
+<p>把下面这行代码放在入口文件的顶部，比如<code>index.js</code>或者<code>App.js</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &apos;react-native-gesture-handler&apos;;</span><br></pre></td></tr></table></figure>
+
+<p>最后需要用<code>NavigationContainer</code>将整个App包裹起来，这个代码一般也是放在入口文件，类似下面这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">import &apos;react-native-gesture-handler&apos;;</span><br><span class="line">import * as React from &apos;react&apos;;</span><br><span class="line">import &#123; NavigationContainer &#125; from &apos;@react-navigation/native&apos;;</span><br><span class="line"></span><br><span class="line">export default function App() &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;NavigationContainer&gt;&#123;/* Rest of your app code */&#125;&lt;/NavigationContainer&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> 如果你同时也使用了<strong>Redux</strong>框架，需要把<code>Provider</code>放在最外层，将<code>NavigationContainer</code>包裹在次外层，类似下面这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">export default class App() &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;Provider store=&#123;store&#125;&gt;</span><br><span class="line">      &lt;NavigationContainer&gt;</span><br><span class="line">        &#123;/* Screen configuration */&#125;</span><br><span class="line">      &lt;/NavigationContainer&gt;</span><br><span class="line">    &lt;/Provider&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h2><p><strong>React Navigation</strong>有多种导航方式：<code>Stack Navigation</code>、<code>Tab Navigation</code>和<code>Drawer Navigation</code>。这里主要讲<code>Stack Navigation</code>和<code>Tab Navigation</code>。</p>
+<h3 id="顶部导航栏导航"><a href="#顶部导航栏导航" class="headerlink" title="顶部导航栏导航"></a>顶部导航栏导航</h3><p>首先需要安装相应的库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">#NPM</span><br><span class="line">npm install @react-navigation/stack</span><br><span class="line">#Yarn</span><br><span class="line">yarn add @react-navigation/stack</span><br></pre></td></tr></table></figure>
+
+<p><code>Stack Navigation</code>使用上相对来说比较简单，只需要把需要导航的页面组件封装成<code>Stack.Screen</code>，然后包裹在<code>Stack.Navigator</code>就可以了，最上面的<code>Stack.Screen</code>就是默认页面。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import * as React from &apos;react&apos;;</span><br><span class="line">import &#123; NavigationContainer &#125; from &apos;@react-navigation/native&apos;;</span><br><span class="line">import &#123; createStackNavigator &#125; from &apos;@react-navigation/stack&apos;;</span><br><span class="line"></span><br><span class="line">const Stack = createStackNavigator();</span><br><span class="line"></span><br><span class="line">function App() &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;NavigationContainer&gt;</span><br><span class="line">      &lt;Stack.Navigator&gt;</span><br><span class="line">        &lt;Stack.Screen key=&quot;Home&quot; name=&quot;Home&quot; component=&#123;HomeScreen&#125; /&gt;</span><br><span class="line">      &lt;/Stack.Navigator&gt;</span><br><span class="line">      &lt;Stack.Screen key=&quot;detail&quot; name=&quot;Detail&quot; component=&#123;DetailScreen&#125; /&gt;</span><br><span class="line">      &lt;/Stack.Navigator&gt;</span><br><span class="line">    &lt;/NavigationContainer&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default App;</span><br></pre></td></tr></table></figure>
+
+<p>也可以在<code>Stack.Screen</code>中设置导航栏的属性，设置导航栏属性<code>options</code>有两种方式，一种是带<code>route</code>参数的，一种是直接设置</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br></pre></td><td class="code"><pre><span class="line">/* 带route参数的options */</span><br><span class="line">&lt;Stack.Screen</span><br><span class="line">    key=&#123;name&#125;</span><br><span class="line">    name=&#123;name&#125;</span><br><span class="line">    component=&#123;component&#125;</span><br><span class="line">    options=&#123;(&#123;route&#125;) =&gt; (&#123;</span><br><span class="line">        headerTitle: route.name,</span><br><span class="line">        headerStyle: &#123;</span><br><span class="line">            backgroundColor: &apos;#01aaff&apos;,</span><br><span class="line">        &#125;,</span><br><span class="line">        headerTintColor: &apos;#fff&apos;,</span><br><span class="line">        headerTitleStyle: &#123;</span><br><span class="line">            fontWeight: &apos;bold&apos;,</span><br><span class="line">        &#125;,</span><br><span class="line">        headerRight: () =&gt; (</span><br><span class="line">            &lt;Button</span><br><span class="line">              onPress=&#123;() =&gt; alert(&apos;This is a button!&apos;)&#125;</span><br><span class="line">              title=&quot;Info&quot;</span><br><span class="line">              color=&quot;#fff&quot;</span><br><span class="line">            /&gt;</span><br><span class="line">          ),</span><br><span class="line">        headerShown: true</span><br><span class="line">    &#125;)&#125;</span><br><span class="line">/&gt;</span><br><span class="line">/* 直接设置options */</span><br><span class="line">&lt;Stack.Screen</span><br><span class="line">    key=&#123;name&#125;</span><br><span class="line">    name=&#123;name&#125;</span><br><span class="line">    component=&#123;component&#125;</span><br><span class="line">    options=&#123;&#123;</span><br><span class="line">        headerTitle: &apos;name&apos;,</span><br><span class="line">        headerStyle: &#123;</span><br><span class="line">            backgroundColor: &apos;#01aaff&apos;,</span><br><span class="line">        &#125;,</span><br><span class="line">        headerTintColor: &apos;#fff&apos;,</span><br><span class="line">        headerTitleStyle: &#123;</span><br><span class="line">            fontWeight: &apos;bold&apos;,</span><br><span class="line">        &#125;,</span><br><span class="line">        headerRight: () =&gt; (</span><br><span class="line">            &lt;Button</span><br><span class="line">              onPress=&#123;() =&gt; alert(&apos;This is a button!&apos;)&#125;</span><br><span class="line">              title=&quot;Info&quot;</span><br><span class="line">              color=&quot;#fff&quot;</span><br><span class="line">            /&gt;</span><br><span class="line">          ),</span><br><span class="line">        headerShown: true</span><br><span class="line">    &#125;&#125;</span><br><span class="line">/&gt;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> <strong>React</strong>框架使用的是虚拟<code>DOM</code>，使用<code>diff</code>算法刷新页面显示，在<code>Stack.Screen</code>中，需要添加<code>key</code>属性，否则会报警告。</p>
+<p>在需要跳转到其他页面时只需要以下代码就可以了，后面跟的是参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">function HomeScreen(&#123; navigation &#125;) &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;View style=&#123;&#123; flex: 1, alignItems: &apos;center&apos;, justifyContent: &apos;center&apos; &#125;&#125;&gt;</span><br><span class="line">      &lt;Text&gt;Home Screen&lt;/Text&gt;</span><br><span class="line">      &lt;Button</span><br><span class="line">        title=&quot;Go to Details&quot;</span><br><span class="line">        onPress=&#123;() =&gt; &#123;</span><br><span class="line">          /* 1. Navigate to the Details route with params */</span><br><span class="line">          navigation.navigate(&apos;Details&apos;, &#123;</span><br><span class="line">            itemId: 86,</span><br><span class="line">            otherParam: &apos;anything you want here&apos;,</span><br><span class="line">          &#125;);</span><br><span class="line">        &#125;&#125;</span><br><span class="line">      /&gt;</span><br><span class="line">    &lt;/View&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果是用<code>class</code>方式创建的页面，代码会像下面这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">export default class HomeScreen extends Component &#123;</span><br><span class="line">    render() &#123;</span><br><span class="line">        return (</span><br><span class="line">            &lt;View style=&#123;&#123; flex: 1, alignItems: &apos;center&apos;, justifyContent: &apos;center&apos; &#125;&#125;&gt;</span><br><span class="line">                &lt;Text&gt;Home Screen&lt;/Text&gt;</span><br><span class="line">                &lt;Button</span><br><span class="line">                    title=&quot;Go to Details&quot;</span><br><span class="line">                    onPress=&#123;() =&gt; &#123;</span><br><span class="line">                        this.props.navigation.navigate(&apos;Details&apos;, &#123;</span><br><span class="line">                            itemId: 86,</span><br><span class="line">                            otherParam: &apos;anything you want here&apos;,</span><br><span class="line">                        &#125;);</span><br><span class="line">                    &#125;&#125;</span><br><span class="line">                /&gt;</span><br><span class="line">            &lt;/View&gt;</span><br><span class="line">        );</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>注意：</strong> 导航跳转可以使用<code>navigation.navigate</code>或者<code>navigation.push</code>。如果使用<code>navigate</code>，会查找当前堆栈中是否有名字一样的路由，如果没有才创建新的路由并跳转，而<code>push</code>则会直接创建一个新的路由并跳转，也就是说可以重复多次跳转同一个页面。</p>
+<p>堆栈导航的返回方式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">// 返回到上一页面</span><br><span class="line">navigation.goBack()</span><br><span class="line">// 返回到堆栈里第一个页面</span><br><span class="line">navigation.popToPop()</span><br></pre></td></tr></table></figure>
+
+<h3 id="底部导航栏导航"><a href="#底部导航栏导航" class="headerlink" title="底部导航栏导航"></a>底部导航栏导航</h3><p>除了顶部导航栏，最常用的就是底部导航栏了，首先也需要安装相应的库：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"># NPM</span><br><span class="line">npm install @react-navigation/bottom-tabs</span><br><span class="line"># Yarn</span><br><span class="line">yarn add @react-navigation/bottom-tabs</span><br></pre></td></tr></table></figure>
+
+<p>底部导航栏的使用方法类似，需要将这些页面组件包装成<code>Tab.Screen</code>，导航则由框架内部完成，不需要手动控制：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import * as React from &apos;react&apos;;</span><br><span class="line">import &#123; NavigationContainer &#125; from &apos;@react-navigation/native&apos;;</span><br><span class="line">import &#123; createBottomTabNavigator &#125; from &apos;@react-navigation/bottom-tabs&apos;;</span><br><span class="line"></span><br><span class="line">const Tab = createBottomTabNavigator();</span><br><span class="line"></span><br><span class="line">export default function App() &#123;</span><br><span class="line">  return (</span><br><span class="line">    &lt;NavigationContainer&gt;</span><br><span class="line">      &lt;Tab.Navigator&gt;</span><br><span class="line">        &lt;Tab.Screen name=&quot;Home&quot; component=&#123;HomeScreen&#125; /&gt;</span><br><span class="line">        &lt;Tab.Screen name=&quot;Settings&quot; component=&#123;SettingsScreen&#125; /&gt;</span><br><span class="line">      &lt;/Tab.Navigator&gt;</span><br><span class="line">    &lt;/NavigationContainer&gt;</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>底部导航栏属性可以按如下方式设置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">&lt;Tab.Navigator</span><br><span class="line">        screenOptions=&#123;(&#123; route &#125;) =&gt; (&#123;</span><br><span class="line">          tabBarIcon: (&#123; focused, color, size &#125;) =&gt; &#123;</span><br><span class="line">            let iconName;</span><br><span class="line"></span><br><span class="line">            if (route.name === &apos;Home&apos;) &#123;</span><br><span class="line">              iconName = focused</span><br><span class="line">                ? &apos;ios-information-circle&apos;</span><br><span class="line">                : &apos;ios-information-circle-outline&apos;;</span><br><span class="line">            &#125; else if (route.name === &apos;Settings&apos;) &#123;</span><br><span class="line">              iconName = focused ? &apos;ios-list-box&apos; : &apos;ios-list&apos;;</span><br><span class="line">            &#125;</span><br><span class="line">            return &lt;Ionicons name=&#123;iconName&#125; size=&#123;size&#125; color=&#123;color&#125; /&gt;;</span><br><span class="line">          &#125;,</span><br><span class="line">        &#125;)&#125;</span><br><span class="line">        tabBarOptions=&#123;&#123;</span><br><span class="line">          activeTintColor: &apos;tomato&apos;,</span><br><span class="line">          inactiveTintColor: &apos;gray&apos;,</span><br><span class="line">        &#125;&#125;</span><br><span class="line">      &gt;</span><br><span class="line">        &lt;Tab.Screen name=&quot;Home&quot; component=&#123;HomeScreen&#125; /&gt;</span><br><span class="line">        &lt;Tab.Screen name=&quot;Settings&quot; component=&#123;SettingsScreen&#125; /&gt;</span><br><span class="line">      &lt;/Tab.Navigator&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="顶部堆栈导航栏与底部导航栏嵌套"><a href="#顶部堆栈导航栏与底部导航栏嵌套" class="headerlink" title="顶部堆栈导航栏与底部导航栏嵌套"></a>顶部堆栈导航栏与底部导航栏嵌套</h3><p><code>Stack Navigation</code>和<code>Tab Navigation</code>可以相互多层嵌套，比如登录页跳转到带底部导航栏的主页面，需要把登录相关面和<code>Tab.navigator</code>一同放到同一个堆栈中，但官方不推荐这种方式，嵌套层次太多会导致维护起来特别麻烦。官方推荐使用一个变量控制当前显示的页面，把不相关的模块隔离在不同的堆栈中，类似下面这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">const commonScreens = &#123;</span><br><span class="line">  Help: HelpScreen,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const authScreens = &#123;</span><br><span class="line">  SignIn: SignInScreen,</span><br><span class="line">  SignUp: SignUpScreen,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">const userScreens = &#123;</span><br><span class="line">  Home: HomeScreen,</span><br><span class="line">  Profile: ProfileScreen,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br><span class="line">&lt;Stack.Navigator&gt;</span><br><span class="line">  &#123;Object.entries(&#123;</span><br><span class="line">    ...commonScreens,</span><br><span class="line">    ...(isLoggedIn ? userScreens : authScreens),</span><br><span class="line">  &#125;).map(([name, component]) =&gt; (</span><br><span class="line">    &lt;Stack.Screen name=&#123;name&#125; component=&#123;component&#125; /&gt;</span><br><span class="line">  ))&#125;</span><br><span class="line">&lt;/Stack.Navigator&gt;;</span><br></pre></td></tr></table></figure>
+
+<p>像<code>isLoggedIn</code>这样的全局变量动态刷新页面使用<strong>Redux</strong>架构实现起来会简单一些，具体实现可以参考<a href>这篇教程</a>。</p>
+
+  </section>
+
+</article>
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">最近的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/2020/08/03/【React-Native教程】Redux入门/" title="【React Native教程】Redux入门教程">【React Native教程】Redux入门教程</a></h2>
+                <p class="excerpt">
+                
+                Redux定义Redux在官网上是这么定义的：A Predictable State Container for JS Apps，直译过来就是一个使用在JS应用上的可预测的状态容器。
+Redux解决的问题React Native本身是基于前端的React框架，它是通过State来管理页面显示和参数更新。如果在交互比较复杂的页面、需要多页面状态传递或者同步更新状态的情况，状态管理就会比较麻烦。使用Redux就可以解决这些问题。
+Redux的核心逻辑和概念Redux的核心逻辑是集中定义和管理状态和动作执行，各个页面使用connect方法绑定相应的方法和状态，并通过发送动作指令更新页面显示。达到状态和操作与页面隔离的效果。
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2020-08-03T13:51:35.000Z" class="post-list__meta--date date">2020-08-03</time> &#8226; <span class="post-list__meta--tags tags">于&nbsp;
+  <a class="tag-link" href="/tags/React/">React</a>, <a class="tag-link" href="/tags/React-Native/">React Native</a>, <a class="tag-link" href="/tags/Redux/">Redux</a>, <a class="tag-link" href="/tags/Thunk/">Thunk</a>
+</span><a class="btn-border-small" href="/2020/08/03/【React-Native教程】Redux入门/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">更早的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/2020/08/03/【React-Native】AES加密/" title="【React Native】AES+Base64加密">【React Native】AES+Base64加密</a></h2>
+                <p class="excerpt">
+                
+                前言在移动端App开发中，AES加密非常常用，本文主要讲解如何在React Native中封装自己的AES加密工具类及会遇到的坑。这里的AES加密是基于前端常用的加密库crypto-js。
+安装crypto-js使用NPM或者Yarn安装crypto-js
+1234# NPMnpm install crypto-js# Yarnyarn add crypto-js
+
+注意：使用crypto-js4.0.0及以上的版本会报找不到Crypto.js的错，这可能是新版本的Bug，需要在package.json中找到crypto-js并把版本号指定为^3.3.0(与3.3.0版本兼容，相当于3.X.X, 即&amp;gt;=3.3.0 &amp;lt; 4.0.0,不改变大版本号)，然后重新执行npm install：
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2020-08-03T12:31:27.000Z" class="post-list__meta--date date">2020-08-03</time> &#8226; <span class="post-list__meta--tags tags">于&nbsp;
+  <a class="tag-link" href="/tags/AES/">AES</a>, <a class="tag-link" href="/tags/React/">React</a>, <a class="tag-link" href="/tags/React-Native/">React Native</a>
+</span><a class="btn-border-small" href="/2020/08/03/【React-Native】AES加密/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+            
+<section class="post-comments">
+  <!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="http://anye3210.github.io/2020/08/03/【React-Native】React-Navigation的使用/" data-title="【React Native】React Navigation 5.x的使用" data-url="http://anye3210.github.io/2020/08/03/【React-Native】React-Navigation的使用/"></div>
+  <!-- 多说评论框 end -->
+  <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+  <script type="text/javascript">
+  var duoshuoQuery = {short_name:"Zephyr&#39;s Capsule"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+</section>
+
+
+            <footer class="footer">
+	<span class="footer__copyright">
+	        <div style="width:200px;margin:0 auto; padding:0px;">
+               <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">©2019 Zephyr</p>
+            </div>
+    </span>
+    <span class="footer__copyright">
+        <div style="width:300px;margin:0 auto; padding:20px 0;">
+                <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=50010802002929" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="/images/beian.png" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">渝公网安备 50010802002929号</p></a>
+            </div>
+    </span>
+</footer>
+        </div>
+    </div>
+
+    
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-87098157-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    
+    </script>
+    
+</body>
+</html>

@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    
+    <title>【React Native进阶】React Native Gesture Handler的使用 | Zephyr&#39;s Capsule</title>
+    <meta name="renderer" content="webkit">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="MobileOptimized" content="320">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+
+    <meta name="description" content="iOS, Python, Swift, Objective-C, JavaScript">
+
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="【React Native进阶】React Native Gesture Handler的使用 | Zephyr&#39;s Capsule">
+    <meta name="twitter:description" content="iOS, Python, Swift, Objective-C, JavaScript">
+
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="【React Native进阶】React Native Gesture Handler的使用 | Zephyr&#39;s Capsule">
+    <meta property="og:description" content="iOS, Python, Swift, Objective-C, JavaScript">
+
+    
+    <meta name="author" content="Zephyr">
+    
+    <link rel="stylesheet" href="/css/vno.css">
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+
+    
+    <link rel="icon" href="/images/avatar-small.png">
+    
+
+    <meta name="generator" content="hexo"/>
+    
+    <link rel="alternate" type="application/rss+xml" title="Zephyr&#39;s Capsule" href="/atom.xml">
+    
+
+    <link rel="canonical" href="http://anye3210.github.io/2020/12/14/【React-Native进阶】react-native-gesture-handler的使用/"/>
+
+    
+    <link rel="author" href="https://plus.google.com"/>
+    
+      
+</head>
+
+<body class="home-template no-js">
+    <script src="https://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
+    <script src="/js/main.js"></script>
+    <span class="mobile btn-mobile-menu">
+        <i class="fa fa-list btn-mobile-menu__icon"></i>
+        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
+    </span>
+
+    
+<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
+  <div class="panel-main">
+    <div class="panel-main__inner panel-inverted">
+    <div class="panel-main__content">
+
+        <a href="/" title="前往 Zephyr&#39;s Capsule 的主页"><img src="/images/avatar.jpg" width="80" alt="Zephyr&#39;s Capsule logo" class="panel-cover__logo logo" /></a>
+        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Zephyr&#39;s Capsule">Zephyr&#39;s Capsule</a></h1>
+        
+        <span class="panel-cover__subtitle panel-subtitle">Stay hungry stay foolish</span>
+        
+        <hr class="panel-cover__divider" />
+        <p class="panel-cover__description">不断前行</p>
+        <hr class="panel-cover__divider panel-cover__divider--secondary" />
+
+        <div class="navigation-wrapper">
+          <div>
+          <nav class="cover-navigation cover-navigation--primary">
+            <ul class="navigation">
+              <li class="navigation__item"><a href="/#blog" title="访问博客" class="blog-button">博客</a></li>
+            
+              <li class="navigation__item"><a href="/favourite">收藏</a></li>
+            
+              <li class="navigation__item"><a href="/favourite/time.html">时光机</a></li>
+            
+            </ul>
+          </nav>
+          </div>
+          <div>
+          <nav class="cover-navigation navigation--social">
+  <ul class="navigation">
+
+  <!-- Weibo-->
+  
+  <li class="navigation__item">
+    <a href="https://weibo.com/" title="我的微博" target="_blank">
+      <i class='social fa fa-weibo'></i>
+      <span class="label">Weibo</span>
+    </a>
+  </li> 
+
+
+  <!-- Github -->
+  
+  <li class="navigation__item">
+    <a href="https://github.com/zephyrw" title="查看我的GitHub主页" target="_blank">
+      <i class='social fa fa-github'></i>
+      <span class="label">Github</span>
+    </a>
+  </li>
+
+
+<!-- Stack Overflow -->
+        
+        <li class="navigation__item">
+            <a href="http://stackoverflow.com/" title="Stack Overflow" target="_blank">
+                <i class='social fa fa-stack-overflow'></i>
+                <span class="label">Stack Overflow</span>
+            </a>
+        </li>
+        
+
+  <!-- Google Plus -->
+  
+  <li class="navigation__item">
+    <a href="https://plus.google.com" title="Google+" target="_blank">
+      <i class='social fa fa-google-plus-square'></i>
+      <span class="label">Google+</span>
+    </a>
+  </li>
+
+
+<!-- Facebook -->
+
+  <li class="navigation__item">
+    <a href="https://www.facebook.com/" title="上Facebook找我" target="_blank">
+      <i class='social fa fa-facebook'></i>
+      <span class="label">Facebook</span>
+    </a>
+  </li>
+
+  
+<!-- Twitter -->
+
+  <li class="navigation__item">
+    <a href="https://twitter.com/" title="上Twitter找我" target="_blank">
+      <i class='social fa fa-twitter'></i>
+      <span class="label">Twitter</span>
+    </a>
+  </li>
+
+  
+
+  <li class="navigation__item">
+    <a href="/atom.xml" title="RSS" target="_blank">
+      <i class='social fa fa-rss'></i>
+      <span class="label">RSS</span>
+    </a>
+  </li>
+
+
+
+  </ul>
+</nav>
+
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="panel-cover--overlay cover-purple"></div>
+  </div>
+</header>
+
+    <div class="content-wrapper">
+        <div class="content-wrapper__inner">
+            <article class="post-container post-container--single">
+
+  <header class="post-header">
+    <div class="post-meta">
+      <time datetime="2020-12-14T14:09:41.000Z" class="post-list__meta--date date">2020-12-14</time> &#8226; <span class="post-meta__tags tags">于&nbsp;
+  <a class="tag-link" href="/tags/Gesture-Handler/">Gesture Handler</a>, <a class="tag-link" href="/tags/React-Native/">React Native</a>, <a class="tag-link" href="/tags/React-Native-Gesture-Handler/">React Native Gesture Handler</a>, <a class="tag-link" href="/tags/性能优化/">性能优化</a>
+ </span>
+      <span class="page-pv">
+      &nbsp;阅读&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
+      </span> 
+   
+    </div>
+    <h1 class="post-title">【React Native进阶】React Native Gesture Handler的使用</h1>
+  </header>
+
+  <section class="post">
+    <h1 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h1><p>说到React Navtive的性能优化，首先要了解React Native的运行机制。React Native程序主要运行在三个并行的线程上：</p>
+<ul>
+<li><strong>JavaScript Thread</strong>：我们写的JavaScript代码逻辑都是在这个线程上执行；</li>
+<li><strong>UI Thread</strong>：即原生线程，当我们需要调用原生的渲染或者能力时会运行到这个线程上；</li>
+<li><strong>Shadow Thread</strong>：这个线程创建和管理着Shadow Tree，它类似于虚拟DOM。它通过Yoga引擎着Flexbox布局转化为原生的布局方式。</li>
+</ul>
+<p>这三个线程独立运行的情况下，性能良好，但如果涉及到事件驱动与UI线程有交互的情况，React Native的这种设计效果不佳。</p>
+<p>当与触摸屏交互时，用户希望屏幕上的效果是即时的。如果更新发生在单独的线程中，通常情况下，在JavaScript线程中所做的更改无法反映在同一帧中。在React Native中，默认情况下，由于UI和JavaScript线程之间的通信是异步的，并且UI线程从不等待JavaScript线程完成处理事件，因此所有更新都会延迟至少一个帧。</p>
+<p>而且由于UI线程与其他线程通信存在序列化和反序列化这个比较消耗性能的步骤，当UI线程与其他线程交互比较频繁或者其他线程负荷较大时，通常事件无法立即处理，从而造成更严重的延迟。</p>
+<p>我们的RN代码逻辑都是用JavaScript写的，JavaScript线程也是负荷最大的线程。因此在React Native的性能优化上主要要考虑两个方面： </p>
+<ul>
+<li>减少与UI线程的通信；</li>
+<li>减少JavaScript线程的负荷；</li>
+</ul>
+<p>而<a href="https://docs.swmansion.com/react-native-gesture-handler/docs/" target="_blank" rel="noopener"><code>React Native Gesture Handler</code></a>正是从这两个方面优化React Native在手势操作方面的性能。它旨在替换React Native自带的<a href="https://reactnative.dev/docs/gesture-responder-system" target="_blank" rel="noopener">手势处理系统</a>。如果你使用过系统自带的手势处理系统，会发现在JavaScript线程会有大量的计算，这些计算也会频繁与UI线程通信，对性能影响较大。具体代码可以自行比较，这里不再赘述。</p>
+<a id="more"></a>
+
+<h1 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h1><p><strong>React Native Gesture Handler</strong>提供了以下功能：</p>
+<ul>
+<li>提供了包括缩放、旋转、屏蔽滑动等手势的处理系统；</li>
+<li>能够定义多个手势之间的关系。例如：当你在<code>ScrollView</code>里面加入一个滑动手势（pan handler）时，可以让滑动手势响应结束后再响应<code>ScrollView</code>；</li>
+<li>提供了让手势运行在原生线程（UI线程）上并遵从原生平台默认行为机制；</li>
+<li>由于使用了原生的动画驱动，即便在JavaScript线程已经超负荷的情况，也能够提供顺滑的手势交互。</li>
+</ul>
+<h1 id="安装"><a href="#安装" class="headerlink" title="安装"></a>安装</h1><p>整个安装分为三个部分：JS部分、Android部分和iOS部分。其中JS和iOS部分都是统一的，Android在使用了第三方导航库和没使用的情况安装配置方式会有不同。</p>
+<h2 id="JS"><a href="#JS" class="headerlink" title="JS"></a>JS</h2><p>使用<code>yarn</code>安装：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">yarn add react-native-gesture-handler</span><br></pre></td></tr></table></figure>
+
+<p>或者你也可以选择使用<code>npm</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install --save react-native-gesture-handler</span><br></pre></td></tr></table></figure>
+
+<h2 id="Android"><a href="#Android" class="headerlink" title="Android"></a>Android</h2><p>如果在项目中使用了导航库（例如：<code>react-native-navigation</code>），直接跳过这部分看后面<a href="#配合导航库使用">配合导航库使用</a>的小节。</p>
+<p>更新<code>MainActivity.java</code>文件（或者你在其他地方创建的<code>ReactActivityDelegate</code>实例的内部），重写创建<code>ReactRootView</code>的方法，让这个库的根视图包裹安卓的主活动。注意在文件顶部需要导入<code>ReactActivityDelegate</code>、<code>ReactRootView</code>和<code>RNGestureHandlerEnabledRootView</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">package com.swmansion.gesturehandler.react.example;</span><br><span class="line"></span><br><span class="line">import com.facebook.react.ReactActivity;</span><br><span class="line">+ import com.facebook.react.ReactActivityDelegate;</span><br><span class="line">+ import com.facebook.react.ReactRootView;</span><br><span class="line">+ import com.swmansion.gesturehandler.react.RNGestureHandlerEnabledRootView;</span><br><span class="line"></span><br><span class="line">public class MainActivity extends ReactActivity &#123;</span><br><span class="line"></span><br><span class="line">  @Override</span><br><span class="line">  protected String getMainComponentName() &#123;</span><br><span class="line">    return &quot;Example&quot;;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">+  @Override</span><br><span class="line">+  protected ReactActivityDelegate createReactActivityDelegate() &#123;</span><br><span class="line">+    return new ReactActivityDelegate(this, getMainComponentName()) &#123;</span><br><span class="line">+      @Override</span><br><span class="line">+      protected ReactRootView createRootView() &#123;</span><br><span class="line">+       return new RNGestureHandlerEnabledRootView(MainActivity.this);</span><br><span class="line">+      &#125;</span><br><span class="line">+    &#125;;</span><br><span class="line">+  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="iOS"><a href="#iOS" class="headerlink" title="iOS"></a>iOS</h2><p>如果在项目中使用了<strong>Cocoapods</strong>（React Native 0.60及之后的版本创建时会自动使用），需要在启动前安装pods：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">cd ios &amp;&amp; pod install</span><br></pre></td></tr></table></figure>
+
+<p>如果React Native版本为0.61或更高，则需要在index.js文件顶部导入库文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">import &apos;react-native-gesture-handler&apos;;</span><br></pre></td></tr></table></figure>
+
+<h2 id="配合导航库使用"><a href="#配合导航库使用" class="headerlink" title="配合导航库使用"></a>配合导航库使用</h2><p>如果你在项目中使用了像<a href="https://github.com/wix/react-native-navigation" target="_blank" rel="noopener">react-native-navigation</a> 这样的导航库，由于本地导航库和Gesture Handler库都需要它们自己的<code>ReactRootView</code>子类，在安卓不能使用上述配置，需要如下单独配置。</p>
+<p>与上面的修改Java原生代码不同，你需要在JavaScript代码中将每个页面的组件用<code>gestureHandlerRootHOC</code>包裹起来。可以像下面这样配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">import &#123; gestureHandlerRootHOC &#125; from &apos;react-native-gesture-handler&apos;;</span><br><span class="line">import &#123; Navigation &#125; from &apos;react-native-navigation&apos;;</span><br><span class="line"></span><br><span class="line">import FirstTabScreen from &apos;./FirstTabScreen&apos;;</span><br><span class="line">import SecondTabScreen from &apos;./SecondTabScreen&apos;;</span><br><span class="line">import PushedScreen from &apos;./PushedScreen&apos;;</span><br><span class="line"></span><br><span class="line">// register all screens of the app (including internal ones)</span><br><span class="line">export function registerScreens() &#123;</span><br><span class="line">  Navigation.registerComponent(&apos;example.FirstTabScreen&apos;, () =&gt;</span><br><span class="line">    gestureHandlerRootHOC(FirstTabScreen)</span><br><span class="line">  );</span><br><span class="line">  Navigation.registerComponent(&apos;example.SecondTabScreen&apos;, () =&gt;</span><br><span class="line">    gestureHandlerRootHOC(SecondTabScreen)</span><br><span class="line">  );</span><br><span class="line">  Navigation.registerComponent(&apos;example.PushedScreen&apos;, () =&gt;</span><br><span class="line">    gestureHandlerRootHOC(PushedScreen)</span><br><span class="line">  );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>这部分的配置也可以参考官方的<a href="https://github.com/henrikra/nativeNavigationGestureHandler" target="_blank" rel="noopener">示例项目</a>。</p>
+<p>记住你需要把每一个页面的组件（也就是导航库里管理的每个页面）都包裹在<code>gestureHandlerRootHOC</code>下，只包裹主页面是不行的。</p>
+<h1 id="核心概念"><a href="#核心概念" class="headerlink" title="核心概念"></a>核心概念</h1><h2 id="Gesture-Handlers"><a href="#Gesture-Handlers" class="headerlink" title="Gesture Handlers"></a>Gesture Handlers</h2><p>Gesture Handler是这个手势库的核心，它用来描述原生触控系统里的元素，这些元素能够被JavaScript代码使用React的组件进行实例化和控制。</p>
+<p>每一个Handler类型都代表了一种手势（例如：滑动、缩放），也包含了每种手势特有的事件（例如：translation, scale）。</p>
+<p>这些Handler可以在UI线程同步地解析触摸事件流，即便在JavaScript线程阻塞的情况下也能保证手势交互不被打断。</p>
+<p>Gesture Handler的组件并不会在原生的视图层级里面创建一个视图，它仅仅是在自己库里面注册然后连接到原生的视图里。所以当我们在使用这些Handler组件的时候，一定要记得 在内部添加一个对应着原生视图的子组件。</p>
+<p>这个库提供了以下几种手势：</p>
+<ul>
+<li><a href="https://docs.swmansion.com/react-native-gesture-handler/docs/handler-pan" target="_blank" rel="noopener">PanGestureHandler</a></li>
+<li><a href="https://docs.swmansion.com/react-native-gesture-handler/docs/handler-tap" target="_blank" rel="noopener">TapGestureHandler</a></li>
+<li><a href="https://docs.swmansion.com/react-native-gesture-handler/docs/handler-longpress" target="_blank" rel="noopener">LongPressGestureHandler</a></li>
+<li><a href="https://docs.swmansion.com/react-native-gesture-handler/docs/handler-rotation" target="_blank" rel="noopener">RotationGestureHandler</a></li>
+<li><a href="https://docs.swmansion.com/react-native-gesture-handler/docs/handler-fling" target="_blank" rel="noopener">FlingGestureHandler</a></li>
+<li><a href="https://docs.swmansion.com/react-native-gesture-handler/docs/handler-pinch" target="_blank" rel="noopener">PinchGestureHandler</a></li>
+<li><a href="https://docs.swmansion.com/react-native-gesture-handler/docs/handler-force" target="_blank" rel="noopener">ForceTouchGestureHandler</a></li>
+</ul>
+<h3 id="手势分类"><a href="#手势分类" class="headerlink" title="手势分类"></a>手势分类</h3><p>这个手势库将手势分为两种：连续的和非连续的。</p>
+<p>连续的手势被激活后会持续一段较长的时间，它会产生一个手势事件流。例如像滑动手势（PanGestureHandler），它被激活后就会开始持续为translation和其他属性提供更新。</p>
+<p>而非连续性的手势一旦被激活就会立即结束。长按手势（<code>LongPressGestureHandler</code>）就是一个非连续的手势，它只在手指按住持续一段时间后会被激活，并不会追踪手指的移动。</p>
+<p>记住只有连续的手势才能使用<code>onGestureEvent</code>，非连续性的手势Handler没有这个属性。</p>
+<h3 id="onGestureEvent"><a href="#onGestureEvent" class="headerlink" title="onGestureEvent"></a>onGestureEvent</h3><p><code>onGestureEvent</code>参数接收<code>Animated.event</code>方法，这个方法是React Native系统自带的动画处理库的事件处理方法，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br></pre></td><td class="code"><pre><span class="line">const circleRadius = 30;</span><br><span class="line">class Circle extends Component &#123;</span><br><span class="line">  _touchX = new Animated.Value(windowWidth / 2 - circleRadius);</span><br><span class="line">  _onPanGestureEvent = Animated.event([&#123; nativeEvent: &#123; x: this._touchX &#125; &#125;], &#123;</span><br><span class="line">    useNativeDriver: true,</span><br><span class="line">  &#125;);</span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;PanGestureHandler onGestureEvent=&#123;this._onPanGestureEvent&#125;&gt;</span><br><span class="line">        &lt;Animated.View</span><br><span class="line">          style=&#123;&#123;</span><br><span class="line">            height: 150,</span><br><span class="line">            justifyContent: &apos;center&apos;,</span><br><span class="line">          &#125;&#125;&gt;</span><br><span class="line">          &lt;Animated.View</span><br><span class="line">            style=&#123;[</span><br><span class="line">              &#123;</span><br><span class="line">                backgroundColor: &apos;#42a5f5&apos;,</span><br><span class="line">                borderRadius: circleRadius,</span><br><span class="line">                height: circleRadius * 2,</span><br><span class="line">                width: circleRadius * 2,</span><br><span class="line">              &#125;,</span><br><span class="line">              &#123;</span><br><span class="line">                transform: [</span><br><span class="line">                  &#123;</span><br><span class="line">                    translateX: Animated.add(</span><br><span class="line">                      this._touchX,</span><br><span class="line">                      new Animated.Value(-circleRadius)</span><br><span class="line">                    ),</span><br><span class="line">                  &#125;,</span><br><span class="line">                ],</span><br><span class="line">              &#125;,</span><br><span class="line">            ]&#125;</span><br><span class="line">          /&gt;</span><br><span class="line">        &lt;/Animated.View&gt;</span><br><span class="line">      &lt;/PanGestureHandler&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><code>Animated.event</code>会持续将<code>nativeEvent</code>里的<code>x</code>属性的值同步到对应的<code>_touchX</code>，而<code>_touchX</code>的改变会同步到<code>Animated.View</code>的<code>translateX</code>的改变，从而导致<code>Animated.View</code>的位移。上面就是一个简单的跟随手势移动的小球的例子。</p>
+<p>这里其实也可以配合<code>React Native Reanimated</code>库使用，直接传入<code>useAnimatedGestureHandler</code>即可，在使用上也更简单，具体的使用方法以后的文章会讲到。</p>
+<h3 id="Handler的嵌套"><a href="#Handler的嵌套" class="headerlink" title="Handler的嵌套"></a>Handler的嵌套</h3><p>Handler只是锚定了它的子组件，并没有在原生视图层级里创建新的视图，因此这些手势Handler并不支持直接嵌套，需要在两个手势Handler之间放入<code>&lt;Animated.View&gt;</code>组件。</p>
+<p>下面这种是不支持的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">const PanAndRotate = () =&gt; (</span><br><span class="line">  &lt;PanGestureHandler onGestureEvent=&#123;Animated.event(&#123; ... &#125;, &#123; useNativeDriver: true &#125;)&#125;&gt;</span><br><span class="line">    &lt;RotationGestureHandler onGestureEvent=&#123;Animated.event(&#123; ... &#125;, &#123; useNativeDriver: true &#125;)&#125;&gt;</span><br><span class="line">      &lt;Animated.View style=&#123;animatedStyles&#125;/&gt;</span><br><span class="line">    &lt;/RotationGestureHandler&gt;</span><br><span class="line">  &lt;/PanGestureHandler&gt;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>需要在两个Handler之间放入<code>&lt;Animated.View&gt;</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">const PanAndRotate = () =&gt; (</span><br><span class="line">  &lt;PanGestureHandler onGestureEvent=&#123;Animated.event(&#123; ... &#125;, &#123; useNativeDriver: true &#125;)&#125;&gt;</span><br><span class="line">    &lt;Animated.View&gt;</span><br><span class="line">      &lt;RotationGestureHandler onGestureEvent=&#123;Animated.event(&#123; ... &#125;, &#123; useNativeDriver: true &#125;)&#125;&gt;</span><br><span class="line">        &lt;Animated.View style=&#123;animatedStyles&#125;/&gt;</span><br><span class="line">      &lt;/RotationGestureHandler&gt;</span><br><span class="line">    &lt;/Animated.View&gt;</span><br><span class="line">  &lt;/PanGestureHandler&gt;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<p>另外一个特别需要注意的是当你在<code>Animated.event</code>中使用了<code>useNativeDriver</code>，它里面嵌套的子节点必须是<code>Animated.API</code>类型的。比例像<code>View</code>就必须被替换成<code>Animated.View</code>。</p>
+<h2 id="Handler-State"><a href="#Handler-State" class="headerlink" title="Handler State"></a>Handler State</h2><p>手势Handler可以被看作是一个状态机，每个Handler在有新的手势事件触发或者手势系统状态变更时都会更新当前的状态。</p>
+<p>Handler的状态分为以下几种：</p>
+<ul>
+<li>UNDETERMINED</li>
+<li>FAILED</li>
+<li>BEGAN</li>
+<li>CANCELLED</li>
+<li>ACTIVE</li>
+<li>END</li>
+</ul>
+<p>顾名思义，这里就不作过多解释了。</p>
+<h3 id="获取状态"><a href="#获取状态" class="headerlink" title="获取状态"></a>获取状态</h3><p>我们可以通过<code>onHandlerStateChange</code>来监听Handler的状态。状态可以通过<code>nativeEvent</code>的<code>state</code>属性获取到，然后与这个手势库中的<code>State</code>对象里的常量进行对比：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">import &#123; State, LongPressGestureHandler &#125; from &apos;react-native-gesture-handler&apos;;</span><br><span class="line"></span><br><span class="line">class Demo extends Component &#123;</span><br><span class="line">  _handleStateChange = (&#123; nativeEvent &#125;) =&gt; &#123;</span><br><span class="line">    if (nativeEvent.state === State.ACTIVE) &#123;</span><br><span class="line">      Alert.alert(&apos;Longpress&apos;);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;;</span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">      &lt;LongPressGestureHandler onHandlerStateChange=&#123;this._handleStateChange&#125;&gt;</span><br><span class="line">        &lt;Text style=&#123;styles.buttonText&#125;&gt;Longpress me&lt;/Text&gt;</span><br><span class="line">      &lt;/LongPressGestureHandler&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="状态转换顺序"><a href="#状态转换顺序" class="headerlink" title="状态转换顺序"></a>状态转换顺序</h3><p>最典型的状态转换顺序就是手势Handler捕获到触摸事件，然后识别出具体的手势，手势结束后重置到最初状态。这种状态转换顺序如下所示（长箭头表示状态改变前这里可能有更多的触摸事件）：</p>
+<p><code>UNDETERMINED</code> -&gt; <code>BEGAN</code> ——&gt; <code>ACTIVE</code> ——&gt; <code>END</code> -&gt; <code>UNDETERMINED</code></p>
+<p>下面这种是Handler捕获到了触摸事件但是识别手势的时候失败的情况：</p>
+<p><code>UNDETERMINED</code> -&gt; <code>BEGAN</code> ——&gt; <code>FAILED</code> -&gt; <code>UNDETERMINED</code></p>
+<p>下面这种是手势中断的情况：</p>
+<p><code>UNDETERMINED</code> -&gt; <code>BEGAN</code> ——&gt; <code>ACTIVE</code> ——&gt; <code>CANCELLED</code> -&gt; <code>UNDETERMINED</code></p>
+<h2 id="手势之间的交互"><a href="#手势之间的交互" class="headerlink" title="手势之间的交互"></a>手势之间的交互</h2><p>这个手势库支持不同的手势Handler之间通信来构建更加复杂的手势交互。</p>
+<p>有下面两种方法可以实现这种交互控制。每一种方法手势Handler都需要提供一个引用给其他Handler。手势Handler的引用是通过<code>React.createRef()</code>来创建的引用对象。</p>
+<h3 id="同时识别"><a href="#同时识别" class="headerlink" title="同时识别"></a>同时识别</h3><p>默认情况下同一个时间只有一种手势Handler可以是激活状态。当手势Handler识别到了一个手势，它会取消其他所有处于began状态的手势Handler并且在其激活状态下停止接收其他任何触摸事件。</p>
+<p>这种行为可以通过<code>simultaneousHandlers</code>这个属性来改变，并且这个属性每种类型的Handler都有。这个属性持有一个数组，数组里有其他手势Handler的引用。手势Handler可以通过这种方式同时处于激活状态。</p>
+<h4 id="使用场景"><a href="#使用场景" class="headerlink" title="使用场景"></a>使用场景</h4><p>当我们实现图片预览组件的时候就需要这种同时识别，在图片预览中我们可以缩放、旋转而且可以在它缩放时移动它。在这个场景中我们需要使用<code>PinchGestureHandler</code>, <code>RotationGestureHandler</code>和<code>PanGestureHandler</code>并让它们能够被同时识别。</p>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><p>可以查看<a href="https://docs.swmansion.com/react-native-gesture-handler/docs/example/" target="_blank" rel="noopener">官方示例App</a>中的<a href="https://github.com/software-mansion/react-native-gesture-handler/blob/master/examples/Example/scaleAndRotate/index.js" target="_blank" rel="noopener">“Scale, rotate &amp; tilt” example</a>部分，以下是其中的片段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line">class PinchableBox extends React.Component &#123;</span><br><span class="line">  // ...take a look on full implementation in an Example app</span><br><span class="line">  render() &#123;</span><br><span class="line">    const imagePinch = React.createRef();</span><br><span class="line">    const imageRotation = React.createRef();</span><br><span class="line">    return (</span><br><span class="line">      &lt;RotationGestureHandler</span><br><span class="line">        ref=&#123;imageRotation&#125;</span><br><span class="line">        simultaneousHandlers=&#123;imagePinch&#125;</span><br><span class="line">        onGestureEvent=&#123;this._onRotateGestureEvent&#125;</span><br><span class="line">        onHandlerStateChange=&#123;this._onRotateHandlerStateChange&#125;&gt;</span><br><span class="line">        &lt;Animated.View&gt;</span><br><span class="line">          &lt;PinchGestureHandler</span><br><span class="line">            ref=&#123;imagePinch&#125;</span><br><span class="line">            simultaneousHandlers=&#123;imageRotation&#125;</span><br><span class="line">            onGestureEvent=&#123;this._onPinchGestureEvent&#125;</span><br><span class="line">            onHandlerStateChange=&#123;this._onPinchHandlerStateChange&#125;&gt;</span><br><span class="line">            &lt;Animated.View style=&#123;styles.container&#125; collapsable=&#123;false&#125;&gt;</span><br><span class="line">              &lt;Animated.Image</span><br><span class="line">                style=&#123;[</span><br><span class="line">                  styles.pinchableImage,</span><br><span class="line">                  &#123;</span><br><span class="line">                    /* events-related transformations */</span><br><span class="line">                  &#125;,</span><br><span class="line">                ]&#125;</span><br><span class="line">              /&gt;</span><br><span class="line">            &lt;/Animated.View&gt;</span><br><span class="line">          &lt;/PinchGestureHandler&gt;</span><br><span class="line">        &lt;/Animated.View&gt;</span><br><span class="line">      &lt;/RotationGestureHandler&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="等待其他手势完成"><a href="#等待其他手势完成" class="headerlink" title="等待其他手势完成"></a>等待其他手势完成</h3><h4 id="使用场景-1"><a href="#使用场景-1" class="headerlink" title="使用场景"></a>使用场景</h4><p>这种手势交互方式最好的例子就是当我们在一个视图上同时注册了单次点击和双击事件的情况。这种情况下就需要单击事件等待双击事件识别完成后才识别，否则就会出现只识别单击事件而双击事件无法触发的情况。</p>
+<h4 id="示例-1"><a href="#示例-1" class="headerlink" title="示例"></a>示例</h4><p>参考<a href="https://docs.swmansion.com/react-native-gesture-handler/docs/example/" target="_blank" rel="noopener">官方示例App</a>中的<a href="https://github.com/software-mansion/react-native-gesture-handler/blob/master/examples/Example/multitap/index.js" target="_blank" rel="noopener">“Multitap” example</a>部分，以下是部分片段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">const doubleTap = React.createRef();</span><br><span class="line">const PressBox = () =&gt; (</span><br><span class="line">  &lt;TapGestureHandler</span><br><span class="line">    onHandlerStateChange=&#123;(&#123; nativeEvent &#125;) =&gt;</span><br><span class="line">      nativeEvent.state === State.ACTIVE &amp;&amp; Alert.alert(&apos;Single tap!&apos;)</span><br><span class="line">    &#125;</span><br><span class="line">    waitFor=&#123;doubleTap&#125;&gt;</span><br><span class="line">    &lt;TapGestureHandler</span><br><span class="line">      ref=&#123;doubleTap&#125;</span><br><span class="line">      onHandlerStateChange=&#123;(&#123; nativeEvent &#125;) =&gt;</span><br><span class="line">        nativeEvent.state === State.ACTIVE &amp;&amp; Alert.alert(&quot;You&apos;re so fast&quot;)</span><br><span class="line">      &#125;</span><br><span class="line">      numberOfTaps=&#123;2&#125;&gt;</span><br><span class="line">      &lt;View style=&#123;styles.box&#125; /&gt;</span><br><span class="line">    &lt;/TapGestureHandler&gt;</span><br><span class="line">  &lt;/TapGestureHandler&gt;</span><br><span class="line">);</span><br></pre></td></tr></table></figure>
+
+<h1 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h1><p>至此，React Native Gesture Handler的基本使用就介绍完了。关于React Native优化，本文介绍的手势库只是解决了手势方面的性能问题，一般来说，手势都是配合了相应的动画使用的，比如手势拖拽功能，后面的文章会继续讲解动画的性能优化库<strong>React Native Reanimated</strong>以及这两个库如何配合使用。</p>
+
+  </section>
+
+</article>
+<section class="read-more">
+           
+    
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">最近的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/2020/12/15/【React-Native进阶】React-Native-Reanimated的使用/" title="【React Native进阶】React Native Reanimated的使用">【React Native进阶】React Native Reanimated的使用</a></h2>
+                <p class="excerpt">
+                
+                前言上一篇文章讲解了React Native性能优化的总体思路，并进一步讲解了React Native Gesture Handler的使用。本文讲解另外一个库React Native Reanimated，这个库旨在解决React Native在动画方面的性能问题，让我们能够创建运行在UI线程上的顺滑动画和流畅交互。
+Reanimated实现动机上一篇文章讲了React Native中业务逻辑和计算都是在JavaScript线程中，渲染是在UI线程中，两个线程是通信又是异步的，因此渲染并不是实时的，至少会有1桢的延迟，在动画方面也是同样的。
+Reanimated将JavaScript线程上的动画和事件处理逻辑转移到了UI线程。它通过定义Reanimated worklet(可以被移动到一个单独的JavaScript 虚拟机并在UI线程上同步运行的一小段JavaScript代码）来实现。这种机制让我们的触摸事件可以立即被响应并在同一桢上更新UI，不必再担心JavaScript加载和同步这些问题。
+注意：本文讲解的是当前最新的版本2.0.0-alpha.9，它与版本1有较大的差异。
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2020-12-15T15:32:58.000Z" class="post-list__meta--date date">2020-12-15</time> &#8226; <span class="post-list__meta--tags tags">于&nbsp;
+  <a class="tag-link" href="/tags/React-Native/">React Native</a>, <a class="tag-link" href="/tags/React-Native-Reanimated/">React Native Reanimated</a>, <a class="tag-link" href="/tags/Reanimated/">Reanimated</a>, <a class="tag-link" href="/tags/性能优化/">性能优化</a>, <a class="tag-link" href="/tags/进阶/">进阶</a>
+</span><a class="btn-border-small" href="/2020/12/15/【React-Native进阶】React-Native-Reanimated的使用/">继续阅读</a></div>
+                           
+            </div>
+        
+        
+               
+            <div class="read-more-item">
+                <span class="read-more-item-dim">更早的文章</span>
+                <h2 class="post-list__post-title post-title"><a href="/2020/12/07/【React-Native教程】StackNavigation与TabNavigation嵌套最佳实践/" title="【React Native教程】Stack Navigation与Tab Navigation嵌套最佳实践">【React Native教程】Stack Navigation与Tab Navigation嵌套最佳实践</a></h2>
+                <p class="excerpt">
+                
+                背景上一篇文章详细讲解了react-navigation的使用，这篇文章主要说一下Stack Navigation与Tab Navigation嵌套的问题。
+在iOS原生开发中，一般是在TabController里嵌套NavigationController，也就是说底部导航控制器里放多个堆栈导航控制器，每个堆栈导航控制器控制有独立的堆栈和状态。
+但如果在使用react-navigation进行这种嵌套方式，由于根控制器是底部的TabNavigation，每次跳转到子控制器时，底部的导航栏不会隐藏。官方文档说可以用属性更改的方法隐藏底部导航栏，但不推荐，会影响性能。因此本文主要讲解如何使用堆栈导航器中嵌套底部导航控制器来解决这个问题。
+                &hellip;
+                </p>
+                <div class="post-list__meta"><time datetime="2020-12-07T12:55:20.000Z" class="post-list__meta--date date">2020-12-07</time> &#8226; <span class="post-list__meta--tags tags">于&nbsp;
+  <a class="tag-link" href="/tags/React/">React</a>, <a class="tag-link" href="/tags/React-Native/">React Native</a>, <a class="tag-link" href="/tags/Stack-Navigation/">Stack Navigation</a>, <a class="tag-link" href="/tags/Tab-Navigation/">Tab Navigation</a>, <a class="tag-link" href="/tags/嵌套/">嵌套</a>
+</span><a class="btn-border-small" href="/2020/12/07/【React-Native教程】StackNavigation与TabNavigation嵌套最佳实践/">继续阅读</a></div>
+                       
+            </div>
+        
+     
+   
+   
+  
+</section>
+
+            
+<section class="post-comments">
+  <!-- 多说评论框 start -->
+  <div class="ds-thread" data-thread-key="http://anye3210.github.io/2020/12/14/【React-Native进阶】react-native-gesture-handler的使用/" data-title="【React Native进阶】React Native Gesture Handler的使用" data-url="http://anye3210.github.io/2020/12/14/【React-Native进阶】react-native-gesture-handler的使用/"></div>
+  <!-- 多说评论框 end -->
+  <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+  <script type="text/javascript">
+  var duoshuoQuery = {short_name:"Zephyr&#39;s Capsule"};
+  (function() {
+    var ds = document.createElement('script');
+    ds.type = 'text/javascript';ds.async = true;
+    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+    ds.charset = 'UTF-8';
+    (document.getElementsByTagName('head')[0] 
+     || document.getElementsByTagName('body')[0]).appendChild(ds);
+  })();
+  </script>
+<!-- 多说公共JS代码 end -->
+</section>
+
+
+            <footer class="footer">
+	<span class="footer__copyright">
+	        <div style="width:200px;margin:0 auto; padding:0px;">
+               <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">©2019 Zephyr</p>
+            </div>
+    </span>
+    <span class="footer__copyright">
+        <div style="width:300px;margin:0 auto; padding:20px 0;">
+                <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=50010802002929" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="/images/beian.png" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">渝公网安备 50010802002929号</p></a>
+            </div>
+    </span>
+</footer>
+        </div>
+    </div>
+
+    
+
+     
+<script>
+	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+
+	ga('create', 'UA-87098157-1', 'auto');
+	ga('send', 'pageview');
+</script>
+
+    
+
+
+    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
+    
+    </script>
+    
+</body>
+</html>
