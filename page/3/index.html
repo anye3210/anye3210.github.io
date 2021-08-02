@@ -177,6 +177,24 @@
   
     
     <li>
+      <h2 class="post-list__post-title post-title"><a href="/2016/11/10/AsyncDisplayKit介绍/" title="link to post.title">【iOS】AsyncDisplayKit初识</a></h2>
+      <p class="excerpt">
+    
+      简介  AsyncDisplayKit 是 Facebook 开源的一个用于保持 iOS 界面流畅的库。
+  在 ASDK 中最基本的单位就是 ASDisplayNode，每一个 node 都是对 UIView 以及 CALayer 的抽象。但是与 UIView 不同的是，ASDisplayNode 是线程安全的，它可以在后台线程中完成初始化以及配置工作。
+  如果按照 60 FPS 的刷新频率来计算，每一帧的渲染时间只有 16ms，在 16ms 的时间内要完成对 UIView 的创建、布局、绘制以及渲染，CPU 和 GPU 面临着巨大的压力。
+  但是从 A5 处理器之后，多核的设备成为了主流，原有的将所有操作放入主线程的实践已经不能适应复杂的 UI 界面，所以 ASDK 将耗时的 CPU 操作以及 GPU 渲染纹理（Texture）的过程全部放入后台进程，使主线程能够快速响应用户操作。
+  ASDK 通过独特的渲染技巧、代替 AutoLayout 的布局系统、智能的预加载方式等模块来实现对 App 性能的优化。
+    &hellip;
+      </p>
+      <div class="post-list__meta"><time datetime="2016-11-10T13:38:58.000Z" class="post-list__meta--date date">2016-11-10</time> &#8226; <span class="post-list__meta--tags tags">于&nbsp;
+  <a class="tag-link" href="/tags/ASDK/">ASDK</a>, <a class="tag-link" href="/tags/AsyncDisplayKit/">AsyncDisplayKit</a>, <a class="tag-link" href="/tags/UIKit/">UIKit</a>, <a class="tag-link" href="/tags/性能优化/">性能优化</a>
+</span><a class="btn-border-small" href="/2016/11/10/AsyncDisplayKit介绍/">继续阅读</a></div>
+      <hr class="post-list__divider" />
+    </li>
+  
+    
+    <li>
       <h2 class="post-list__post-title post-title"><a href="/2016/11/10/AsyncDisplayKit的组件/" title="link to post.title">【iOS】AsyncDisplayKit的组件</a></h2>
       <p class="excerpt">
     

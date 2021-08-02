@@ -177,6 +177,25 @@
   
     
     <li>
+      <h2 class="post-list__post-title post-title"><a href="/2021/08/02/详解Java类加载过程/" title="link to post.title">详解Java类加载过程</a></h2>
+      <p class="excerpt">
+    
+      概述类从被加载到虚拟机开始，到卸载出内存，整个生命周期分为七个阶段，分别是加载、验证、准备、解析、初始化、使用和卸载。其中验证、准备和解析这三个阶段统称为连接。整个过程如下图所示：
+
+
+加载、验证、准备、初始化和卸载这五个阶段顺序是确定的，类的加载过程这些阶段必须按这个顺序开始（注意这里强调的开始的顺序，进行和完成可能是交叉混合着的）。由于 Java 支持动态绑定，在动态绑定时解析阶段会在初始化之后执行。
+类加载时机上面讲到类的分为七个阶段，那么什么情况下会开始类的加载呢？
+思考这个问题我们可以从两个维度出发，一个是 JVM 规范维度，一个是从虚拟机运行的维度；
+    &hellip;
+      </p>
+      <div class="post-list__meta"><time datetime="2021-08-02T14:53:13.000Z" class="post-list__meta--date date">2021-08-02</time> &#8226; <span class="post-list__meta--tags tags">于&nbsp;
+  <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/初始化/">初始化</a>, <a class="tag-link" href="/tags/符号引用/">符号引用</a>, <a class="tag-link" href="/tags/类加载/">类加载</a>
+</span><a class="btn-border-small" href="/2021/08/02/详解Java类加载过程/">继续阅读</a></div>
+      <hr class="post-list__divider" />
+    </li>
+  
+    
+    <li>
       <h2 class="post-list__post-title post-title"><a href="/2021/07/31/JMM-Java-内存模型/" title="link to post.title">JMM - Java 内存模型</a></h2>
       <p class="excerpt">
     
@@ -329,22 +348,6 @@ Redux的核心逻辑和概念Redux的核心逻辑是集中定义和管理状态�
       <div class="post-list__meta"><time datetime="2020-01-19T15:47:32.000Z" class="post-list__meta--date date">2020-01-19</time> &#8226; <span class="post-list__meta--tags tags">于&nbsp;
   <a class="tag-link" href="/tags/Jenkins/">Jenkins</a>, <a class="tag-link" href="/tags/ad-hoc/">ad-hoc</a>, <a class="tag-link" href="/tags/fir/">fir</a>, <a class="tag-link" href="/tags/iOS/">iOS</a>, <a class="tag-link" href="/tags/profile/">profile</a>, <a class="tag-link" href="/tags/持续集成/">持续集成</a>, <a class="tag-link" href="/tags/自动化打包/">自动化打包</a>, <a class="tag-link" href="/tags/蒲公英/">蒲公英</a>
 </span><a class="btn-border-small" href="/2020/01/19/使用Jenkins+蒲公英:fir自动化集成iOS项目-优化版/">继续阅读</a></div>
-      <hr class="post-list__divider" />
-    </li>
-  
-    
-    <li>
-      <h2 class="post-list__post-title post-title"><a href="/2020/01/13/使用SonarQube静态检查OC代码质量/" title="link to post.title">使用SonarQube静态检查OC代码质量</a></h2>
-      <p class="excerpt">
-    
-      前言SonarQube是一个开源的代码质量管理系统，它支持包括ObjectiveC、Java、C/C++、C#、PHP在内的超过25种编程语言。它能够提供包括重复代码、编码标准、单元测试、代码覆盖率、代码复杂度、潜在Bug、注释的报告。它还可以与持续集成工具配合使用实现完全自动化的分析。
-之前在网上搜索学习SonarQube在Mac上的集成和使用教程，发现教程都比较老，使用的都是较老版本的SonarQube，在集成最新的8.1版本时踩了不少坑。本文就是对在Mac系统上安装和使用新版SonarQube的总结。后续会继续更新使用SonarQube静态分析Swift代码及结合Jenkins进行自动化分析。
-注意：SonarQube需要Java 11及以上的运行环境，在终端输入java --version即可查看系统的Java版本，如果不满足，请先自行下载和安装。
-    &hellip;
-      </p>
-      <div class="post-list__meta"><time datetime="2020-01-13T15:01:17.000Z" class="post-list__meta--date date">2020-01-13</time> &#8226; <span class="post-list__meta--tags tags">于&nbsp;
-  <a class="tag-link" href="/tags/ObjectiveC/">ObjectiveC</a>, <a class="tag-link" href="/tags/SonarQube/">SonarQube</a>, <a class="tag-link" href="/tags/代码质量/">代码质量</a>, <a class="tag-link" href="/tags/静态检查/">静态检查</a>
-</span><a class="btn-border-small" href="/2020/01/13/使用SonarQube静态检查OC代码质量/">继续阅读</a></div>
       <hr class="post-list__divider" />
     </li>
   

@@ -177,80 +177,26 @@
   
     
     <li>
-      <h2 class="post-list__post-title post-title"><a href="/2016/11/10/AsyncDisplayKit介绍/" title="link to post.title">【iOS】AsyncDisplayKit初识</a></h2>
+      <h2 class="post-list__post-title post-title"><a href="/2021/08/02/详解Java类加载过程/" title="link to post.title">详解Java类加载过程</a></h2>
       <p class="excerpt">
     
-      简介  AsyncDisplayKit 是 Facebook 开源的一个用于保持 iOS 界面流畅的库。
-  在 ASDK 中最基本的单位就是 ASDisplayNode，每一个 node 都是对 UIView 以及 CALayer 的抽象。但是与 UIView 不同的是，ASDisplayNode 是线程安全的，它可以在后台线程中完成初始化以及配置工作。
-  如果按照 60 FPS 的刷新频率来计算，每一帧的渲染时间只有 16ms，在 16ms 的时间内要完成对 UIView 的创建、布局、绘制以及渲染，CPU 和 GPU 面临着巨大的压力。
-  但是从 A5 处理器之后，多核的设备成为了主流，原有的将所有操作放入主线程的实践已经不能适应复杂的 UI 界面，所以 ASDK 将耗时的 CPU 操作以及 GPU 渲染纹理（Texture）的过程全部放入后台进程，使主线程能够快速响应用户操作。
-  ASDK 通过独特的渲染技巧、代替 AutoLayout 的布局系统、智能的预加载方式等模块来实现对 App 性能的优化。
+      概述类从被加载到虚拟机开始，到卸载出内存，整个生命周期分为七个阶段，分别是加载、验证、准备、解析、初始化、使用和卸载。其中验证、准备和解析这三个阶段统称为连接。整个过程如下图所示：
+
+
+加载、验证、准备、初始化和卸载这五个阶段顺序是确定的，类的加载过程这些阶段必须按这个顺序开始（注意这里强调的开始的顺序，进行和完成可能是交叉混合着的）。由于 Java 支持动态绑定，在动态绑定时解析阶段会在初始化之后执行。
+类加载时机上面讲到类的分为七个阶段，那么什么情况下会开始类的加载呢？
+思考这个问题我们可以从两个维度出发，一个是 JVM 规范维度，一个是从虚拟机运行的维度；
     &hellip;
       </p>
-      <div class="post-list__meta"><time datetime="2016-11-10T13:38:58.000Z" class="post-list__meta--date date">2016-11-10</time> &#8226; <span class="post-list__meta--tags tags">于&nbsp;
-  <a class="tag-link" href="/tags/ASDK/">ASDK</a>, <a class="tag-link" href="/tags/AsyncDisplayKit/">AsyncDisplayKit</a>, <a class="tag-link" href="/tags/UIKit/">UIKit</a>, <a class="tag-link" href="/tags/性能优化/">性能优化</a>
-</span><a class="btn-border-small" href="/2016/11/10/AsyncDisplayKit介绍/">继续阅读</a></div>
-      <hr class="post-list__divider" />
-    </li>
-  
-    
-    <li>
-      <h2 class="post-list__post-title post-title"><a href="/2016/11/10/AsyncDisplayKit的组件/" title="link to post.title">【iOS】AsyncDisplayKit的组件</a></h2>
-      <p class="excerpt">
-    
-      节点容器在容器中使用NodesAsyncDisplayKit有以下几种 Container
-
-
-
-ASDK Node Container
-UIKit Equivalent
-
-
-
-ASCollectionNode
-代替UIKit的 UICollectionView
-
-
-ASPagerNode
-代替UIKit的 UIPageViewController
-
-
-ASTableNode
-代替UIKit的 UITableView
-
-
-ASViewController
-代替UIKit的 UIViewController
-
-
-ASNavigationControllerv
-代替UIKit的 UINavigationController，遵循ASVisibility协议
-
-
-ASTabBarController
-代替UIKit的 UITabBarController，遵循ASVisibility协议
-
-
-
-    &hellip;
-      </p>
-      <div class="post-list__meta"><time datetime="2016-11-10T12:30:58.000Z" class="post-list__meta--date date">2016-11-10</time> &#8226; <span class="post-list__meta--tags tags">于&nbsp;
-  <a class="tag-link" href="/tags/ASDK/">ASDK</a>, <a class="tag-link" href="/tags/AsyncDisplayKit/">AsyncDisplayKit</a>, <a class="tag-link" href="/tags/使用/">使用</a>, <a class="tag-link" href="/tags/性能优化/">性能优化</a>
-</span><a class="btn-border-small" href="/2016/11/10/AsyncDisplayKit的组件/">继续阅读</a></div>
+      <div class="post-list__meta"><time datetime="2021-08-02T14:53:13.000Z" class="post-list__meta--date date">2021-08-02</time> &#8226; <span class="post-list__meta--tags tags">于&nbsp;
+  <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/初始化/">初始化</a>, <a class="tag-link" href="/tags/符号引用/">符号引用</a>, <a class="tag-link" href="/tags/类加载/">类加载</a>
+</span><a class="btn-border-small" href="/2021/08/02/详解Java类加载过程/">继续阅读</a></div>
       <hr class="post-list__divider" />
     </li>
   
     
   </ol>
 
-
-  <nav class="pagination" role="navigation">
-    
-      <a class="older-posts pagination__older btn btn-small btn-tertiary" href="/archives/page/2/">← 最近</a>
-    
-    <span class="pagination__page-number" > 3 / 3 </span>
-    
-  </nav>
 
 
 </div>

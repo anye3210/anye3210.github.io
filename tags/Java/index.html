@@ -177,6 +177,25 @@
   
     
     <li>
+      <h2 class="post-list__post-title post-title"><a href="/2021/08/02/详解Java类加载过程/" title="link to post.title">详解Java类加载过程</a></h2>
+      <p class="excerpt">
+    
+      概述类从被加载到虚拟机开始，到卸载出内存，整个生命周期分为七个阶段，分别是加载、验证、准备、解析、初始化、使用和卸载。其中验证、准备和解析这三个阶段统称为连接。整个过程如下图所示：
+
+
+加载、验证、准备、初始化和卸载这五个阶段顺序是确定的，类的加载过程这些阶段必须按这个顺序开始（注意这里强调的开始的顺序，进行和完成可能是交叉混合着的）。由于 Java 支持动态绑定，在动态绑定时解析阶段会在初始化之后执行。
+类加载时机上面讲到类的分为七个阶段，那么什么情况下会开始类的加载呢？
+思考这个问题我们可以从两个维度出发，一个是 JVM 规范维度，一个是从虚拟机运行的维度；
+    &hellip;
+      </p>
+      <div class="post-list__meta"><time datetime="2021-08-02T14:53:13.000Z" class="post-list__meta--date date">2021-08-02</time> &#8226; <span class="post-list__meta--tags tags">于&nbsp;
+  <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/初始化/">初始化</a>, <a class="tag-link" href="/tags/符号引用/">符号引用</a>, <a class="tag-link" href="/tags/类加载/">类加载</a>
+</span><a class="btn-border-small" href="/2021/08/02/详解Java类加载过程/">继续阅读</a></div>
+      <hr class="post-list__divider" />
+    </li>
+  
+    
+    <li>
       <h2 class="post-list__post-title post-title"><a href="/2021/07/31/JMM-Java-内存模型/" title="link to post.title">JMM - Java 内存模型</a></h2>
       <p class="excerpt">
     
