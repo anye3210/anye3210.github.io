@@ -1,193 +1,89 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
-<head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    
-    <title>【React Native教程】Redux入门教程 | Zephyr&#39;s Capsule</title>
-    <meta name="renderer" content="webkit">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="MobileOptimized" content="320">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>【React Native教程】Redux入门教程 | Zephyr&#39;s Capsule | Stay hungry stay foolish</title>
 
-    <meta name="description" content="iOS, Python, Swift, Objective-C, JavaScript">
+  
+  <meta name="author" content="Zephyr">
+  
 
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="【React Native教程】Redux入门教程 | Zephyr&#39;s Capsule">
-    <meta name="twitter:description" content="iOS, Python, Swift, Objective-C, JavaScript">
+  
+  <meta name="description" content="不断前行">
+  
 
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="【React Native教程】Redux入门教程 | Zephyr&#39;s Capsule">
-    <meta property="og:description" content="iOS, Python, Swift, Objective-C, JavaScript">
+  
+  
+  <meta name="keywords" content="React Native,React,Redux,Thunk">
+  
 
-    
-    <meta name="author" content="Zephyr">
-    
-    <link rel="stylesheet" href="/css/vno.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-    
-    <link rel="icon" href="/images/avatar-small.png">
-    
+  <meta property="og:title" content="【React Native教程】Redux入门教程">
 
-    <meta name="generator" content="hexo"/>
-    
-    <link rel="alternate" type="application/rss+xml" title="Zephyr&#39;s Capsule" href="/atom.xml">
-    
+  <meta property="og:site_name" content="Zephyr&#39;s Capsule">
 
-    <link rel="canonical" href="http://anye3210.github.io/2020/08/03/【React-Native教程】Redux入门/"/>
+  
+  <meta property="og:image" content="/favicon.ico">
+  
 
-    
-    <link rel="author" href="https://plus.google.com"/>
-    
-      
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Zephyr&#39;s Capsule" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
 </head>
 
-<body class="home-template no-js">
-    <script src="https://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
-    <script src="/js/main.js"></script>
-    <span class="mobile btn-mobile-menu">
-        <i class="fa fa-list btn-mobile-menu__icon"></i>
-        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
-    </span>
 
-    
-<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
-  <div class="panel-main">
-    <div class="panel-main__inner panel-inverted">
-    <div class="panel-main__content">
+<body>
+<div class="blog">
+  <div class="content">
 
-        <a href="/" title="前往 Zephyr&#39;s Capsule 的主页"><img src="/images/avatar.jpg" width="80" alt="Zephyr&#39;s Capsule logo" class="panel-cover__logo logo" /></a>
-        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Zephyr&#39;s Capsule">Zephyr&#39;s Capsule</a></h1>
-        
-        <span class="panel-cover__subtitle panel-subtitle">Stay hungry stay foolish</span>
-        
-        <hr class="panel-cover__divider" />
-        <p class="panel-cover__description">不断前行</p>
-        <hr class="panel-cover__divider panel-cover__divider--secondary" />
-
-        <div class="navigation-wrapper">
-          <div>
-          <nav class="cover-navigation cover-navigation--primary">
-            <ul class="navigation">
-              <li class="navigation__item"><a href="/#blog" title="访问博客" class="blog-button">博客</a></li>
-            
-              <li class="navigation__item"><a href="/favourite">收藏</a></li>
-            
-              <li class="navigation__item"><a href="/favourite/time.html">时光机</a></li>
-            
-            </ul>
-          </nav>
-          </div>
-          <div>
-          <nav class="cover-navigation navigation--social">
-  <ul class="navigation">
-
-  <!-- Weibo-->
-  
-  <li class="navigation__item">
-    <a href="https://weibo.com/" title="我的微博" target="_blank">
-      <i class='social fa fa-weibo'></i>
-      <span class="label">Weibo</span>
-    </a>
-  </li> 
-
-
-  <!-- Github -->
-  
-  <li class="navigation__item">
-    <a href="https://github.com/zephyrw" title="查看我的GitHub主页" target="_blank">
-      <i class='social fa fa-github'></i>
-      <span class="label">Github</span>
-    </a>
-  </li>
-
-
-<!-- Stack Overflow -->
-        
-        <li class="navigation__item">
-            <a href="http://stackoverflow.com/" title="Stack Overflow" target="_blank">
-                <i class='social fa fa-stack-overflow'></i>
-                <span class="label">Stack Overflow</span>
-            </a>
-        </li>
-        
-
-  <!-- Google Plus -->
-  
-  <li class="navigation__item">
-    <a href="https://plus.google.com" title="Google+" target="_blank">
-      <i class='social fa fa-google-plus-square'></i>
-      <span class="label">Google+</span>
-    </a>
-  </li>
-
-
-<!-- Facebook -->
-
-  <li class="navigation__item">
-    <a href="https://www.facebook.com/" title="上Facebook找我" target="_blank">
-      <i class='social fa fa-facebook'></i>
-      <span class="label">Facebook</span>
-    </a>
-  </li>
-
-  
-<!-- Twitter -->
-
-  <li class="navigation__item">
-    <a href="https://twitter.com/" title="上Twitter找我" target="_blank">
-      <i class='social fa fa-twitter'></i>
-      <span class="label">Twitter</span>
-    </a>
-  </li>
-
-  
-
-  <li class="navigation__item">
-    <a href="/atom.xml" title="RSS" target="_blank">
-      <i class='social fa fa-rss'></i>
-      <span class="label">RSS</span>
-    </a>
-  </li>
-
-
-
-  </ul>
-</nav>
-
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="panel-cover--overlay cover-purple"></div>
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Zephyr&#39;s Capsule</a>
+    </h1>
+    <p class="site-description">Stay hungry stay foolish</p>
   </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/archives">Archives</a></li>
+      
+    </ul>
+  </nav>
 </header>
 
-    <div class="content-wrapper">
-        <div class="content-wrapper__inner">
-            <article class="post-container post-container--single">
+    <main class="site-main posts-loop">
+    <article>
 
-  <header class="post-header">
-    <div class="post-meta">
-      <time datetime="2020-08-03T13:51:35.000Z" class="post-list__meta--date date">2020-08-03</time> &#8226; <span class="post-meta__tags tags">于&nbsp;
-  <a class="tag-link" href="/tags/React/">React</a>, <a class="tag-link" href="/tags/React-Native/">React Native</a>, <a class="tag-link" href="/tags/Redux/">Redux</a>, <a class="tag-link" href="/tags/Thunk/">Thunk</a>
- </span>
-      <span class="page-pv">
-      &nbsp;阅读&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
-      </span> 
-   
-    </div>
-    <h1 class="post-title">【React Native教程】Redux入门教程</h1>
-  </header>
+  
+    
+    <h3 class="article-title"><span>【React Native教程】Redux入门教程</span></h3>
+    
+  
 
-  <section class="post">
-    <h2 id="Redux定义"><a href="#Redux定义" class="headerlink" title="Redux定义"></a>Redux定义</h2><p><strong>Redux</strong>在<a href="https://redux.js.org" target="_blank" rel="noopener">官网</a>上是这么定义的：<strong>A Predictable State Container for JS Apps</strong>，直译过来就是一个使用在JS应用上的可预测的状态容器。</p>
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2020/08/03/【React-Native教程】Redux入门/" rel="bookmark">
+        <time class="entry-date published" datetime="2020-08-03T13:51:35.000Z">
+          2020-08-03
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="Redux定义"><a href="#Redux定义" class="headerlink" title="Redux定义"></a>Redux定义</h2><p><strong>Redux</strong>在<a href="https://redux.js.org" target="_blank" rel="noopener">官网</a>上是这么定义的：<strong>A Predictable State Container for JS Apps</strong>，直译过来就是一个使用在JS应用上的可预测的状态容器。</p>
 <h2 id="Redux解决的问题"><a href="#Redux解决的问题" class="headerlink" title="Redux解决的问题"></a>Redux解决的问题</h2><p><code>React Native</code>本身是基于前端的<code>React</code>框架，它是通过<code>State</code>来管理页面显示和参数更新。如果在交互比较复杂的页面、需要多页面状态传递或者同步更新状态的情况，状态管理就会比较麻烦。使用<code>Redux</code>就可以解决这些问题。</p>
 <h2 id="Redux的核心逻辑和概念"><a href="#Redux的核心逻辑和概念" class="headerlink" title="Redux的核心逻辑和概念"></a>Redux的核心逻辑和概念</h2><p><strong>Redux</strong>的核心逻辑是集中定义和管理状态和动作执行，各个页面使用<code>connect</code>方法绑定相应的方法和状态，并通过发送动作指令更新页面显示。达到状态和操作与页面隔离的效果。</p>
 <a id="more"></a>
@@ -244,107 +140,82 @@
 <p>本文的<strong>Demo</strong>可以在<a href="https://github.com/zephyrw/redux_example" target="_blank" rel="noopener">这里</a>查看。</p>
 <p>以上就是<code>Redux</code>的入门教程，想深入了解<code>Redux</code>的使用可以参考<a href="https://redux.js.org/introduction/getting-started" target="_blank" rel="noopener">Redux官方文档</a>，想进一步了解<code>Redux Toolkit</code>可以参考<a href="https://redux-toolkit.js.org/introduction/quick-start" target="_blank" rel="noopener">Redux Tookit官方文档</a>。</p>
 
-  </section>
+      
+    </div>
 
-</article>
-<section class="read-more">
-           
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
     
-               
-            <div class="read-more-item">
-                <span class="read-more-item-dim">最近的文章</span>
-                <h2 class="post-list__post-title post-title"><a href="/2020/08/03/【React-Native】Redux自定义中间件/" title="【React Native】Redux自定义中间件">【React Native】Redux自定义中间件</a></h2>
-                <p class="excerpt">
-                
-                前言在上一篇文章中介绍了Redux在React Native中的基本使用，这篇文章介绍一下如何在Redux中自定义中间件。
-中间件功能中间件的作用主要是拦截指定的Action，进行自定义操作后继续执行该Action或指派执行其他Action。这里拦截的Action主要是指同步的Action，异步Action在Thunk中间件已经提供了相关功能。
-                &hellip;
-                </p>
-                <div class="post-list__meta"><time datetime="2020-08-03T14:32:29.000Z" class="post-list__meta--date date">2020-08-03</time> &#8226; <span class="post-list__meta--tags tags">于&nbsp;
-  <a class="tag-link" href="/tags/Middleware/">Middleware</a>, <a class="tag-link" href="/tags/React/">React</a>, <a class="tag-link" href="/tags/React-Native/">React Native</a>, <a class="tag-link" href="/tags/Redux/">Redux</a>, <a class="tag-link" href="/tags/中间件/">中间件</a>
-</span><a class="btn-border-small" href="/2020/08/03/【React-Native】Redux自定义中间件/">继续阅读</a></div>
-                           
-            </div>
-        
-        
-               
-            <div class="read-more-item">
-                <span class="read-more-item-dim">更早的文章</span>
-                <h2 class="post-list__post-title post-title"><a href="/2020/08/03/【React-Native】React-Navigation的使用/" title="【React Native】React Navigation 5.x的使用">【React Native】React Navigation 5.x的使用</a></h2>
-                <p class="excerpt">
-                
-                前言在App中，底部TabBar导航和顶部的导航栏导航是最常见的页面导航方式，而React Native官方推荐的第三方库是@react-navigation，正好今年React Navigation发布了5.0版本，与前面的版本差别还挺大，不过使用上更方便了。本文主要讲解React Navigation5.0及以上版本的使用。
-安装安装核心包
-1234# NPMnpm install @react-navigation/native# Yarnyarn add @react-navigation/native
-                &hellip;
-                </p>
-                <div class="post-list__meta"><time datetime="2020-08-03T13:29:05.000Z" class="post-list__meta--date date">2020-08-03</time> &#8226; <span class="post-list__meta--tags tags">于&nbsp;
-  <a class="tag-link" href="/tags/Navigation/">Navigation</a>, <a class="tag-link" href="/tags/React/">React</a>, <a class="tag-link" href="/tags/React-Native/">React Native</a>
-</span><a class="btn-border-small" href="/2020/08/03/【React-Native】React-Navigation的使用/">继续阅读</a></div>
-                       
-            </div>
-        
-     
-   
-   
-  
-</section>
 
-            
-<section class="post-comments">
-  <!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="http://anye3210.github.io/2020/08/03/【React-Native教程】Redux入门/" data-title="【React Native教程】Redux入门教程" data-url="http://anye3210.github.io/2020/08/03/【React-Native教程】Redux入门/"></div>
-  <!-- 多说评论框 end -->
-  <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-  <script type="text/javascript">
-  var duoshuoQuery = {short_name:"Zephyr&#39;s Capsule"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-</section>
+    
+    
 
-
-            <footer class="footer">
-	<span class="footer__copyright">
-	        <div style="width:200px;margin:0 auto; padding:0px;">
-               <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">©2019 Zephyr</p>
-            </div>
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/React-Native/">React Native</a><a href="/tags/React/">React</a><a href="/tags/Redux/">Redux</a><a href="/tags/Thunk/">Thunk</a>
     </span>
-    <span class="footer__copyright">
-        <div style="width:300px;margin:0 auto; padding:20px 0;">
-                <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=50010802002929" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="/images/beian.png" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">渝公网安备 50010802002929号</p></a>
-            </div>
-    </span>
-</footer>
-        </div>
+    
+
     </div>
 
     
+  </div>
+</article>
 
-     
+  
+	<div id="comment">
+	
+	
+	<!-- 多说评论框 start -->
+	 <div class="ds-thread" data-thread-key="/2020/08/03/【React-Native教程】Redux入门/" data-title="【React Native教程】Redux入门教程" data-url="http://anye3210.github.io/2020/08/03/【React-Native教程】Redux入门/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"Zephyr's Capsule"};
+	  (function() {
+	    var ds = document.createElement('script');
+	    ds.type = 'text/javascript';ds.async = true;
+	    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+	    ds.charset = 'UTF-8';
+	    (document.getElementsByTagName('head')[0] 
+	     || document.getElementsByTagName('body')[0]).appendChild(ds);
+	  })();
+	  </script>
+	<!-- 多说公共JS代码 end -->
+	
+	</div>
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Zephyr
+    
+  </p>
+</footer>
+    
 <script>
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-	ga('create', 'UA-87098157-1', 'auto');
-	ga('send', 'pageview');
+    ga('create', 'UA-87098157-1', 'auto');
+    ga('send', 'pageview');
+
 </script>
 
-    
-
-
-    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-    
-    </script>
-    
+  </div>
+</div>
 </body>
 </html>

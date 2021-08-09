@@ -1,193 +1,89 @@
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html>
-<head>
-    <meta charset="utf-8"/>
-    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-    
-    <title>JMM - Java 内存模型 | Zephyr&#39;s Capsule</title>
-    <meta name="renderer" content="webkit">
-    <meta name="HandheldFriendly" content="True">
-    <meta name="MobileOptimized" content="320">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<head><meta name="generator" content="Hexo 3.9.0">
+  <meta charset="utf-8">
+  
+  <title>JMM - Java 内存模型 | Zephyr&#39;s Capsule | Stay hungry stay foolish</title>
 
-    <meta name="description" content="iOS, Python, Swift, Objective-C, JavaScript">
+  
+  <meta name="author" content="Zephyr">
+  
 
-    <meta name="twitter:card" content="summary">
-    <meta name="twitter:title" content="JMM - Java 内存模型 | Zephyr&#39;s Capsule">
-    <meta name="twitter:description" content="iOS, Python, Swift, Objective-C, JavaScript">
+  
+  <meta name="description" content="不断前行">
+  
 
-    <meta property="og:type" content="article">
-    <meta property="og:title" content="JMM - Java 内存模型 | Zephyr&#39;s Capsule">
-    <meta property="og:description" content="iOS, Python, Swift, Objective-C, JavaScript">
+  
+  
+  <meta name="keywords" content="Java,内存模型,happen-before,内存可见性,重排序">
+  
 
-    
-    <meta name="author" content="Zephyr">
-    
-    <link rel="stylesheet" href="/css/vno.css">
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css">
+  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-    
-    <link rel="icon" href="/images/avatar-small.png">
-    
+  <meta property="og:title" content="JMM - Java 内存模型">
 
-    <meta name="generator" content="hexo"/>
-    
-    <link rel="alternate" type="application/rss+xml" title="Zephyr&#39;s Capsule" href="/atom.xml">
-    
+  <meta property="og:site_name" content="Zephyr&#39;s Capsule">
 
-    <link rel="canonical" href="http://anye3210.github.io/2021/07/31/JMM-Java-内存模型/"/>
+  
+  <meta property="og:image" content="/favicon.ico">
+  
 
-    
-    <link rel="author" href="https://plus.google.com"/>
-    
-      
+  <link href="/favicon.ico" rel="icon">
+  <link rel="alternate" href="/atom.xml" title="Zephyr&#39;s Capsule" type="application/atom+xml">
+  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
 </head>
 
-<body class="home-template no-js">
-    <script src="https://cdn.bootcss.com/jquery/2.1.4/jquery.min.js"></script>
-    <script src="/js/main.js"></script>
-    <span class="mobile btn-mobile-menu">
-        <i class="fa fa-list btn-mobile-menu__icon"></i>
-        <i class="fa fa-angle-up btn-mobile-close__icon hidden"></i>
-    </span>
 
-    
-<header class="panel-cover panel-cover--collapsed" style="background-image: url(/images/background-cover.jpg)">
-  <div class="panel-main">
-    <div class="panel-main__inner panel-inverted">
-    <div class="panel-main__content">
+<body>
+<div class="blog">
+  <div class="content">
 
-        <a href="/" title="前往 Zephyr&#39;s Capsule 的主页"><img src="/images/avatar.jpg" width="80" alt="Zephyr&#39;s Capsule logo" class="panel-cover__logo logo" /></a>
-        <h1 class="panel-cover__title panel-title"><a href="/" title="link to homepage for Zephyr&#39;s Capsule">Zephyr&#39;s Capsule</a></h1>
-        
-        <span class="panel-cover__subtitle panel-subtitle">Stay hungry stay foolish</span>
-        
-        <hr class="panel-cover__divider" />
-        <p class="panel-cover__description">不断前行</p>
-        <hr class="panel-cover__divider panel-cover__divider--secondary" />
-
-        <div class="navigation-wrapper">
-          <div>
-          <nav class="cover-navigation cover-navigation--primary">
-            <ul class="navigation">
-              <li class="navigation__item"><a href="/#blog" title="访问博客" class="blog-button">博客</a></li>
-            
-              <li class="navigation__item"><a href="/favourite">收藏</a></li>
-            
-              <li class="navigation__item"><a href="/favourite/time.html">时光机</a></li>
-            
-            </ul>
-          </nav>
-          </div>
-          <div>
-          <nav class="cover-navigation navigation--social">
-  <ul class="navigation">
-
-  <!-- Weibo-->
-  
-  <li class="navigation__item">
-    <a href="https://weibo.com/" title="我的微博" target="_blank">
-      <i class='social fa fa-weibo'></i>
-      <span class="label">Weibo</span>
-    </a>
-  </li> 
-
-
-  <!-- Github -->
-  
-  <li class="navigation__item">
-    <a href="https://github.com/zephyrw" title="查看我的GitHub主页" target="_blank">
-      <i class='social fa fa-github'></i>
-      <span class="label">Github</span>
-    </a>
-  </li>
-
-
-<!-- Stack Overflow -->
-        
-        <li class="navigation__item">
-            <a href="http://stackoverflow.com/" title="Stack Overflow" target="_blank">
-                <i class='social fa fa-stack-overflow'></i>
-                <span class="label">Stack Overflow</span>
-            </a>
-        </li>
-        
-
-  <!-- Google Plus -->
-  
-  <li class="navigation__item">
-    <a href="https://plus.google.com" title="Google+" target="_blank">
-      <i class='social fa fa-google-plus-square'></i>
-      <span class="label">Google+</span>
-    </a>
-  </li>
-
-
-<!-- Facebook -->
-
-  <li class="navigation__item">
-    <a href="https://www.facebook.com/" title="上Facebook找我" target="_blank">
-      <i class='social fa fa-facebook'></i>
-      <span class="label">Facebook</span>
-    </a>
-  </li>
-
-  
-<!-- Twitter -->
-
-  <li class="navigation__item">
-    <a href="https://twitter.com/" title="上Twitter找我" target="_blank">
-      <i class='social fa fa-twitter'></i>
-      <span class="label">Twitter</span>
-    </a>
-  </li>
-
-  
-
-  <li class="navigation__item">
-    <a href="/atom.xml" title="RSS" target="_blank">
-      <i class='social fa fa-rss'></i>
-      <span class="label">RSS</span>
-    </a>
-  </li>
-
-
-
-  </ul>
-</nav>
-
-          </div>
-        </div>
-
-      </div>
-
-    </div>
-
-    <div class="panel-cover--overlay cover-purple"></div>
+    <header>
+  <div class="site-branding">
+    <h1 class="site-title">
+      <a href="/">Zephyr&#39;s Capsule</a>
+    </h1>
+    <p class="site-description">Stay hungry stay foolish</p>
   </div>
+  <nav class="site-navigation">
+    <ul>
+      
+        <li><a href="/">Home</a></li>
+      
+        <li><a href="/archives">Archives</a></li>
+      
+    </ul>
+  </nav>
 </header>
 
-    <div class="content-wrapper">
-        <div class="content-wrapper__inner">
-            <article class="post-container post-container--single">
+    <main class="site-main posts-loop">
+    <article>
 
-  <header class="post-header">
-    <div class="post-meta">
-      <time datetime="2021-07-31T14:57:14.000Z" class="post-list__meta--date date">2021-07-31</time> &#8226; <span class="post-meta__tags tags">于&nbsp;
-  <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/happen-before/">happen-before</a>, <a class="tag-link" href="/tags/内存可见性/">内存可见性</a>, <a class="tag-link" href="/tags/内存模型/">内存模型</a>, <a class="tag-link" href="/tags/重排序/">重排序</a>
- </span>
-      <span class="page-pv">
-      &nbsp;阅读&nbsp;<span id="busuanzi_value_page_pv"><i class="fa fa-spinner fa-spin"></i></span>
-      </span> 
-   
-    </div>
-    <h1 class="post-title">JMM - Java 内存模型</h1>
-  </header>
+  
+    
+    <h3 class="article-title"><span>JMM - Java 内存模型</span></h3>
+    
+  
 
-  <section class="post">
-    <h2 id="JMM定义"><a href="#JMM定义" class="headerlink" title="JMM定义"></a>JMM定义</h2><p>JMM 即 Java Memory Model，也叫 Java 内存模型。JMM 就是一种规范，它定义了什么情况开发者不需要去感知计算机的各种重排序，什么情况需要开发者去干涉重排序，以保证程序的执行结果可预测。</p>
+  <div class="article-top-meta">
+    <span class="posted-on">
+      <a href="/2021/07/31/JMM-Java-内存模型/" rel="bookmark">
+        <time class="entry-date published" datetime="2021-07-31T14:57:14.000Z">
+          2021-07-31
+        </time>
+      </a>
+    </span>
+  </div>
+
+
+  
+
+  <div class="article-content">
+    <div class="entry">
+      
+        <h2 id="JMM定义"><a href="#JMM定义" class="headerlink" title="JMM定义"></a>JMM定义</h2><p>JMM 即 Java Memory Model，也叫 Java 内存模型。JMM 就是一种规范，它定义了什么情况开发者不需要去感知计算机的各种重排序，什么情况需要开发者去干涉重排序，以保证程序的执行结果可预测。</p>
 <h2 id="JMM的由来"><a href="#JMM的由来" class="headerlink" title="JMM的由来"></a>JMM的由来</h2><p>计算机这么多年来整体运行速度不断地提升，除了像CPU时钟频率、内存读写速度等硬件性能不断提升之外，还要归功于计算机科学家对于计算机对于各种指令处理效率的不断优化，包括超标量流水线技术，动态指令调度，猜测执行，多级缓存技术等。在这其中，允许重排序对于计算机运行效率的提升产生了重要的作用，但同时也带来了一些问题。计算机只能确保单线程情况下重排序对于运行结果没有影响，对于多线程就无能为力了。这个时候就需要一个规范来保证开发者既能享受重排序带来的性能的提升又能让复杂情况下的运行结果可控，JMM 就是这样一个规范。JMM 规定了 JVM 必须遵循的一组最小保证，这组保证规定了对变量的操作何时对其他线程可见。换句话说，JMM 对内存可见性作出了一些承诺，在承诺之外，开发者需要自己去处理内存可见性问题。</p>
 <a id="more"></a>
 
@@ -260,112 +156,82 @@
 <p>除了以上四个基础规则之外，happen-before 还具有传递性。传递性是指当 A happen-before 于 B，B happen-before 于 C ，那么操作 A 的结果一定对操作 C 可见。</p>
 <p>这四个基本规则再加上 happen-before 的传递性，就构成了 JMM 对开发者的整个承诺。在这个承诺之后的部分，开发者就需要小心处理内存可见性问题。</p>
 
-  </section>
+      
+    </div>
 
-</article>
-<section class="read-more">
-           
+  </div>
+
+  <div class="article-footer">
+    <div class="article-meta pull-left">
+
     
-               
-            <div class="read-more-item">
-                <span class="read-more-item-dim">最近的文章</span>
-                <h2 class="post-list__post-title post-title"><a href="/2021/08/02/详解Java类加载过程/" title="详解Java类加载过程">详解Java类加载过程</a></h2>
-                <p class="excerpt">
-                
-                概述类从被加载到虚拟机开始，到卸载出内存，整个生命周期分为七个阶段，分别是加载、验证、准备、解析、初始化、使用和卸载。其中验证、准备和解析这三个阶段统称为连接。整个过程如下图所示：
 
+    
+    
 
-加载、验证、准备、初始化和卸载这五个阶段顺序是确定的，类的加载过程这些阶段必须按这个顺序开始（注意这里强调的开始的顺序，进行和完成可能是交叉混合着的）。由于 Java 支持动态绑定，在动态绑定时解析阶段会在初始化之后执行。
-类加载时机上面讲到类的分为七个阶段，那么什么情况下会开始类的加载呢？
-思考这个问题我们可以从两个维度出发，一个是 JVM 规范维度，一个是从虚拟机运行的维度；
-                &hellip;
-                </p>
-                <div class="post-list__meta"><time datetime="2021-08-02T14:53:13.000Z" class="post-list__meta--date date">2021-08-02</time> &#8226; <span class="post-list__meta--tags tags">于&nbsp;
-  <a class="tag-link" href="/tags/Java/">Java</a>, <a class="tag-link" href="/tags/初始化/">初始化</a>, <a class="tag-link" href="/tags/符号引用/">符号引用</a>, <a class="tag-link" href="/tags/类加载/">类加载</a>
-</span><a class="btn-border-small" href="/2021/08/02/详解Java类加载过程/">继续阅读</a></div>
-                           
-            </div>
-        
-        
-               
-            <div class="read-more-item">
-                <span class="read-more-item-dim">更早的文章</span>
-                <h2 class="post-list__post-title post-title"><a href="/2020/12/15/【React-Native进阶】React-Native-Reanimated的使用/" title="【React Native进阶】React Native Reanimated的使用">【React Native进阶】React Native Reanimated的使用</a></h2>
-                <p class="excerpt">
-                
-                前言上一篇文章讲解了React Native性能优化的总体思路，并进一步讲解了React Native Gesture Handler的使用。本文讲解另外一个库React Native Reanimated，这个库旨在解决React Native在动画方面的性能问题，让我们能够创建运行在UI线程上的顺滑动画和流畅交互。
-Reanimated实现动机上一篇文章讲了React Native中业务逻辑和计算都是在JavaScript线程中，渲染是在UI线程中，两个线程是通信又是异步的，因此渲染并不是实时的，至少会有1桢的延迟，在动画方面也是同样的。
-Reanimated将JavaScript线程上的动画和事件处理逻辑转移到了UI线程。它通过定义Reanimated worklet(可以被移动到一个单独的JavaScript 虚拟机并在UI线程上同步运行的一小段JavaScript代码）来实现。这种机制让我们的触摸事件可以立即被响应并在同一桢上更新UI，不必再担心JavaScript加载和同步这些问题。
-注意：本文讲解的是当前最新的版本2.0.0-alpha.9，它与版本1有较大的差异。
-                &hellip;
-                </p>
-                <div class="post-list__meta"><time datetime="2020-12-15T15:32:58.000Z" class="post-list__meta--date date">2020-12-15</time> &#8226; <span class="post-list__meta--tags tags">于&nbsp;
-  <a class="tag-link" href="/tags/React-Native/">React Native</a>, <a class="tag-link" href="/tags/React-Native-Reanimated/">React Native Reanimated</a>, <a class="tag-link" href="/tags/Reanimated/">Reanimated</a>, <a class="tag-link" href="/tags/性能优化/">性能优化</a>, <a class="tag-link" href="/tags/进阶/">进阶</a>
-</span><a class="btn-border-small" href="/2020/12/15/【React-Native进阶】React-Native-Reanimated的使用/">继续阅读</a></div>
-                       
-            </div>
-        
-     
-   
-   
-  
-</section>
-
-            
-<section class="post-comments">
-  <!-- 多说评论框 start -->
-  <div class="ds-thread" data-thread-key="http://anye3210.github.io/2021/07/31/JMM-Java-内存模型/" data-title="JMM - Java 内存模型" data-url="http://anye3210.github.io/2021/07/31/JMM-Java-内存模型/"></div>
-  <!-- 多说评论框 end -->
-  <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-  <script type="text/javascript">
-  var duoshuoQuery = {short_name:"Zephyr&#39;s Capsule"};
-  (function() {
-    var ds = document.createElement('script');
-    ds.type = 'text/javascript';ds.async = true;
-    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-    ds.charset = 'UTF-8';
-    (document.getElementsByTagName('head')[0] 
-     || document.getElementsByTagName('body')[0]).appendChild(ds);
-  })();
-  </script>
-<!-- 多说公共JS代码 end -->
-</section>
-
-
-            <footer class="footer">
-	<span class="footer__copyright">
-	        <div style="width:200px;margin:0 auto; padding:0px;">
-               <p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">©2019 Zephyr</p>
-            </div>
+    <span class="post-tags">
+      <i class="icon-tags"></i>
+        <a href="/tags/Java/">Java</a><a href="/tags/内存模型/">内存模型</a><a href="/tags/happen-before/">happen-before</a><a href="/tags/内存可见性/">内存可见性</a><a href="/tags/重排序/">重排序</a>
     </span>
-    <span class="footer__copyright">
-        <div style="width:300px;margin:0 auto; padding:20px 0;">
-                <a target="_blank" href="http://www.beian.gov.cn/portal/registerSystemInfo?recordcode=50010802002929" style="display:inline-block;text-decoration:none;height:20px;line-height:20px;"><img src="/images/beian.png" style="float:left;"/><p style="float:left;height:20px;line-height:20px;margin: 0px 0px 0px 5px; color:#939393;">渝公网安备 50010802002929号</p></a>
-            </div>
-    </span>
-</footer>
-        </div>
+    
+
     </div>
 
     
+  </div>
+</article>
 
-     
+  
+	<div id="comment">
+	
+	
+	<!-- 多说评论框 start -->
+	 <div class="ds-thread" data-thread-key="/2021/07/31/JMM-Java-内存模型/" data-title="JMM - Java 内存模型" data-url="http://anye3210.github.io/2021/07/31/JMM-Java-内存模型/"></div>
+	<!-- 多说评论框 end -->
+	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+	<script type="text/javascript">
+	var duoshuoQuery = {short_name:"Zephyr's Capsule"};
+	  (function() {
+	    var ds = document.createElement('script');
+	    ds.type = 'text/javascript';ds.async = true;
+	    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+	    ds.charset = 'UTF-8';
+	    (document.getElementsByTagName('head')[0] 
+	     || document.getElementsByTagName('body')[0]).appendChild(ds);
+	  })();
+	  </script>
+	<!-- 多说公共JS代码 end -->
+	
+	</div>
+
+
+
+
+    </main>
+
+    <footer class="site-footer">
+  <p class="site-info">
+    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
+    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
+    </br>
+    
+    &copy; 2021 Zephyr
+    
+  </p>
+</footer>
+    
 <script>
-	(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-	(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-	m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-	})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
+            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
+    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
 
-	ga('create', 'UA-87098157-1', 'auto');
-	ga('send', 'pageview');
+    ga('create', 'UA-87098157-1', 'auto');
+    ga('send', 'pageview');
+
 </script>
 
-    
-
-
-    <script async src="https://dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js">
-    
-    </script>
-    
+  </div>
+</div>
 </body>
 </html>
