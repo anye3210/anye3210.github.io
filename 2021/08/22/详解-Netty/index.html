@@ -7,7 +7,7 @@
 <meta property="og:locale">
 <meta property="og:image" content="https://i.loli.net/2021/08/22/aP4C5w82fmFhJEz.png">
 <meta property="article:published_time" content="2021-08-22T09:26:09.000Z">
-<meta property="article:modified_time" content="2021-08-22T09:48:52.778Z">
+<meta property="article:modified_time" content="2021-08-22T10:36:28.729Z">
 <meta property="article:author" content="Zephyr">
 <meta property="article:tag" content="java">
 <meta property="article:tag" content="netty">
@@ -61,7 +61,7 @@
   isHome: false,
   isHighlightShrink: false,
   isToc: true,
-  postUpdate: '2021-08-22 17:48:52'
+  postUpdate: '2021-08-22 18:36:28'
 }</script><noscript><style type="text/css">
   #nav {
     opacity: 1
@@ -196,14 +196,14 @@
 <li><strong>get()：</strong>读取字节，不传参获取  position 位置的字节并让 position + 1，也可以通过参数读取指定位置的字节。</li>
 </ul>
 <p>下图是添加字节时各属性值的变化：</p>
-<img src="https://i.loli.net/2021/08/22/Wmd3OUF8Pu2wIxv.png" style="zoom:50%">
+<img src="https://i.loli.net/2021/08/22/qBfh5av7VyS39zW.png" style="zoom:50%">
 
 <p>ByteBuffer 虽然即支持读也支持写，但同一时间只能是其中一种模式，模式切换需要调用相应的方法。</p>
 <p>下图是调用 flip() 方法将写模式切换为读时各属性的变化：</p>
-<img src="https://i.loli.net/2021/08/22/puSvFJXtLQHOw6T.png" style="zoom:50%">
+<img src="https://i.loli.net/2021/08/22/kSnz5TJUOs6wKcg.png" style="zoom:50%">
 
 <p>下图调用 clear() 方法将读切换为写时各属性的变化：</p>
-<img src="https://i.loli.net/2021/08/22/EUAXwtHRFs3fx45.png" style="zoom:50%">
+<img src="https://i.loli.net/2021/08/22/PNyeR1pEYmJ24Bq.png" style="zoom:50%">
 
 <h4 id="Channel-通道"><a href="#Channel-通道" class="headerlink" title="Channel (通道)"></a>Channel (通道)</h4><p>通常来说 NIO 所有的操作都是由通道开始的，它跟我们平常使用的流（InputStream，OutputStream）有点类似。但也有些区别：</p>
 <ul>
