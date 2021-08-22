@@ -1,0 +1,468 @@
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>详解 Netty | Zephyr's Capsule</title><meta name="keywords" content="java,netty,网络编程,nio"><meta name="author" content="Zephyr"><meta name="copyright" content="Zephyr"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="详解 Netty什么是 Netty简单来说 Netty 就是 JBOSS 开源的一个基于 NIO 的网络编程框架。它可以帮助我们快速开发高性能高可靠性的网络 IO 程序。 Netty 在 Java 语言中使用非常广泛，涉及到网络通信的基本上都使用 Netty，很少会直接去使用原生的 NIO 组件或者是其他框架。并且像Dubbo、RocketMQ、Zookeeper、ElasticSearch 这些">
+<meta property="og:type" content="article">
+<meta property="og:title" content="详解 Netty">
+<meta property="og:url" content="http://anye3210.github.io/2021/08/22/%E8%AF%A6%E8%A7%A3-Netty/index.html">
+<meta property="og:site_name" content="Zephyr&#39;s Capsule">
+<meta property="og:description" content="详解 Netty什么是 Netty简单来说 Netty 就是 JBOSS 开源的一个基于 NIO 的网络编程框架。它可以帮助我们快速开发高性能高可靠性的网络 IO 程序。 Netty 在 Java 语言中使用非常广泛，涉及到网络通信的基本上都使用 Netty，很少会直接去使用原生的 NIO 组件或者是其他框架。并且像Dubbo、RocketMQ、Zookeeper、ElasticSearch 这些">
+<meta property="og:locale">
+<meta property="og:image" content="https://i.loli.net/2021/08/22/aP4C5w82fmFhJEz.png">
+<meta property="article:published_time" content="2021-08-22T09:26:09.000Z">
+<meta property="article:modified_time" content="2021-08-22T09:28:18.535Z">
+<meta property="article:author" content="Zephyr">
+<meta property="article:tag" content="java">
+<meta property="article:tag" content="netty">
+<meta property="article:tag" content="网络编程">
+<meta property="article:tag" content="nio">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://i.loli.net/2021/08/22/aP4C5w82fmFhJEz.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://anye3210.github.io/2021/08/22/%E8%AF%A6%E8%A7%A3-Netty/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '详解 Netty',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-08-22 17:28:18'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
+  
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
+  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
+    
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
+    
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Zephyr's Capsule" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">24</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">75</div></a></div></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://i.loli.net/2021/08/22/aP4C5w82fmFhJEz.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Zephyr's Capsule</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">详解 Netty</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">Created</span><time datetime="2021-08-22T09:26:09.000Z" title="undefined 2021-08-22 17:26:09">2021-08-22</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="详解 Netty"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="详解-Netty"><a href="#详解-Netty" class="headerlink" title="详解 Netty"></a>详解 Netty</h1><h2 id="什么是-Netty"><a href="#什么是-Netty" class="headerlink" title="什么是 Netty"></a>什么是 Netty</h2><p>简单来说 Netty 就是 JBOSS 开源的一个基于 NIO 的网络编程框架。它可以帮助我们快速开发高性能高可靠性的网络 IO 程序。</p>
+<p>Netty 在 Java 语言中使用非常广泛，涉及到网络通信的基本上都使用 Netty，很少会直接去使用原生的 NIO 组件或者是其他框架。并且像Dubbo、RocketMQ、Zookeeper、ElasticSearch 这些知名的中间件所使用的网络通讯框架都是基于 Netty 去实现的。</p>
+<p>Netty 是在原生 NIO 的基础上发展起来的框架，其中的许多理念都非常像，所以学习 Netty 前需要了解一下原生 NIO 编程。</p>
+<h2 id="原生-NIO-编程"><a href="#原生-NIO-编程" class="headerlink" title="原生 NIO 编程"></a>原生 NIO 编程</h2><p>在了解原生 NIO 编程之前需要了解一个基础概念 Socket。</p>
+<span id="more"></span>
+
+<h3 id="Socket"><a href="#Socket" class="headerlink" title="Socket"></a>Socket</h3><p>Netty  是基于 TCP 协议的，我们知道 TCP 协议三个重要的特点分别是面向连接、可靠的和字节流。要达成这三点建立连接时需要客户端与服务端达成三个信息的共享，分别是：</p>
+<ul>
+<li><strong>Socket：</strong>包含五个信息：连接使用的协议、本地主机 IP 地址和端口号、远程主机的 IP 地址和端口号</li>
+<li><strong>序列号：</strong>解决乱序问题</li>
+<li><strong>容器大小：</strong>用来做流量控制</li>
+</ul>
+<p>Socket 就是两台主机之间的逻辑连接的端点，TCP 所说的面向连接，指的就是面向客户端和服务端两个 Socket 之间的连接。</p>
+<p>这里要注意的是，服务端会涉及到两种 socket，一种叫做监听 socket ，一种叫做已完成连接 socket 。当监听 Socket 发现连接成功了之后会返回一个已完成连接 socket 文件描述符，用于后续传输数据。</p>
+<h3 id="原生-NIO-组件"><a href="#原生-NIO-组件" class="headerlink" title="原生 NIO 组件"></a>原生 NIO 组件</h3><p>Netty 底层其实用了很多 Java 原生的 NIO 的组件，Netty 自定义的组件中有些理念也来自于原生的 NIO 组件。因此学习 Netty 之前需要了解一下原生的 NIO 组件的一些知识。</p>
+<p>这里主要讲三个非常重要的组件：Channel (通道)、Buffer (缓冲区)、Selector (选择器)。</p>
+<p> 下图展示了这三个组件在 NIO 模型中发挥的作用：</p>
+<img src="https://i.loli.net/2021/08/22/9sGjUgyXezJ5av4.png" style="zoom:50%">
+
+<h4 id="Buffer-缓冲区"><a href="#Buffer-缓冲区" class="headerlink" title="Buffer (缓冲区)"></a>Buffer (缓冲区)</h4><p>Buffer 本质上就是一块可以读写数据的内存块，我们在使用的时候可以把它理解成一个数组。</p>
+<p>下图是 Buffer 各个类的继承关系：</p>
+<img src="https://i.loli.net/2021/08/22/3NTLKafyeZRFAxq.png" style="zoom:50%">
+
+<p>这里着重讲一下 ByteBuffer ，ByteBuffer 在原生 NIO 编程时使用频率是最高的。下面主要讲一下它的使用。</p>
+<blockquote>
+<p>注意 ByteBuffer 初始化时其实是 创建并返回了一个它的子类 HeapByteBuffer 对象，我们操作的也是它的子类。</p>
+</blockquote>
+<p>首先是初始化，初始化主要通过两种方式：</p>
+<ul>
+<li>**allocate(int capacity)**：创建 byte 类型的指定长度的缓冲区；</li>
+<li><strong>wrap(byte[] array)：</strong>创建 byte 类型的有内容的缓冲区。</li>
+</ul>
+<p>在学习数据操作之前，有几个 ByteBuffer 非常重要的参数和方法需要了解一下：</p>
+<ul>
+<li><strong>position</strong>：当前读取或写入的起始坐标；</li>
+<li><strong>limite：</strong>最多可以操作到哪个索引；</li>
+<li><strong>capacity：</strong>缓冲区的总长度；</li>
+<li><strong>remaining()：</strong>这个方法返回的是 limit - position 的计算值，代表还有多少空间可以操作。</li>
+</ul>
+<p>数据操作主要是两个方法：</p>
+<ul>
+<li><strong>put()：</strong>插入字节，它是一个重载方法，可以传入不同形式的字节；</li>
+<li><strong>get()：</strong>读取字节，不传参获取  position 位置的字节并让 position + 1，也可以通过参数读取指定位置的字节。</li>
+</ul>
+<p>下图是添加字节时各属性值的变化：</p>
+<img src="https://i.loli.net/2021/08/22/Wmd3OUF8Pu2wIxv.png" style="zoom:50%">
+
+<p>ByteBuffer 虽然即支持读也支持写，但同一时间只能是其中一种模式，模式切换需要调用相应的方法。</p>
+<p>下图是调用 flip() 方法将写模式切换为读时各属性的变化：</p>
+<img src="https://i.loli.net/2021/08/22/puSvFJXtLQHOw6T.png" style="zoom:50%">
+
+<p>下图调用 clear() 方法将读切换为写时各属性的变化：</p>
+<img src="https://i.loli.net/2021/08/22/EUAXwtHRFs3fx45.png" style="zoom:50%">
+
+<h4 id="Channel-通道"><a href="#Channel-通道" class="headerlink" title="Channel (通道)"></a>Channel (通道)</h4><p>通常来说 NIO 所有的操作都是由通道开始的，它跟我们平常使用的流（InputStream，OutputStream）有点类似。但也有些区别：</p>
+<ul>
+<li>通道可以读也可以写，流是单向的，所以需要输入流输出流；</li>
+<li>通道可以异步读写</li>
+<li>通道总是基于缓冲区来读写（将数据从通道读取到 buffer 或者将数据以 buffer 的形式写入到通道）</li>
+</ul>
+<p>下图是 Channel 的继承关系：</p>
+<img src="https://i.loli.net/2021/08/22/hX9ZpyTK8v7Oinx.png" style="zoom:50%">
+
+<p>常用的 Channel 主要有四种：</p>
+<ul>
+<li><strong>FileChannel：</strong>用于文件数据的读写；</li>
+<li><strong>DatagramChannel：</strong>用于 UDP 数据的读写；</li>
+<li><strong>ServerSocketChannel 和 SocketChannel：</strong>用于 TCP 数据的读写，前者代表服务端的通道，后者代表客户端。</li>
+</ul>
+<p>使用 ServerSocketChannel 和 SocketChannel 进行 NIO 编程与直接使用 ServerSocket 和 Socket 类似，这里就不赘述了。</p>
+<h4 id="Selector-选择器"><a href="#Selector-选择器" class="headerlink" title="Selector (选择器)"></a>Selector (选择器)</h4><p>Selector 是多路复用器的一种，虽然它的性能不是最好的，但它几乎在所有平台上都支持，具有良好的跨平台性。</p>
+<p>Selector 是实现一个线程处理多个客户端请求的核心组件， Channel 注册到 Selector 上之后，如果有就绪事件产生，Selector 就会去获取事件然后针对事件进行相应的处理。</p>
+<p>Selector 常用方法如下：</p>
+<ul>
+<li><strong>open() ：</strong>静态方法，获取一个选择器对象；</li>
+<li><strong>select()：</strong>调用后阻塞线程，阻塞期间会监控所有注册的通道，当有就绪事件需要操作时，会将 SelectionKey 放入集合并返回事件数量；</li>
+<li><strong>select(1000)：</strong>只阻塞 1000 毫秒，阻塞期间与上面的方法相同；</li>
+<li><strong>selectedKeys()：</strong>返回集合中保存的全部 SelectionKey 。</li>
+</ul>
+<p>这些方法多次提到了 SelectionKey ，那么 SelectionKey 是什么呢？</p>
+<p>SelectionKey 就是用来描述各种就绪事件的类，通过它能获取到当前的就绪事件类型。</p>
+<p>SelectionKey 通过 4 个常量来定义 4 种不同的就绪事件：</p>
+<ul>
+<li><strong>OP_READ：</strong>值为 1 &lt;&lt; 0，读就绪事件，表示通道中有可读数据，可以执行读操作；</li>
+<li><strong>OP_WRITE：</strong>值为 1 &lt;&lt; 2，写就绪事件，表示可以向通道写数据了；</li>
+<li><strong>OP_CONNECT：</strong>值为 1 &lt;&lt; 3，连接就绪事件，代表客户端与服务器连接已经建立成功了；</li>
+<li><strong>OP_ACCEPT：</strong> = 1 &lt;&lt; 4，接收连接就绪事件，表示服务器监听到了客户端连接。</li>
+</ul>
+<p>SelectionKey 通过以下 4 个静态方法判断当前是否是对应的就绪事件：</p>
+<ul>
+<li>isReadable()：是否是读就绪事件；</li>
+<li>isWritable()：是否是写就绪事件；</li>
+<li>isConnectable()：是否是连接就绪事件；</li>
+<li>isAcceptable()：是否是接收连接就绪事件。</li>
+</ul>
+<h3 id="原生-NIO-组件编程示例"><a href="#原生-NIO-组件编程示例" class="headerlink" title="原生 NIO 组件编程示例"></a>原生 NIO 组件编程示例</h3><p>下面是使用 Selector 、Channel 和 ByteBuffer 进行 NIO 编程的示例。</p>
+<p>服务器端代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zephyr.selector;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.net.InetSocketAddress;</span><br><span class="line"><span class="keyword">import</span> java.nio.ByteBuffer;</span><br><span class="line"><span class="keyword">import</span> java.nio.channels.SelectionKey;</span><br><span class="line"><span class="keyword">import</span> java.nio.channels.Selector;</span><br><span class="line"><span class="keyword">import</span> java.nio.channels.ServerSocketChannel;</span><br><span class="line"><span class="keyword">import</span> java.nio.channels.SocketChannel;</span><br><span class="line"><span class="keyword">import</span> java.nio.charset.StandardCharsets;</span><br><span class="line"><span class="keyword">import</span> java.util.Iterator;</span><br><span class="line"><span class="keyword">import</span> java.util.Set;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 服务端-选择器 </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NIOSelectorServer</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="comment">//打开一个服务端通道</span></span><br><span class="line">        ServerSocketChannel serverSocketChannel = ServerSocketChannel.open();</span><br><span class="line">        <span class="comment">//绑定对应的端口号</span></span><br><span class="line">        serverSocketChannel.bind(<span class="keyword">new</span> InetSocketAddress(<span class="number">9999</span>));</span><br><span class="line">        <span class="comment">//通道默认是阻塞的，需要设置为非阻塞</span></span><br><span class="line">        serverSocketChannel.configureBlocking(<span class="keyword">false</span>);</span><br><span class="line">        <span class="comment">//创建选择器</span></span><br><span class="line">        Selector selector = Selector.open();</span><br><span class="line">        <span class="comment">//将服务端通道注册到选择器上,并指定注册监听的事件为OP_ACCEPT</span></span><br><span class="line">        serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);</span><br><span class="line">        System.out.println(<span class="string">&quot;服务端启动成功...&quot;</span>);</span><br><span class="line">        <span class="keyword">while</span> (<span class="keyword">true</span>) &#123;</span><br><span class="line">            <span class="comment">//检查选择器是否有事件</span></span><br><span class="line">            <span class="keyword">int</span> select = selector.select(<span class="number">2000</span>);</span><br><span class="line">            <span class="keyword">if</span> (select == <span class="number">0</span>) &#123;</span><br><span class="line">                <span class="keyword">continue</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="comment">//获取事件集合</span></span><br><span class="line">            Set&lt;SelectionKey&gt; selectionKeys = selector.selectedKeys();</span><br><span class="line">            Iterator&lt;SelectionKey&gt; iterator = selectionKeys.iterator();</span><br><span class="line">            <span class="keyword">while</span> (iterator.hasNext()) &#123;</span><br><span class="line">                <span class="comment">//判断事件是否是客户端连接事件 SelectionKey.isAcceptable()</span></span><br><span class="line">                SelectionKey key = iterator.next();</span><br><span class="line">                <span class="comment">//得到客户端通道,并将通道注册到选择器上, 并指定监听事件为OP_READ</span></span><br><span class="line">                <span class="keyword">if</span> (key.isAcceptable()) &#123;</span><br><span class="line">                    SocketChannel socketChannel = serverSocketChannel.accept();</span><br><span class="line">                    System.out.println(<span class="string">&quot;客户端已连接......&quot;</span> + socketChannel);</span><br><span class="line">                    <span class="comment">//必须设置通道为非阻塞, 因为selector需要轮询监听每个通道的事件</span></span><br><span class="line">                    socketChannel.configureBlocking(<span class="keyword">false</span>);</span><br><span class="line">                    <span class="comment">//并指定监听事件为OP_READ</span></span><br><span class="line">                    socketChannel.register(selector, SelectionKey.OP_READ);</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//判断是否是客户端读就绪事件SelectionKey.isReadable()</span></span><br><span class="line">                <span class="keyword">if</span> (key.isReadable()) &#123;</span><br><span class="line">                    <span class="comment">//得到客户端通道,读取数据到缓冲区</span></span><br><span class="line">                    SocketChannel socketChannel = (SocketChannel) key.channel();</span><br><span class="line">                    ByteBuffer byteBuffer = ByteBuffer.allocate(<span class="number">1024</span>);</span><br><span class="line">                    <span class="keyword">int</span> read = socketChannel.read(byteBuffer);</span><br><span class="line">                    <span class="keyword">if</span> (read &gt; <span class="number">0</span>) &#123;</span><br><span class="line">                        System.out.println(<span class="string">&quot;客户端消息:&quot;</span> +</span><br><span class="line">                                <span class="keyword">new</span> String(byteBuffer.array(), <span class="number">0</span>, read,</span><br><span class="line">                                        StandardCharsets.UTF_8));</span><br><span class="line">                        <span class="comment">//给客户端回写数据</span></span><br><span class="line">                        socketChannel.write(ByteBuffer.wrap(<span class="string">&quot;yo yo yo, hi man&quot;</span>.getBytes(StandardCharsets.UTF_8)));</span><br><span class="line">                        socketChannel.close();</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;</span><br><span class="line">                <span class="comment">//从集合中删除对应的事件, 因为防止二次处理.</span></span><br><span class="line">                iterator.remove();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>客户端代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">package</span> com.zephyr.selector;</span><br><span class="line"></span><br><span class="line"><span class="keyword">import</span> java.io.IOException;</span><br><span class="line"><span class="keyword">import</span> java.net.InetSocketAddress;</span><br><span class="line"><span class="keyword">import</span> java.nio.ByteBuffer;</span><br><span class="line"><span class="keyword">import</span> java.nio.channels.SocketChannel;</span><br><span class="line"><span class="keyword">import</span> java.nio.charset.StandardCharsets;</span><br><span class="line"></span><br><span class="line"><span class="comment">/**</span></span><br><span class="line"><span class="comment"> * 客户端 </span></span><br><span class="line"><span class="comment"> */</span></span><br><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NIOClient</span> </span>&#123;</span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> IOException </span>&#123;</span><br><span class="line">        <span class="comment">//打开通道</span></span><br><span class="line">        SocketChannel socketChannel = SocketChannel.open();</span><br><span class="line">        <span class="comment">//设置连接IP和端口号</span></span><br><span class="line">        socketChannel.connect(<span class="keyword">new</span> InetSocketAddress(<span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">9999</span>));</span><br><span class="line">        <span class="comment">//写出数据</span></span><br><span class="line">        socketChannel.write(ByteBuffer.wrap(<span class="string">&quot;What&#x27;s up.&quot;</span>.getBytes(StandardCharsets.UTF_8)));</span><br><span class="line">        <span class="comment">//读取服务器写回的数据</span></span><br><span class="line">        ByteBuffer readBuffer = ByteBuffer.allocate(<span class="number">1024</span>);</span><br><span class="line">        <span class="keyword">int</span> read=socketChannel.read(readBuffer);</span><br><span class="line">        System.out.println(<span class="string">&quot;服务端消息:&quot;</span> + <span class="keyword">new</span> String(readBuffer.array(), <span class="number">0</span>, read, StandardCharsets.UTF_8));</span><br><span class="line">        <span class="comment">//释放资源</span></span><br><span class="line">        socketChannel.close(); &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="为什么需要-Netty"><a href="#为什么需要-Netty" class="headerlink" title="为什么需要 Netty"></a>为什么需要 Netty</h2><p>上面讲了原生 NIO 相关的知识，那么问题就来了，既然原生就有完备的 NIO 编程的各个组件，为什么还需要 Netty 呢。</p>
+<p>主要原因还是因为原生 NIO 存在一些弊端：</p>
+<ul>
+<li><strong>NIO 的类库和 API 繁杂：</strong>开发者需要熟练掌握 Selector、ServerSocketChannel、SocketChannel、ByteBuffer 等原生组件；</li>
+<li><strong>有一定的门槛：</strong>必须对多线程和网络编程非常熟悉，才能编写出高质量的 NIO 程序；</li>
+<li><strong>开发工作量和难度都非常大：</strong>例如客户端面临断连重连、网络闪断、半包读写、失败缓存、网络拥塞和异常流的处理等等；</li>
+<li><strong>JDK NIO 的 Bug：</strong>臭名昭著的 Epoll Bug，它会导致 Selector 空轮询，最终导致 CPU 100%。</li>
+</ul>
+<p>而 Netty 这个框架就很好地解决了这些问题，前三个比较好理解，简单讲一下第 4 个问题是怎么被解决的。</p>
+<p>第 4 个问题讲到了 Selector 空轮询的 Bug，那么，什么是空轮询呢？</p>
+<p>空轮询是指本来 Selector 调用 select() 方法如果没有就绪事件在设置的时间到之前是阻塞的，但由于 Linux 底层实现有问题，导致在没有就绪事件时也有概率直接返回，而 select() 方法一般都是放在 while (true) 循环里的，这时就会开始不断地空轮询，直到 CPU 使用率飙到 100% 。</p>
+<p>Netty 解决这个问题主要分别两步：</p>
+<ul>
+<li><strong>检测空轮询：</strong>判断阻塞时间小于 timeoutMillis (初始化的超时参数)，且 select 执行次数大于阈值；</li>
+<li><strong>重建 Selector ：</strong>新创建一个 Selector 并把旧 Selector 的 Channel 注册到这个 Selector 上，然后关闭这个 Selector；</li>
+</ul>
+<h2 id="Netty-线程模型"><a href="#Netty-线程模型" class="headerlink" title="Netty 线程模型"></a>Netty 线程模型</h2><p>接着我们学习一下 Netty 的线程模型，了解了 Netty 的线程模型之后我们对 Netty 的整体架构也就有了一个大致的了解。</p>
+<p>由于 Netty 的线程模型是基于 Reactor 模型改进而来的，因此先讲讲 Reactor 模型，有助于我们对 Netty 线程模型的理解 。</p>
+<h3 id="Reactor-模型"><a href="#Reactor-模型" class="headerlink" title="Reactor 模型"></a>Reactor 模型</h3><p>Reactor 模型是指当服务器接收到多个请求时，服务器程序会把它们分派到不同的方法或线程去处理。Reactor 模式也被称作 Dispatcher 模式。它的核心是多路复用器，多路复用器收到事件后会进行分发，这点是网络服务器高并发的关键。</p>
+<p>Reactor 模型分为三种：单 Reactor 单线程、单 Reactor 多线程和多 Reactor 多线程。</p>
+<p>这三种模型按顺序来看理解起来复杂度不断提升，也会更接近 Netty 的线程模型，下面来分别看看这三种模型。</p>
+<h4 id="单-Reactor-单线程"><a href="#单-Reactor-单线程" class="headerlink" title="单 Reactor 单线程"></a>单 Reactor 单线程</h4><p>这个最好理解，只有一个线程，只是会把建立连接和处理请求这两种任务分发给不同的类去处理，如下图所示：</p>
+<img src="https://i.loli.net/2021/08/22/5ze6rEIHLyKbjOf.png" style="zoom:50%">
+
+<p>整个流程简单来讲就是 Reactor 通过 Selector 监听事件，收到事件使用 dispatch 对事件进行分发，如果是连接事件就由 Acceptor 进行处理，处理完成会创建一个 Handler 对后续业务进行处理。后面的数据请求都会由 Handler 进行处理。</p>
+<p>优点：</p>
+<ul>
+<li>模型简单，不会有多线程的那些问题</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>性能问题：单线程无法发挥多核 CPU 的性能</li>
+<li>可靠性问题：处理业务时往往容易出问题，当 Handler 出问题了，由于只有一个线程，整个节点也挂了</li>
+</ul>
+<h4 id="单-Reactor-多线程"><a href="#单-Reactor-多线程" class="headerlink" title="单 Reactor 多线程"></a>单 Reactor 多线程</h4><p>这个线程模型针对前面的问题作出了一定的优化，多出了处理业务的线程池，如下图所示：</p>
+<img src="https://i.loli.net/2021/08/22/EdjKkUA3FiYMW2h.png" style="zoom:50%">
+
+<p>前面的流程与单 Reactor 单线程是一致的，到 Handler 这一步就不一样了。这个模型 Handler 只负责读取数据和发送数据部分，业务处理交给了 Worker 线程，而 Worker 线程是由 Worker 线程池统一管理的。</p>
+<p>优点：</p>
+<ul>
+<li>可以充分利用多核 CPU 的处理能力</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>多线程资源共享和访问处理会比较复杂，在主线程处理所有的连接、监听和响应也会出现性能瓶颈</li>
+</ul>
+<h4 id="主从-Reactor-多线程"><a href="#主从-Reactor-多线程" class="headerlink" title="主从 Reactor 多线程"></a>主从 Reactor 多线程</h4><p> 主从 Reactor 多线程模型又在前面的模型基础上做了进一步优化，增加了子 Reactor ，如下图所示：</p>
+<img src="https://i.loli.net/2021/08/22/grdMeEPsibBuDFL.png" style="zoom:50%">
+
+<p>整个流程大概可以分为以下几步：</p>
+<ul>
+<li>主线程的 MainReactor 负责监听连接请求，收到连接请求会由 Acceptor 进行处理，成功建立连接之后 MainReactor 会把连接分派给 SubReactor ，由 SubReactor 监听和处理数据请求；</li>
+<li>SubReactor 监听到数据请求，会派发给 Handler 处理，Handler 只会处理读取数据和发送数据部分，中间业务处理部分也是放在线程池中完成。</li>
+</ul>
+<p>优点：</p>
+<ul>
+<li>MainReactor 与 SubReactor 职责分明，一个处理连接事件，一个处理数据请求；</li>
+<li>MainReactor 与 SubReactor 交互逻辑比较简单，MainReactor 单向地将建立好的连接传递出去；</li>
+<li>多 Reactor 设计能在高并发场景拥有更好的性能。</li>
+</ul>
+<p>缺点：</p>
+<ul>
+<li>编程复杂度较高</li>
+</ul>
+<p>主从 Reactor 多线程模式是业界非常成熟的服务器程序设计模式，在很多中间件中都使用到了这种模式，像 Nginx、Memcached、Netty 等。这种模式也被称为 1 + M + N  模式，分别代指相对少的连接线程（不一定为 1 ），多个 I/O 线程和多个业务处理线程。</p>
+<h3 id="Netty-线程模型-1"><a href="#Netty-线程模型-1" class="headerlink" title="Netty 线程模型"></a>Netty 线程模型</h3><p>Netty 线程模型是基于主从 Reactor 多线程模型优化而来的，整体架构如下图所示：</p>
+<img src="https://i.loli.net/2021/08/22/aP4C5w82fmFhJEz.png" style="zoom:50%">
+
+<p>Netty 的线程模型主要分为两部分，分别是 BossGroup 和 WorkerGroup，它们都分别管理一个或多个 NioEventLoop。每个 NioEventLoop 对应着一个线程，一个 Selector，一个 Executor 和一个 TaskQueue。</p>
+<p>NioEventLoop 可以理解成一个事件循环，当程序启动后每个 NioEventLoop 都会通过 Executor 启动一个线程，开始执行事件循环，在循环中 Selector 会通过 select 方法阻塞并监听就绪事件，当有事件到来时通过 processSeelectedKeys 方法处理 Selector  事件，之后再通过 runAllTasks 方法处理其他的任务。</p>
+<p>与前面介绍的 主从 Reactor 多线程模型类似，BossGoup 负责连接事件，当建立连接之后会生成一个 NioSocketChannel 并注册到 WorkGroup 其中一个 NioEventLoop 的 Selector 上。WokerGroup 中的 NioEventLoop 负责处理数据请求，当请求到来时会调用 processSelectedKeys 方法，其中的业务处理会依次经过 Pipeline 中的多个 Handler。</p>
+<h2 id="Netty-编程"><a href="#Netty-编程" class="headerlink" title="Netty 编程"></a>Netty 编程</h2><p>学习完 Netty 线程模型，我们来看一下使用 Netty 写出来的程序大概是什么样的。</p>
+<h3 id="服务端代码"><a href="#服务端代码" class="headerlink" title="服务端代码"></a>服务端代码</h3><p>Nettry 服务器：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NettyServer</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">      	<span class="comment">// 创建 BossGroup</span></span><br><span class="line">        EventLoopGroup bossGroup = <span class="keyword">new</span> NioEventLoopGroup(<span class="number">1</span>);</span><br><span class="line">        <span class="comment">// 创建 WorkerGroup</span></span><br><span class="line">        EventLoopGroup workerGroup = <span class="keyword">new</span> NioEventLoopGroup();</span><br><span class="line">        <span class="comment">// 创建服务器启动类</span></span><br><span class="line">        ServerBootstrap bootstrap = <span class="keyword">new</span> ServerBootstrap();</span><br><span class="line">        <span class="comment">// 添加配置</span></span><br><span class="line">        bootstrap.group(bossGroup, workerGroup) <span class="comment">// 设置 BossGroup 和 ChildGroup</span></span><br><span class="line">                .channel(NioServerSocketChannel.class) <span class="comment">// 设置 Channel 具体类</span></span><br><span class="line">                .option(ChannelOption.SO_BACKLOG, <span class="number">128</span>) <span class="comment">// 设置连接队列</span></span><br><span class="line">                .childOption(ChannelOption.SO_KEEPALIVE, Boolean.TRUE) <span class="comment">// 设置开启保活机制</span></span><br><span class="line">                .childHandler(<span class="keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel socketChannel)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                      	<span class="comment">// 把自定义 Handler 添加到 pipeline</span></span><br><span class="line">                        socketChannel.pipeline().addLast(<span class="keyword">new</span> NettyServerHandler()); </span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">        <span class="comment">// 绑定端口号</span></span><br><span class="line">        ChannelFuture channelFuture = bootstrap.bind(<span class="keyword">new</span> InetSocketAddress(<span class="number">9999</span>)).sync();</span><br><span class="line">        System.out.println(<span class="string">&quot;服务器启动成功！&quot;</span>);</span><br><span class="line">        <span class="comment">// 阻塞直到通道关闭</span></span><br><span class="line">        channelFuture.channel().closeFuture().sync();</span><br><span class="line">        <span class="comment">// 优雅地关闭 BossGroup</span></span><br><span class="line">        bossGroup.shutdownGracefully();</span><br><span class="line">        <span class="comment">// 优雅地关闭 WorkerGroup</span></span><br><span class="line">        workerGroup.shutdownGracefully();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>自定义服务器端 ChannelHandler 代码，只列出了主要几个方法的实现：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NettyServerHandler</span> <span class="keyword">implements</span> <span class="title">ChannelInboundHandler</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelRead</span><span class="params">(ChannelHandlerContext channelHandlerContext, Object o)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        ByteBuf byteBuf = (ByteBuf) o;</span><br><span class="line">        System.out.println(byteBuf.toString(CharsetUtil.UTF_8));</span><br><span class="line">        Channel channel = channelHandlerContext.pipeline().channel();</span><br><span class="line">        System.out.println(channel);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelReadComplete</span><span class="params">(ChannelHandlerContext channelHandlerContext)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        channelHandlerContext.writeAndFlush(Unpooled.copiedBuffer(<span class="string">&quot;这是服务器的响应信息...&quot;</span>.getBytes(CharsetUtil.UTF_8)));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelRegistered</span><span class="params">(ChannelHandlerContext channelHandlerContext)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;通道注册&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    ...</span><br><span class="line">      </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="客户端代码"><a href="#客户端代码" class="headerlink" title="客户端代码"></a>客户端代码</h3><p>Netty 客户端：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NettyClient</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">static</span> <span class="keyword">void</span> <span class="title">main</span><span class="params">(String[] args)</span> <span class="keyword">throws</span> InterruptedException </span>&#123;</span><br><span class="line">        <span class="comment">// 创建 EventLoopGroup</span></span><br><span class="line">        EventLoopGroup eventLoopGroup = <span class="keyword">new</span> NioEventLoopGroup(<span class="number">1</span>);</span><br><span class="line">        <span class="comment">// 创建启动类</span></span><br><span class="line">        Bootstrap bootstrap = <span class="keyword">new</span> Bootstrap();</span><br><span class="line">        <span class="comment">// 设置参数</span></span><br><span class="line">        bootstrap.group(eventLoopGroup)</span><br><span class="line">                .channel(NioSocketChannel.class) <span class="comment">// 设置 Channel 的类</span></span><br><span class="line">                .handler(<span class="keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123;</span><br><span class="line">                    <span class="meta">@Override</span></span><br><span class="line">                    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel socketChannel)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">                        <span class="comment">// 添加自定义 Handler</span></span><br><span class="line">                        socketChannel.pipeline().addLast(<span class="keyword">new</span> NettyClientHandler());</span><br><span class="line">                    &#125;</span><br><span class="line">                &#125;);</span><br><span class="line">        <span class="comment">// 连接服务器</span></span><br><span class="line">        ChannelFuture channelFuture = bootstrap.connect(<span class="keyword">new</span> InetSocketAddress(<span class="string">&quot;127.0.0.1&quot;</span>, <span class="number">9999</span>)).sync();</span><br><span class="line">        System.out.println(<span class="string">&quot;客户端启动成功！&quot;</span>);</span><br><span class="line">        <span class="comment">// 阻塞直到通道判断</span></span><br><span class="line">        channelFuture.channel().closeFuture().sync();</span><br><span class="line">        <span class="comment">// 优雅地关闭 EventLoopGroup</span></span><br><span class="line">        eventLoopGroup.shutdownGracefully();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>自定义客户端 ChannelHandler 代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NettyClientHandler</span> <span class="keyword">implements</span> <span class="title">ChannelInboundHandler</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelActive</span><span class="params">(ChannelHandlerContext channelHandlerContext)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        channelHandlerContext.writeAndFlush(Unpooled.copiedBuffer(<span class="string">&quot;这是客户端发来的消息&quot;</span>, CharsetUtil.UTF_8));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelRead</span><span class="params">(ChannelHandlerContext channelHandlerContext, Object o)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        ByteBuf byteBuf = (ByteBuf) o;</span><br><span class="line">        System.out.println(byteBuf.toString(CharsetUtil.UTF_8));</span><br><span class="line">    &#125;</span><br><span class="line">  </span><br><span class="line">  	<span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelRegistered</span><span class="params">(ChannelHandlerContext channelHandlerContext)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">				System.out.println(<span class="string">&quot;通道注册&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  	...  </span><br><span class="line">  </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果对原生 NIO 编程比较熟悉理解上面的代码应该比较容易，同时也能看出使用 Netty 框架编程的难度是远远小于原生 NIO 的。</p>
+<p>下面我们就详细了解一下上面代码涉及的这些 Netty 组件。</p>
+<h2 id="Netty-的核心组件"><a href="#Netty-的核心组件" class="headerlink" title="Netty 的核心组件"></a>Netty 的核心组件</h2><h3 id="ChannelHandler"><a href="#ChannelHandler" class="headerlink" title="ChannelHandler"></a>ChannelHandler</h3><p>ChannelHandler 是一个接口，继承于它的两个接口 ChannelInboundHandler 和 ChannelOutboundHandler 定义了很多事件处理方法，我们可以通过实现这些方法或者重写子类的方法的来实现相应的业务逻辑。</p>
+<p>ChannelHandler 的继承关系如图所示：</p>
+<img src="https://i.loli.net/2021/08/22/hYUlJ2BbQ6Gp9PX.png" style="zoom:50%">
+
+<p>如果通过实现上述接口来开发，需要实现的方法中常用的有以下几个：</p>
+<ul>
+<li><code>public void channelActive(ChannelHandlerContext ctx)</code>  通道就绪事件；</li>
+<li><code>public void channelRead(ChannelHandlerContext ctx, Object msg)</code> 通道读取数据事件；</li>
+<li><code>public void channelReadComplete(ChannelHandlerContext ctx) </code> 数据读取完毕事件；</li>
+<li><code>public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause)</code> 通道发生异常事件。</li>
+</ul>
+<p>但一般开发中自定义 Handler 会直接继承 <strong>SimpleChannelInboundHandler</strong> ，我们自己必须要实现的就只有 </p>
+<p><code>protected void channelRead0(ChannelHandlerContext channelHandlerContext, String s)</code> 这个方法，这种开发方式在继承的时候传入泛型指定出入站消息类型，配合编解码器使用会非常的方便。代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">NettyChatRoomServerHandler</span> <span class="keyword">extends</span> <span class="title">SimpleChannelInboundHandler</span>&lt;<span class="title">String</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">public</span> <span class="keyword">void</span> <span class="title">channelActive</span><span class="params">(ChannelHandlerContext ctx)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        System.out.println(<span class="string">&quot;Channel active&quot;</span>);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">channelRead0</span><span class="params">(ChannelHandlerContext channelHandlerContext, String msg)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        System.out.println(msg);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="ChannelHandlerContext"><a href="#ChannelHandlerContext" class="headerlink" title="ChannelHandlerContext"></a>ChannelHandlerContext</h3><p>ChannelHandlerContext 是 ChannelHandler 的上下文，它的核心就是 ChannelHandler ，它同时也保存了 Channel、Pipeline、Executor (NioEventLoop) 等信息。</p>
+<p>它的继承关系如下图所示：</p>
+<img src="https://i.loli.net/2021/08/22/eoS2B1HpzixqZms.png" sytle="zoom:50%">
+
+<p>Netty 中的 Context 分为三种： HeadContext 、TailContext 和 DefaultChannelHandlerContext 。</p>
+<p>HeadContext 和 TailContext 比较特殊，它既是 ChannelHandlerContext 也是 ChannelHandler (实现了 Handler 的接口)。</p>
+<p>我们通过 ChannelPipeline 的 addLast()  方法添加的 Handler 都会封装成 DefaultChannelHandlerContext 。</p>
+<h3 id="ChannelPipeline"><a href="#ChannelPipeline" class="headerlink" title="ChannelPipeline"></a>ChannelPipeline</h3><p>ChannelPipeline 是一个接口，我们平常编程用到的一般是它的实现类 DefaultChannelPipeline 。</p>
+<img src="https://i.loli.net/2021/08/22/qiEPlfDxIBjSh7H.png" style="zoom:50%">
+
+<h4 id="Pipeline-队列"><a href="#Pipeline-队列" class="headerlink" title="Pipeline 队列"></a>Pipeline 队列</h4><p>DefaultChannelPipline 其实就是一个管道，它维护了一个 ChannelHandlerContext 的双链表队列。</p>
+<p>在 Pipeline 初始化时会创建头节点和尾节点，它们的类型分别是 HeadContext 和 TailContext，所以整个链表至少有两个节点。</p>
+<p>中间的节点类型都是 DefaultChannelHandlerContext 。</p>
+<p>链表如图所示：</p>
+<img src="https://i.loli.net/2021/08/22/lBiekSwTsbvqJNG.png" style="zoom:50%">
+
+<h4 id="ChannelHandler-的传递性"><a href="#ChannelHandler-的传递性" class="headerlink" title="ChannelHandler 的传递性"></a>ChannelHandler 的传递性</h4><p>前面说过 Handler  分为 InboundHander 和 OutboundHandler ，消息入站时只会访问 InboundHander ，消息出站时只会访问 OutboundHander 。如果既是 InboundHandler 又是 OutboundHandler 出站入站都会访问。</p>
+<p>而 InboundHandler 与 OutboundHandler 都具有传递性，不过传递方法有些区别：</p>
+<ul>
+<li> InboundHander 是向后传递，需要调用 ChannelHandlerContext 的 fireChannel…() ，比如如果是传递 ChannelRead() 方法就要调用 fireChannelRead() ，那么下一个节点的 ChannelRead() 方法就会被调用；</li>
+<li> OutboundHandler 是向前传递，需要调用 ChannelHanderContext 的同名方法，比如如果是传递 write() 方法调用的也是 write() ，这里下一个节点的 write() 方法就会被调用。</li>
+</ul>
+<p>正常我们在开发中对数据的读写使用一个节点就够了，不需要使用这种传递性，这种传递性一般用在编解码器上。</p>
+<p>无论是我们写子类自定义的编解码器还是使用 Netty 提供的编解码器，它们内部都会自动调用这些传递方法，开发者对这些是无感知的。</p>
+<p>我们了解这些传递性的最大意义在于确定在添加 Handler 到 pipeline 中时（Handle 会被封装成 DefaultChannelHandlerContext 然后添加到队列中去）的顺序：</p>
+<ul>
+<li>先添加编解码器，并且解码器在前，编码器在后；</li>
+<li>先添加 OutboundHandler ，后添加 InboundHandler。</li>
+</ul>
+<h4 id="Pipeline-消息入站"><a href="#Pipeline-消息入站" class="headerlink" title="Pipeline 消息入站"></a>Pipeline 消息入站</h4><p>消息入站首先是 Selector 监听到读就绪事件，接着判断就绪事件如果是读事件就调用通道的 read() 方法，通道会把消息读到 ByteBuf 里，然后把 ByteBuf 传递给 Pipeline 自已去处理。</p>
+<p>Pipeline 会直接把 ByteBuf 交给 HeadContext 去处理，而 HeadContext  没有具体的处理逻辑，会直接传递给下一个节点去处理。</p>
+<p>下图就是 Pipeline 节点的处理顺序：</p>
+<img src="https://i.loli.net/2021/08/22/9Inv2tYPLGW3mkr.png" style="zoom:50%">
+
+<h4 id="Pipeline-消息出站"><a href="#Pipeline-消息出站" class="headerlink" title="Pipeline 消息出站"></a>Pipeline 消息出站</h4><p>消息出站与入站最大的不同是发起方。入站的消息是通过 Selector 监听到的。而出站是程序主动发起的。</p>
+<p>对外写消息有三种方式：</p>
+<ul>
+<li>调用 channel 的 writeAndFlush()，它内部会直接调用 pipeline.writeAndFlush(msg)，最终会从队列尾部开始调用；</li>
+<li>调用 pipeline 的 writeAndFlush()，它内部会直接调用 tail.writeAndFlush(msg)，最终也是从队列尾部开始调用；</li>
+<li>调用 channelHandlerContext 的 writeAndFlush()，它内部会以当前节点为起点找到下一个 OutboundHandler 让它去处理，最终就是从这个节点的下一个 OutboundHander 开始处理。</li>
+</ul>
+<p>下图展示了各个节点处理顺序：</p>
+<img src="https://i.loli.net/2021/08/22/oiJubvXxjAkFdQ1.png" style="zoom:50%">
+
+<h3 id="NioEventLoop"><a href="#NioEventLoop" class="headerlink" title="NioEventLoop"></a>NioEventLoop</h3><p>NioEventLoop 就是一个事件循环类，几乎所有事件处理都会经过这个类，它的继承关系如下：</p>
+<img src="https://i.loli.net/2021/08/22/Y1wofKhseubE7c4.png" style="zoom:50%">
+
+<h3 id="NioEventLoopGroup"><a href="#NioEventLoopGroup" class="headerlink" title="NioEventLoopGroup"></a>NioEventLoopGroup</h3><p>NioEventLoopGroup 就是 NioEventLoop 组，负责管理 NioEventLoop，当有 Channel 需要注册的时候，NioEventLoopGroup 会轮询找到下一个 NioEventLoop 注册上去。在 NioEventLoopGroup 上作出的配置最终都会作用到 NioEventLoop 上。</p>
+<h3 id="ChannelOption"><a href="#ChannelOption" class="headerlink" title="ChannelOption"></a>ChannelOption</h3><p>在程序初始化的时候我们可以通过 ChannelOption 对 Channel 设置一些参数，常用的参数有两个：SO_BACKLOG 和 SO_KEEPALIVE。</p>
+<p>下面分别讲讲这两个参数 ：</p>
+<h4 id="SO-BACKLOG"><a href="#SO-BACKLOG" class="headerlink" title="SO_BACKLOG"></a>SO_BACKLOG</h4><p>这个参数主要是用来控制 Accept 队列的大小的 （早期的 Linux 内核是控制的 SYN 队列的大小）。</p>
+<p>这里展开说一下这两个队列，它们都是由 Linux 内核维护的。一个是保存第一次握手的 SYN 的队列，系统会依次从这个队列取出 SYN 并进行响应，一个是保存三次握手完成后的 Accept 队列，调用 accept 方法就能拿到已完成连接的 socket，反应在 Netty 里面就是返回一个新的 Channel。</p>
+<h4 id="SO-KEEPALIVE"><a href="#SO-KEEPALIVE" class="headerlink" title="SO_KEEPALIVE"></a>SO_KEEPALIVE</h4><p>这个参数对应的是连接的保活机制 ，如果不设置这个参数，请求完成连接就会被关闭。设置了这个参数之后，连接关闭的条件变成了如果客户端与服务器 2 个小时没有数据交互，那么客户端就会开始发探活数据报文，如果多次发送都没有响应，就断开连接。</p>
+<h3 id="ServerBootstrap-和-Bootstrap"><a href="#ServerBootstrap-和-Bootstrap" class="headerlink" title="ServerBootstrap 和 Bootstrap"></a>ServerBootstrap 和 Bootstrap</h3><p>服务端和客户端的启动类，负责对 Netty 的各个组件进行配置。</p>
+<p>服务器端配置代码如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">bootstrap.group(bossGroup, workerGroup) <span class="comment">// 设置 BossGroup 和 ChildGroup</span></span><br><span class="line">  .channel(NioServerSocketChannel.class) <span class="comment">// 设置 Channel 具体类</span></span><br><span class="line">  .option(ChannelOption.SO_BACKLOG, <span class="number">128</span>) <span class="comment">// 设置连接队列</span></span><br><span class="line">  .childOption(ChannelOption.SO_KEEPALIVE, Boolean.TRUE) <span class="comment">// 设置开启保活机制</span></span><br><span class="line">  .childHandler(<span class="keyword">new</span> ChannelInitializer&lt;SocketChannel&gt;() &#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">initChannel</span><span class="params">(SocketChannel socketChannel)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">      <span class="comment">// 把自定义 Handler 添加到 pipeline</span></span><br><span class="line">      socketChannel.pipeline().addLast(<span class="keyword">new</span> NettyServerHandler()); </span><br><span class="line">    &#125;</span><br><span class="line">	&#125;);</span><br></pre></td></tr></table></figure>
+
+<h3 id="ChannelFuture"><a href="#ChannelFuture" class="headerlink" title="ChannelFuture"></a>ChannelFuture</h3><p>下图是 ChannelFuture 的继承关系</p>
+<img src="https://i.loli.net/2021/08/22/B7YbqyROxSZ3AJP.png" style="zoom:50%">
+
+<p>从图中可以看出，它继承的 Future 接口是 Netty 自定义的接口，这个接口同时也继承自 Java 原生的 Future 接口。</p>
+<p>在 Netty 中最常用的是 ChannelFuture 的子类  DefaultChannelPromise ，而这个类大部分功能都是由 DefaultPromise 实现的。</p>
+<p>DefaultPromise 阻塞线程使用的是 Object 的 wait() 方法，而原生 Future 的子类 FutureTask 阻塞线程使用的是 LockSupport 的 park() 方法。</p>
+<p>ChannelFuture 支持添加 ChannelFutureListener ，监听各种事件。</p>
+<h3 id="Unpooled"><a href="#Unpooled" class="headerlink" title="Unpooled"></a>Unpooled</h3><p>这个类如果我们在使用 Netty 编程时不使用编解码器就会经常用到，它可以通过传入的字符串快速生成一个 ByteBuf (Netty 独有的类，类似于原生的 ByteBuffer，只是它在 ByteBuffer 的基础上做了封装) 对象。常用的方法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="function"><span class="keyword">public</span> <span class="keyword">static</span> ByteBuf <span class="title">copiedBuffer</span><span class="params">(CharSequence string, Charset charset)</span></span></span><br></pre></td></tr></table></figure>
+
+<h3 id="StringDecoder-和-StringEncoder"><a href="#StringDecoder-和-StringEncoder" class="headerlink" title="StringDecoder 和 StringEncoder"></a>StringDecoder 和 StringEncoder</h3><p>这两个类分别是 Netty 提供的解码器和编码器，它们同时也是 ChannelHandler 的子类。有了这两个编解码器，就不再需要与 ByteBuf 打交道，代码写起来也更简洁方便。</p>
+<h4 id="StringDecoder"><a href="#StringDecoder" class="headerlink" title="StringDecoder"></a>StringDecoder</h4><p>下图是解码器类 StringDecoder 的继承关系，注意它的父类是实现了 ChannelInboundHandler 接口的，作用在消息入站的时候：</p>
+<img src="https://i.loli.net/2021/08/22/yEiTlxcZsRIKv7X.png" style="zoom:50%">
+
+<p>如果有特殊需求需要自定义解码器也是可以的，只要实现 MessageToMessageDecoder 接口就可以了。</p>
+<p>写法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MessageDecoder</span> <span class="keyword">extends</span> <span class="title">MessageToMessageDecoder</span>&lt;<span class="title">ByteBuf</span>&gt; </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">decode</span><span class="params">(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List&lt;Object&gt; list)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        list.add(byteBuf.toString(CharsetUtil.UTF_8));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="StringEncoder"><a href="#StringEncoder" class="headerlink" title="StringEncoder"></a>StringEncoder</h4><p>下图是编码器类 StringEncoder 的继承关系，注意它的父类是实现了 ChannelOutboundHandler 接口的，作用在消息出站：</p>
+<img src="https://i.loli.net/2021/08/22/NESwH3XGtTZDefz.png" style="zoom:50%">
+
+<p>如果要自定义编码器，实现 MessageToMessageEncoder 接口就行了。</p>
+<p>写法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MessageEncoder</span> <span class="keyword">extends</span> <span class="title">MessageToMessageEncoder</span>&lt;<span class="title">String</span>&gt; </span>&#123;</span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">encode</span><span class="params">(ChannelHandlerContext channelHandlerContext, String s, List&lt;Object&gt; list)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        list.add(Unpooled.copiedBuffer(s, CharsetUtil.UTF_8));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>如果嫌为自定义编码器和自定义解码器分别创建一个类太麻烦，还可以直接继承 MessageToMessageCodec 接口。</p>
+<p>这个接口继承关系如下，注意它的父类同时实现了 ChannelInboundHandler 和 ChannelOutboundHandler ，作用在消息入站和出站：</p>
+<img src="https://i.loli.net/2021/08/22/I3dmTlZWBx4svH2.png" style="zoom:50%">
+
+<p>写法如下：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">public</span> <span class="class"><span class="keyword">class</span> <span class="title">MessageCodec</span> <span class="keyword">extends</span> <span class="title">MessageToMessageCodec</span>&lt;<span class="title">ByteBuf</span>, <span class="title">String</span>&gt; </span>&#123;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">encode</span><span class="params">(ChannelHandlerContext channelHandlerContext, String s, List&lt;Object&gt; list)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        list.add(Unpooled.copiedBuffer(s, CharsetUtil.UTF_8));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="meta">@Override</span></span><br><span class="line">    <span class="function"><span class="keyword">protected</span> <span class="keyword">void</span> <span class="title">decode</span><span class="params">(ChannelHandlerContext channelHandlerContext, ByteBuf byteBuf, List&lt;Object&gt; list)</span> <span class="keyword">throws</span> Exception </span>&#123;</span><br><span class="line">        list.add(byteBuf.toString(CharsetUtil.UTF_8));</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="LineBasedFrameDecoder-与-DelimiterBasedFrameDecoder"><a href="#LineBasedFrameDecoder-与-DelimiterBasedFrameDecoder" class="headerlink" title="LineBasedFrameDecoder 与 DelimiterBasedFrameDecoder"></a>LineBasedFrameDecoder 与 DelimiterBasedFrameDecoder</h3><p>这两个类也都是解码器，但它们解决的问题与上面所讲的编解码器不同，这两个类主要是解决粘包拆包的问题。</p>
+<p>那么问题来了，什么是粘包和拆包？为什么会出现粘包和拆包呢？</p>
+<p>首先来说说什么是粘包和拆包：</p>
+<p>在文章开始讲了 TCP 的三个重要的特点：面向连接、可靠的和字节流。而 Netty 底层是基于 TCP 的，它的客户端与服务端交互时发送的数据在传输层都是通过字节流传输的，字节流是没有界线的概念的，这时服务器在读取数据时就可能在一次读取中读取到到客户端分几次发的数据，这就叫粘包。如果客户端发送一次数据，服务器分几次才能完整读到，这就是拆包。</p>
+<p>粘包拆包大致如下图所示：</p>
+<img src="https://i.loli.net/2021/08/22/jiSeLqO5RJmKTA8.png" style="zoom:50%">
+
+<p>粘包拆包大致有以下几个原因：</p>
+<ul>
+<li><strong>socket缓冲区与滑动窗口:</strong> 在发送数据的时，发送方必须要先确认接收方的窗口没有被填充满，如果没有填满，则可以发送</li>
+<li><strong>MSS/MTU限制</strong></li>
+<li><strong>Nagle算法：</strong>Nagle算法是为了尽可能发送大块数据，避免网络中充斥着许多小数据块。</li>
+</ul>
+<p>Netty 中解决粘包拆包的方法：</p>
+<ul>
+<li>FixedLengthFrameDecoder：固定长度拆包器，使用固定长度进行拆分；</li>
+<li><strong>LineBasedFrameDecoder：</strong>行拆包器，使用换行符进行拆分；</li>
+<li><strong>DelimiterBasedFrameDecoder：</strong>分隔符拆包器，使用自定义的分隔符进行拆分；</li>
+<li>LengthFieldBasedFrameDecoder：基于数据包长度的拆包器，基于应用层协议中传过来的长度进行拆分。</li>
+</ul>
+<p>最常用的就是中间两个 LineBasedFrameDecoder 和 DelimiterBasedFrameDecoder。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>以上就是 Netty 编程相关的知识点。Netty 的组件非常多，可以自定义的地方也非常多，但熟悉这些组件之后使用它们编程会非常方便快捷。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Zephyr</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://anye3210.github.io/2021/08/22/%E8%AF%A6%E8%A7%A3-Netty/">http://anye3210.github.io/2021/08/22/%E8%AF%A6%E8%A7%A3-Netty/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/java/">java</a><a class="post-meta__tags" href="/tags/netty/">netty</a><a class="post-meta__tags" href="/tags/%E7%BD%91%E7%BB%9C%E7%BC%96%E7%A8%8B/">网络编程</a><a class="post-meta__tags" href="/tags/nio/">nio</a></div><div class="post_share"><div class="social-share" data-image="https://i.loli.net/2021/08/22/aP4C5w82fmFhJEz.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="next-post pull-full"><a href="/2021/08/09/%E5%A4%9A%E5%9B%BE%E8%AF%A6%E8%A7%A3AQS/"><img class="next-cover" src="https://i.loli.net/2021/08/09/xgLhv4a6AZTDUEV.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">多图详解AQS</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Zephyr</div><div class="author-info__description">不断前行</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">24</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">75</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zephyrw"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">This is zephyr's capsule</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%AF%A6%E8%A7%A3-Netty"><span class="toc-number">1.</span> <span class="toc-text">详解 Netty</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%BB%80%E4%B9%88%E6%98%AF-Netty"><span class="toc-number">1.1.</span> <span class="toc-text">什么是 Netty</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%8E%9F%E7%94%9F-NIO-%E7%BC%96%E7%A8%8B"><span class="toc-number">1.2.</span> <span class="toc-text">原生 NIO 编程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Socket"><span class="toc-number">1.2.1.</span> <span class="toc-text">Socket</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%94%9F-NIO-%E7%BB%84%E4%BB%B6"><span class="toc-number">1.2.2.</span> <span class="toc-text">原生 NIO 组件</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Buffer-%E7%BC%93%E5%86%B2%E5%8C%BA"><span class="toc-number">1.2.2.1.</span> <span class="toc-text">Buffer (缓冲区)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Channel-%E9%80%9A%E9%81%93"><span class="toc-number">1.2.2.2.</span> <span class="toc-text">Channel (通道)</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Selector-%E9%80%89%E6%8B%A9%E5%99%A8"><span class="toc-number">1.2.2.3.</span> <span class="toc-text">Selector (选择器)</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%94%9F-NIO-%E7%BB%84%E4%BB%B6%E7%BC%96%E7%A8%8B%E7%A4%BA%E4%BE%8B"><span class="toc-number">1.2.3.</span> <span class="toc-text">原生 NIO 组件编程示例</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88%E9%9C%80%E8%A6%81-Netty"><span class="toc-number">1.3.</span> <span class="toc-text">为什么需要 Netty</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Netty-%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.4.</span> <span class="toc-text">Netty 线程模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Reactor-%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.4.1.</span> <span class="toc-text">Reactor 模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95-Reactor-%E5%8D%95%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.4.1.1.</span> <span class="toc-text">单 Reactor 单线程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%8D%95-Reactor-%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.4.1.2.</span> <span class="toc-text">单 Reactor 多线程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%B8%BB%E4%BB%8E-Reactor-%E5%A4%9A%E7%BA%BF%E7%A8%8B"><span class="toc-number">1.4.1.3.</span> <span class="toc-text">主从 Reactor 多线程</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Netty-%E7%BA%BF%E7%A8%8B%E6%A8%A1%E5%9E%8B-1"><span class="toc-number">1.4.2.</span> <span class="toc-text">Netty 线程模型</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Netty-%E7%BC%96%E7%A8%8B"><span class="toc-number">1.5.</span> <span class="toc-text">Netty 编程</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%BB%A3%E7%A0%81"><span class="toc-number">1.5.1.</span> <span class="toc-text">服务端代码</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E4%BB%A3%E7%A0%81"><span class="toc-number">1.5.2.</span> <span class="toc-text">客户端代码</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Netty-%E7%9A%84%E6%A0%B8%E5%BF%83%E7%BB%84%E4%BB%B6"><span class="toc-number">1.6.</span> <span class="toc-text">Netty 的核心组件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#ChannelHandler"><span class="toc-number">1.6.1.</span> <span class="toc-text">ChannelHandler</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ChannelHandlerContext"><span class="toc-number">1.6.2.</span> <span class="toc-text">ChannelHandlerContext</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ChannelPipeline"><span class="toc-number">1.6.3.</span> <span class="toc-text">ChannelPipeline</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#Pipeline-%E9%98%9F%E5%88%97"><span class="toc-number">1.6.3.1.</span> <span class="toc-text">Pipeline 队列</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ChannelHandler-%E7%9A%84%E4%BC%A0%E9%80%92%E6%80%A7"><span class="toc-number">1.6.3.2.</span> <span class="toc-text">ChannelHandler 的传递性</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Pipeline-%E6%B6%88%E6%81%AF%E5%85%A5%E7%AB%99"><span class="toc-number">1.6.3.3.</span> <span class="toc-text">Pipeline 消息入站</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Pipeline-%E6%B6%88%E6%81%AF%E5%87%BA%E7%AB%99"><span class="toc-number">1.6.3.4.</span> <span class="toc-text">Pipeline 消息出站</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NioEventLoop"><span class="toc-number">1.6.4.</span> <span class="toc-text">NioEventLoop</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#NioEventLoopGroup"><span class="toc-number">1.6.5.</span> <span class="toc-text">NioEventLoopGroup</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ChannelOption"><span class="toc-number">1.6.6.</span> <span class="toc-text">ChannelOption</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#SO-BACKLOG"><span class="toc-number">1.6.6.1.</span> <span class="toc-text">SO_BACKLOG</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#SO-KEEPALIVE"><span class="toc-number">1.6.6.2.</span> <span class="toc-text">SO_KEEPALIVE</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ServerBootstrap-%E5%92%8C-Bootstrap"><span class="toc-number">1.6.7.</span> <span class="toc-text">ServerBootstrap 和 Bootstrap</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#ChannelFuture"><span class="toc-number">1.6.8.</span> <span class="toc-text">ChannelFuture</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Unpooled"><span class="toc-number">1.6.9.</span> <span class="toc-text">Unpooled</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#StringDecoder-%E5%92%8C-StringEncoder"><span class="toc-number">1.6.10.</span> <span class="toc-text">StringDecoder 和 StringEncoder</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#StringDecoder"><span class="toc-number">1.6.10.1.</span> <span class="toc-text">StringDecoder</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#StringEncoder"><span class="toc-number">1.6.10.2.</span> <span class="toc-text">StringEncoder</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#LineBasedFrameDecoder-%E4%B8%8E-DelimiterBasedFrameDecoder"><span class="toc-number">1.6.11.</span> <span class="toc-text">LineBasedFrameDecoder 与 DelimiterBasedFrameDecoder</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%80%BB%E7%BB%93"><span class="toc-number">1.7.</span> <span class="toc-text">总结</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/08/22/%E8%AF%A6%E8%A7%A3-Netty/" title="详解 Netty"><img src="https://i.loli.net/2021/08/22/aP4C5w82fmFhJEz.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="详解 Netty"/></a><div class="content"><a class="title" href="/2021/08/22/%E8%AF%A6%E8%A7%A3-Netty/" title="详解 Netty">详解 Netty</a><time datetime="2021-08-22T09:26:09.000Z" title="Created 2021-08-22 17:26:09">2021-08-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/08/09/%E5%A4%9A%E5%9B%BE%E8%AF%A6%E8%A7%A3AQS/" title="多图详解AQS"><img src="https://i.loli.net/2021/08/09/xgLhv4a6AZTDUEV.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="多图详解AQS"/></a><div class="content"><a class="title" href="/2021/08/09/%E5%A4%9A%E5%9B%BE%E8%AF%A6%E8%A7%A3AQS/" title="多图详解AQS">多图详解AQS</a><time datetime="2021-08-08T16:31:01.000Z" title="Created 2021-08-09 00:31:01">2021-08-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/08/02/%E8%AF%A6%E8%A7%A3Java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/" title="详解Java类加载过程"><img src="https://i.loli.net/2021/08/02/265OIqCLtMSwJkY.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="详解Java类加载过程"/></a><div class="content"><a class="title" href="/2021/08/02/%E8%AF%A6%E8%A7%A3Java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/" title="详解Java类加载过程">详解Java类加载过程</a><time datetime="2021-08-02T14:53:13.000Z" title="Created 2021-08-02 22:53:13">2021-08-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/07/31/JMM-Java-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" title="JMM - Java 内存模型"><img src="https://img-blog.csdnimg.cn/5057e1fd41aa4749b0f29a4d2b2d44e3.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FueWUzMjEwMA==,size_8,color_FFFFFF,t_70" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JMM - Java 内存模型"/></a><div class="content"><a class="title" href="/2021/07/31/JMM-Java-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" title="JMM - Java 内存模型">JMM - Java 内存模型</a><time datetime="2021-07-31T14:57:14.000Z" title="Created 2021-07-31 22:57:14">2021-07-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/15/%E3%80%90React-Native%E8%BF%9B%E9%98%B6%E3%80%91React-Native-Reanimated%E7%9A%84%E4%BD%BF%E7%94%A8/" title="【React Native进阶】React Native Reanimated的使用"><img src="https://docs.swmansion.com/react-native-reanimated/docs/animations/easeInOutQuad.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【React Native进阶】React Native Reanimated的使用"/></a><div class="content"><a class="title" href="/2020/12/15/%E3%80%90React-Native%E8%BF%9B%E9%98%B6%E3%80%91React-Native-Reanimated%E7%9A%84%E4%BD%BF%E7%94%A8/" title="【React Native进阶】React Native Reanimated的使用">【React Native进阶】React Native Reanimated的使用</a><time datetime="2020-12-15T15:32:58.000Z" title="Created 2020-12-15 23:32:58">2020-12-15</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Zephyr</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

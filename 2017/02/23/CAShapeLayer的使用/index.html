@@ -1,211 +1,190 @@
-<!DOCTYPE HTML>
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="utf-8">
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>CAShapeLayer的使用 | Zephyr's Capsule</title><meta name="keywords" content="ShapeLayer,CALayer,Animation,动画,下拉"><meta name="author" content="Zephyr"><meta name="copyright" content="Zephyr"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="简介官方文档对CAShapeLayer的定义如下：  A layer that draws a cubic Bezier spline in its coordinate space.  可以理解为CAShapeLayer是其坐标空间内绘有贝塞尔曲线的图层。使用CAShapeLayer可以制作蒙板和图层动画，它继承自CALayer，拥有CALayer的全部属性。CAShapeLayer的依赖于贝塞">
+<meta property="og:type" content="article">
+<meta property="og:title" content="CAShapeLayer的使用">
+<meta property="og:url" content="http://anye3210.github.io/2017/02/23/CAShapeLayer%E7%9A%84%E4%BD%BF%E7%94%A8/index.html">
+<meta property="og:site_name" content="Zephyr&#39;s Capsule">
+<meta property="og:description" content="简介官方文档对CAShapeLayer的定义如下：  A layer that draws a cubic Bezier spline in its coordinate space.  可以理解为CAShapeLayer是其坐标空间内绘有贝塞尔曲线的图层。使用CAShapeLayer可以制作蒙板和图层动画，它继承自CALayer，拥有CALayer的全部属性。CAShapeLayer的依赖于贝塞">
+<meta property="og:locale">
+<meta property="og:image" content="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-z_eC5566UVN1jpEuRD-nv5Lt7K5K6Uf1Xg&usqp=CAU">
+<meta property="article:published_time" content="2017-02-23T14:40:24.000Z">
+<meta property="article:modified_time" content="2021-08-22T07:39:38.855Z">
+<meta property="article:author" content="Zephyr">
+<meta property="article:tag" content="ShapeLayer">
+<meta property="article:tag" content="CALayer">
+<meta property="article:tag" content="Animation">
+<meta property="article:tag" content="动画">
+<meta property="article:tag" content="下拉">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-z_eC5566UVN1jpEuRD-nv5Lt7K5K6Uf1Xg&usqp=CAU"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://anye3210.github.io/2017/02/23/CAShapeLayer%E7%9A%84%E4%BD%BF%E7%94%A8/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'CAShapeLayer的使用',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-08-22 15:39:38'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
   
-  <title>CAShapeLayer的使用 | Zephyr&#39;s Capsule | Stay hungry stay foolish</title>
-
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
   
-  <meta name="author" content="Zephyr">
-  
-
-  
-  <meta name="description" content="不断前行">
-  
-
-  
-  
-  <meta name="keywords" content="ShapeLayer,CALayer,Animation,动画,下拉">
-  
-
-  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-  <meta property="og:title" content="CAShapeLayer的使用">
-
-  <meta property="og:site_name" content="Zephyr&#39;s Capsule">
-
-  
-  <meta property="og:image" content="/favicon.ico">
-  
-
-  <link href="/favicon.ico" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="Zephyr&#39;s Capsule" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-</head>
-
-
-<body>
-<div class="blog">
-  <div class="content">
-
-    <header>
-  <div class="site-branding">
-    <h1 class="site-title">
-      <a href="/">Zephyr&#39;s Capsule</a>
-    </h1>
-    <p class="site-description">Stay hungry stay foolish</p>
-  </div>
-  <nav class="site-navigation">
-    <ul>
-      
-        <li><a href="/">Home</a></li>
-      
-        <li><a href="/archives">Archives</a></li>
-      
-    </ul>
-  </nav>
-</header>
-
-    <main class="site-main posts-loop">
-    <article>
-
-  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-    <h3 class="article-title"><span>CAShapeLayer的使用</span></h3>
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
     
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2017/02/23/CAShapeLayer的使用/" rel="bookmark">
-        <time class="entry-date published" datetime="2017-02-23T14:40:24.000Z">
-          2017-02-23
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>官方文档对<code>CAShapeLayer</code>的定义如下：</p>
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Zephyr's Capsule" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">24</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">75</div></a></div></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-z_eC5566UVN1jpEuRD-nv5Lt7K5K6Uf1Xg&amp;usqp=CAU')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Zephyr's Capsule</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">CAShapeLayer的使用</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">Created</span><time datetime="2017-02-23T14:40:24.000Z" title="undefined 2017-02-23 22:40:24">2017-02-23</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="CAShapeLayer的使用"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h1 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h1><p>官方文档对<code>CAShapeLayer</code>的定义如下：</p>
 <blockquote>
 <p>A layer that draws a cubic Bezier spline in its coordinate space.</p>
 </blockquote>
 <p>可以理解为<code>CAShapeLayer</code>是其坐标空间内绘有贝塞尔曲线的图层。<br>使用<code>CAShapeLayer</code>可以制作蒙板和图层动画，它继承自CALayer，拥有<code>CALayer</code>的全部属性。<code>CAShapeLayer</code>的依赖于贝塞尔曲线<code>UIBezierPath</code>，它决定的ShapeLayer的形状。</p>
 <p><code>StrokeStart</code>和<code>StrokeEnd</code>是<code>ShapeLayer</code>的重要属性，它控制<code>ShapeLayer</code>的<code>cgPath</code>路径的绘制起点和终点，区间都为0~1，0代表从头绘制，1代表绘制到终点。</p>
-<a id="more"></a>
+<span id="more"></span>
 <h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
 <li><strong>ShapeLayer图形动画</strong></li>
 <li><strong>ShapeLayer蒙版</strong></li>
 </ul>
-<p>本文demo的github地址：<a><a href="https://github.com/zephyrw/ShapeLayerDemo.git" target="_blank" rel="noopener">https://github.com/zephyrw/ShapeLayerDemo.git</a></a></p>
+<p>本文demo的github地址：<a><a target="_blank" rel="noopener" href="https://github.com/zephyrw/ShapeLayerDemo.git">https://github.com/zephyrw/ShapeLayerDemo.git</a></a></p>
 <h1 id="使用"><a href="#使用" class="headerlink" title="使用"></a>使用</h1><h2 id="ShapeLayer图形动画"><a href="#ShapeLayer图形动画" class="headerlink" title="ShapeLayer图形动画"></a>ShapeLayer图形动画</h2><h3 id="动画简介"><a href="#动画简介" class="headerlink" title="动画简介"></a>动画简介</h3><p>使用ShapeLayer制作动画原理是通过改变ShapeLayer的strokeEnd属性值来改变ShapeLayer的path的绘制，strokeEnd值区间为0~1</p>
 <p>下图为使用ShapeLayer制作仿今日头条下拉动画效果</p>
 <img src="http://ogdqxib8j.bkt.clouddn.com/ShapeLayerAnimation.gif" title="shapeLayer动画" width="200" height="400">
 
 <h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><p>把整个图形分成三个部分：外边框、左上角的框和所有的横线，分别用贝塞尔曲线绘制这三个部分</p>
-<h5 id="外边框"><a href="#外边框" class="headerlink" title="外边框"></a>外边框</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> draftPath = <span class="type">UIBezierPath</span>(roundedRect: <span class="type">CGRect</span>(x: <span class="number">0</span>, y: <span class="number">0</span>, width: width, height: height), cornerRadius: <span class="number">5</span>)</span><br></pre></td></tr></table></figure>
-
-<h5 id="左上角边框"><a href="#左上角边框" class="headerlink" title="左上角边框"></a>左上角边框</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> squarePath = <span class="type">UIBezierPath</span>(roundedRect: <span class="type">CGRect</span>(x: margin, y: margin, width: smallSquareWH, height: smallSquareWH), cornerRadius: <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
-
-<h5 id="所有横线"><a href="#所有横线" class="headerlink" title="所有横线"></a>所有横线</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> linePath = <span class="type">UIBezierPath</span>()       </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..&lt;<span class="number">3</span> &#123;</span><br><span class="line">	linePath.move(to: <span class="type">CGPoint</span>(x: shortLineLeft, y: margin + <span class="number">2</span> + space * <span class="type">CGFloat</span>(i)))</span><br><span class="line">	linePath.addLine(to: <span class="type">CGPoint</span>(x: shortLineRight, y: margin + <span class="number">2</span> + space * <span class="type">CGFloat</span>(i)))</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span>..&lt;<span class="number">3</span> &#123;</span><br><span class="line">	linePath.move(to: <span class="type">CGPoint</span>(x: margin, y: margin * <span class="number">2</span> + <span class="number">2</span> + smallSquareWH + space * <span class="type">CGFloat</span>(i)))</span><br><span class="line">	linePath.addLine(to: <span class="type">CGPoint</span>(x: longLineRight, y: margin * <span class="number">2</span> + <span class="number">2</span> + smallSquareWH + space * <span class="type">CGFloat</span>(i)))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="将所有贝塞尔曲线绘制到ShapeLayer中"><a href="#将所有贝塞尔曲线绘制到ShapeLayer中" class="headerlink" title="将所有贝塞尔曲线绘制到ShapeLayer中"></a>将所有贝塞尔曲线绘制到ShapeLayer中</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span>.draftShapeLayer = <span class="type">CAShapeLayer</span>()</span><br><span class="line"><span class="keyword">self</span>.draftShapeLayer!.frame = <span class="type">CGRect</span>(x: <span class="number">0</span>, y: <span class="number">0</span>, width: width, height: height)</span><br><span class="line">setupShapeLayer(shapeLayer: <span class="keyword">self</span>.draftShapeLayer!, path: draftPath.cgPath)</span><br><span class="line">        </span><br><span class="line"><span class="keyword">self</span>.squareShapeLayer = <span class="type">CAShapeLayer</span>()</span><br><span class="line"><span class="keyword">self</span>.squareShapeLayer!.frame = <span class="type">CGRect</span>(x: <span class="number">0</span>, y: <span class="number">0</span>, width: smallSquareWH, height: smallSquareWH)</span><br><span class="line">setupShapeLayer(shapeLayer: <span class="keyword">self</span>.squareShapeLayer!, path: squarePath.cgPath)</span><br><span class="line">        </span><br><span class="line"><span class="keyword">self</span>.lineShapeLayer = <span class="type">CAShapeLayer</span>()</span><br><span class="line"><span class="keyword">self</span>.lineShapeLayer!.frame = <span class="type">CGRect</span>(x: <span class="number">0</span>, y: <span class="number">0</span>, width: width, height: height)</span><br><span class="line">setupShapeLayer(shapeLayer: <span class="keyword">self</span>.lineShapeLayer!, path: linePath.cgPath)</span><br></pre></td></tr></table></figure>
-
+<h5 id="外边框"><a href="#外边框" class="headerlink" title="外边框"></a>外边框</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> draftPath <span class="operator">=</span> <span class="type">UIBezierPath</span>(roundedRect: <span class="type">CGRect</span>(x: <span class="number">0</span>, y: <span class="number">0</span>, width: width, height: height), cornerRadius: <span class="number">5</span>)</span><br></pre></td></tr></table></figure>
+<h5 id="左上角边框"><a href="#左上角边框" class="headerlink" title="左上角边框"></a>左上角边框</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> squarePath <span class="operator">=</span> <span class="type">UIBezierPath</span>(roundedRect: <span class="type">CGRect</span>(x: margin, y: margin, width: smallSquareWH, height: smallSquareWH), cornerRadius: <span class="number">2</span>)</span><br></pre></td></tr></table></figure>
+<h5 id="所有横线"><a href="#所有横线" class="headerlink" title="所有横线"></a>所有横线</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> linePath <span class="operator">=</span> <span class="type">UIBezierPath</span>()       </span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span><span class="operator">..&lt;</span><span class="number">3</span> &#123;</span><br><span class="line">	linePath.move(to: <span class="type">CGPoint</span>(x: shortLineLeft, y: margin <span class="operator">+</span> <span class="number">2</span> <span class="operator">+</span> space <span class="operator">*</span> <span class="type">CGFloat</span>(i)))</span><br><span class="line">	linePath.addLine(to: <span class="type">CGPoint</span>(x: shortLineRight, y: margin <span class="operator">+</span> <span class="number">2</span> <span class="operator">+</span> space <span class="operator">*</span> <span class="type">CGFloat</span>(i)))</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">for</span> i <span class="keyword">in</span> <span class="number">0</span><span class="operator">..&lt;</span><span class="number">3</span> &#123;</span><br><span class="line">	linePath.move(to: <span class="type">CGPoint</span>(x: margin, y: margin <span class="operator">*</span> <span class="number">2</span> <span class="operator">+</span> <span class="number">2</span> <span class="operator">+</span> smallSquareWH <span class="operator">+</span> space <span class="operator">*</span> <span class="type">CGFloat</span>(i)))</span><br><span class="line">	linePath.addLine(to: <span class="type">CGPoint</span>(x: longLineRight, y: margin <span class="operator">*</span> <span class="number">2</span> <span class="operator">+</span> <span class="number">2</span> <span class="operator">+</span> smallSquareWH <span class="operator">+</span> space <span class="operator">*</span> <span class="type">CGFloat</span>(i)))</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="将所有贝塞尔曲线绘制到ShapeLayer中"><a href="#将所有贝塞尔曲线绘制到ShapeLayer中" class="headerlink" title="将所有贝塞尔曲线绘制到ShapeLayer中"></a>将所有贝塞尔曲线绘制到ShapeLayer中</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">self</span>.draftShapeLayer <span class="operator">=</span> <span class="type">CAShapeLayer</span>()</span><br><span class="line"><span class="keyword">self</span>.draftShapeLayer<span class="operator">!</span>.frame <span class="operator">=</span> <span class="type">CGRect</span>(x: <span class="number">0</span>, y: <span class="number">0</span>, width: width, height: height)</span><br><span class="line">setupShapeLayer(shapeLayer: <span class="keyword">self</span>.draftShapeLayer<span class="operator">!</span>, path: draftPath.cgPath)</span><br><span class="line">        </span><br><span class="line"><span class="keyword">self</span>.squareShapeLayer <span class="operator">=</span> <span class="type">CAShapeLayer</span>()</span><br><span class="line"><span class="keyword">self</span>.squareShapeLayer<span class="operator">!</span>.frame <span class="operator">=</span> <span class="type">CGRect</span>(x: <span class="number">0</span>, y: <span class="number">0</span>, width: smallSquareWH, height: smallSquareWH)</span><br><span class="line">setupShapeLayer(shapeLayer: <span class="keyword">self</span>.squareShapeLayer<span class="operator">!</span>, path: squarePath.cgPath)</span><br><span class="line">        </span><br><span class="line"><span class="keyword">self</span>.lineShapeLayer <span class="operator">=</span> <span class="type">CAShapeLayer</span>()</span><br><span class="line"><span class="keyword">self</span>.lineShapeLayer<span class="operator">!</span>.frame <span class="operator">=</span> <span class="type">CGRect</span>(x: <span class="number">0</span>, y: <span class="number">0</span>, width: width, height: height)</span><br><span class="line">setupShapeLayer(shapeLayer: <span class="keyword">self</span>.lineShapeLayer<span class="operator">!</span>, path: linePath.cgPath)</span><br></pre></td></tr></table></figure>
 <p>这里抽出了辅助方法来设置ShapeLayer和添加到控制器图层</p>
-<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">setupShapeLayer</span><span class="params">(shapeLayer : CAShapeLayer, path : CGPath)</span></span> &#123;</span><br><span class="line">	shapeLayer.path = path</span><br><span class="line">	shapeLayer.strokeColor = <span class="type">UIColor</span>.gray.cgColor</span><br><span class="line">	shapeLayer.fillColor = <span class="type">UIColor</span>.white.cgColor</span><br><span class="line">	shapeLayer.lineWidth = <span class="number">2</span></span><br><span class="line">	shapeLayer.strokeStart = <span class="number">0</span></span><br><span class="line">	shapeLayer.strokeEnd = <span class="number">0</span></span><br><span class="line">	<span class="keyword">self</span>.containerLayer.addSublayer(shapeLayer)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="添加SliderView"><a href="#添加SliderView" class="headerlink" title="添加SliderView"></a>添加SliderView</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">addSlider</span><span class="params">()</span></span> &#123;</span><br><span class="line">	<span class="keyword">let</span> slider = <span class="type">UISlider</span>(frame: <span class="type">CGRect</span>(x: <span class="number">20</span>, y: 	<span class="type">UIScreen</span>.main.bounds.height - <span class="number">50</span>, width: 	<span class="type">UIScreen</span>.main.bounds.width - <span class="number">40</span>, height: <span class="number">10</span>))</span><br><span class="line">	slider.minimumValue = <span class="number">0</span></span><br><span class="line">	slider.maximumValue = <span class="number">1</span></span><br><span class="line">	slider.addTarget(<span class="keyword">self</span>, action: #selector(sliderValueChanged(sender:)), <span class="keyword">for</span>: <span class="type">UIControlEvents</span>.valueChanged)</span><br><span class="line">	view.addSubview(slider)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="sliderValuerChanged方法实现"><a href="#sliderValuerChanged方法实现" class="headerlink" title="sliderValuerChanged方法实现"></a>sliderValuerChanged方法实现</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">@objc</span> <span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">sliderValueChanged</span><span class="params">(sender: UISlider)</span></span> &#123;</span><br><span class="line">	<span class="keyword">guard</span> <span class="keyword">let</span> draftShapeLayer = <span class="keyword">self</span>.draftShapeLayer <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;<span class="keyword">guard</span> <span class="keyword">let</span> squareShapeLayer = <span class="keyword">self</span>.squareShapeLayer <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">guard</span> <span class="keyword">let</span> lineShapeLayer = <span class="keyword">self</span>.lineShapeLayer <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	draftShapeLayer.strokeEnd = <span class="type">CGFloat</span>(sender.value)</span><br><span class="line">	squareShapeLayer.strokeEnd = <span class="type">CGFloat</span>(sender.value)</span><br><span class="line">	lineShapeLayer.strokeEnd = <span class="type">CGFloat</span>(sender.value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">setupShapeLayer</span>(<span class="params">shapeLayer</span> : <span class="type">CAShapeLayer</span>, <span class="params">path</span> : <span class="type">CGPath</span>)</span> &#123;</span><br><span class="line">	shapeLayer.path <span class="operator">=</span> path</span><br><span class="line">	shapeLayer.strokeColor <span class="operator">=</span> <span class="type">UIColor</span>.gray.cgColor</span><br><span class="line">	shapeLayer.fillColor <span class="operator">=</span> <span class="type">UIColor</span>.white.cgColor</span><br><span class="line">	shapeLayer.lineWidth <span class="operator">=</span> <span class="number">2</span></span><br><span class="line">	shapeLayer.strokeStart <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">	shapeLayer.strokeEnd <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">	<span class="keyword">self</span>.containerLayer.addSublayer(shapeLayer)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h5 id="添加SliderView"><a href="#添加SliderView" class="headerlink" title="添加SliderView"></a>添加SliderView</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">addSlider</span>()</span> &#123;</span><br><span class="line">	<span class="keyword">let</span> slider <span class="operator">=</span> <span class="type">UISlider</span>(frame: <span class="type">CGRect</span>(x: <span class="number">20</span>, y: 	<span class="type">UIScreen</span>.main.bounds.height <span class="operator">-</span> <span class="number">50</span>, width: 	<span class="type">UIScreen</span>.main.bounds.width <span class="operator">-</span> <span class="number">40</span>, height: <span class="number">10</span>))</span><br><span class="line">	slider.minimumValue <span class="operator">=</span> <span class="number">0</span></span><br><span class="line">	slider.maximumValue <span class="operator">=</span> <span class="number">1</span></span><br><span class="line">	slider.addTarget(<span class="keyword">self</span>, action: #selector(sliderValueChanged(sender:)), for: <span class="type">UIControlEvents</span>.valueChanged)</span><br><span class="line">	view.addSubview(slider)</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<h5 id="sliderValuerChanged方法实现"><a href="#sliderValuerChanged方法实现" class="headerlink" title="sliderValuerChanged方法实现"></a>sliderValuerChanged方法实现</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">@objc</span> <span class="keyword">private</span> <span class="function"><span class="keyword">func</span> <span class="title">sliderValueChanged</span>(<span class="params">sender</span>: <span class="type">UISlider</span>)</span> &#123;</span><br><span class="line">	<span class="keyword">guard</span> <span class="keyword">let</span> draftShapeLayer <span class="operator">=</span> <span class="keyword">self</span>.draftShapeLayer <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;<span class="keyword">guard</span> <span class="keyword">let</span> squareShapeLayer <span class="operator">=</span> <span class="keyword">self</span>.squareShapeLayer <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	<span class="keyword">guard</span> <span class="keyword">let</span> lineShapeLayer <span class="operator">=</span> <span class="keyword">self</span>.lineShapeLayer <span class="keyword">else</span> &#123;</span><br><span class="line">		<span class="keyword">return</span></span><br><span class="line">	&#125;</span><br><span class="line">	draftShapeLayer.strokeEnd <span class="operator">=</span> <span class="type">CGFloat</span>(sender.value)</span><br><span class="line">	squareShapeLayer.strokeEnd <span class="operator">=</span> <span class="type">CGFloat</span>(sender.value)</span><br><span class="line">	lineShapeLayer.strokeEnd <span class="operator">=</span> <span class="type">CGFloat</span>(sender.value)</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>至此，<code>ShapeLayer</code>图形动画就完成了</p>
 <h2 id="ShapeLayer蒙版"><a href="#ShapeLayer蒙版" class="headerlink" title="ShapeLayer蒙版"></a>ShapeLayer蒙版</h2><p>用ShapeLayer创建一个带图形的蒙版如下图</p>
-<p>&lt;img src=’<a href="http://ogdqxib8j.bkt.clouddn.com/MaskImage.png&#39;" target="_blank" rel="noopener">http://ogdqxib8j.bkt.clouddn.com/MaskImage.png&#39;</a> width=’200’, height=’400’&gt;</p>
+<p>&lt;img src=’<a target="_blank" rel="noopener" href="http://ogdqxib8j.bkt.clouddn.com/MaskImage.png&#39;">http://ogdqxib8j.bkt.clouddn.com/MaskImage.png&#39;</a> width=’200’, height=’400’&gt;</p>
 <h3 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h3><p>新建一个蒙版视图<code>View</code>,然后将绘有贝塞尔曲线的<code>ShapeLayer</code>设置为蒙版视图图层的<code>mask</code></p>
-<h3 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h3><h5 id="创建蒙版视图并添加到控制器视图"><a href="#创建蒙版视图并添加到控制器视图" class="headerlink" title="创建蒙版视图并添加到控制器视图"></a>创建蒙版视图并添加到控制器视图</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> maskView = <span class="type">UIView</span>(frame: view.bounds)</span><br><span class="line">maskView.backgroundColor = <span class="type">UIColor</span>.red.withAlphaComponent(<span class="number">0.3</span>)</span><br><span class="line">maskView.alpha = <span class="number">0.8</span></span><br><span class="line">view.addSubview(maskView)</span><br></pre></td></tr></table></figure>
-
-<h5 id="用贝塞尔曲线绘制蒙版的形状"><a href="#用贝塞尔曲线绘制蒙版的形状" class="headerlink" title="用贝塞尔曲线绘制蒙版的形状"></a>用贝塞尔曲线绘制蒙版的形状</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> bpath = <span class="type">UIBezierPath</span>(roundedRect: <span class="type">CGRect</span>(x: <span class="number">10</span>, y: <span class="number">10</span>, width: view.bounds.width - <span class="number">20</span>, height: view.bounds.height - <span class="number">20</span>), cornerRadius: <span class="number">15</span>)</span><br><span class="line"><span class="keyword">let</span> circlePath = <span class="type">UIBezierPath</span>(arcCenter: view.center, radius: <span class="number">100</span>, startAngle: <span class="number">0</span>, endAngle: <span class="type">CGFloat</span>(<span class="type">M_PI</span>) * <span class="number">2</span>, clockwise: <span class="literal">false</span>)</span><br><span class="line">bpath.append(circlePath)</span><br></pre></td></tr></table></figure>
-
-<h5 id="创建ShapeLayer，设置之前创建的贝塞尔曲线为cgPath"><a href="#创建ShapeLayer，设置之前创建的贝塞尔曲线为cgPath" class="headerlink" title="创建ShapeLayer，设置之前创建的贝塞尔曲线为cgPath"></a>创建ShapeLayer，设置之前创建的贝塞尔曲线为cgPath</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> shapeLayer = <span class="type">CAShapeLayer</span>()</span><br><span class="line">shapeLayer.path = bpath.cgPath</span><br></pre></td></tr></table></figure>
-
-<h5 id="将ShapeLayer设为蒙版"><a href="#将ShapeLayer设为蒙版" class="headerlink" title="将ShapeLayer设为蒙版"></a>将ShapeLayer设为蒙版</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">maskView.layer.mask = shapeLayer</span><br></pre></td></tr></table></figure>
-
+<h3 id="实现-1"><a href="#实现-1" class="headerlink" title="实现"></a>实现</h3><h5 id="创建蒙版视图并添加到控制器视图"><a href="#创建蒙版视图并添加到控制器视图" class="headerlink" title="创建蒙版视图并添加到控制器视图"></a>创建蒙版视图并添加到控制器视图</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> maskView <span class="operator">=</span> <span class="type">UIView</span>(frame: view.bounds)</span><br><span class="line">maskView.backgroundColor <span class="operator">=</span> <span class="type">UIColor</span>.red.withAlphaComponent(<span class="number">0.3</span>)</span><br><span class="line">maskView.alpha <span class="operator">=</span> <span class="number">0.8</span></span><br><span class="line">view.addSubview(maskView)</span><br></pre></td></tr></table></figure>
+<h5 id="用贝塞尔曲线绘制蒙版的形状"><a href="#用贝塞尔曲线绘制蒙版的形状" class="headerlink" title="用贝塞尔曲线绘制蒙版的形状"></a>用贝塞尔曲线绘制蒙版的形状</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> bpath <span class="operator">=</span> <span class="type">UIBezierPath</span>(roundedRect: <span class="type">CGRect</span>(x: <span class="number">10</span>, y: <span class="number">10</span>, width: view.bounds.width <span class="operator">-</span> <span class="number">20</span>, height: view.bounds.height <span class="operator">-</span> <span class="number">20</span>), cornerRadius: <span class="number">15</span>)</span><br><span class="line"><span class="keyword">let</span> circlePath <span class="operator">=</span> <span class="type">UIBezierPath</span>(arcCenter: view.center, radius: <span class="number">100</span>, startAngle: <span class="number">0</span>, endAngle: <span class="type">CGFloat</span>(<span class="type">M_PI</span>) <span class="operator">*</span> <span class="number">2</span>, clockwise: <span class="literal">false</span>)</span><br><span class="line">bpath.append(circlePath)</span><br></pre></td></tr></table></figure>
+<h5 id="创建ShapeLayer，设置之前创建的贝塞尔曲线为cgPath"><a href="#创建ShapeLayer，设置之前创建的贝塞尔曲线为cgPath" class="headerlink" title="创建ShapeLayer，设置之前创建的贝塞尔曲线为cgPath"></a>创建ShapeLayer，设置之前创建的贝塞尔曲线为cgPath</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">let</span> shapeLayer <span class="operator">=</span> <span class="type">CAShapeLayer</span>()</span><br><span class="line">shapeLayer.path <span class="operator">=</span> bpath.cgPath</span><br></pre></td></tr></table></figure>
+<h5 id="将ShapeLayer设为蒙版"><a href="#将ShapeLayer设为蒙版" class="headerlink" title="将ShapeLayer设为蒙版"></a>将ShapeLayer设为蒙版</h5><figure class="highlight swift"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">maskView.layer.mask <span class="operator">=</span> shapeLayer</span><br></pre></td></tr></table></figure>
 <p>接下来就可以运行看效果了</p>
-<p>本文demo的github地址：<a><a href="https://github.com/zephyrw/ShapeLayerDemo.git" target="_blank" rel="noopener">https://github.com/zephyrw/ShapeLayerDemo.git</a></a></p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/ShapeLayer/">ShapeLayer</a><a href="/tags/CALayer/">CALayer</a><a href="/tags/Animation/">Animation</a><a href="/tags/动画/">动画</a><a href="/tags/下拉/">下拉</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-  
-	<div id="comment">
-	
-	
-	<!-- 多说评论框 start -->
-	 <div class="ds-thread" data-thread-key="/2017/02/23/CAShapeLayer的使用/" data-title="CAShapeLayer的使用" data-url="http://anye3210.github.io/2017/02/23/CAShapeLayer的使用/"></div>
-	<!-- 多说评论框 end -->
-	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"Zephyr's Capsule"};
-	  (function() {
-	    var ds = document.createElement('script');
-	    ds.type = 'text/javascript';ds.async = true;
-	    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-	    ds.charset = 'UTF-8';
-	    (document.getElementsByTagName('head')[0] 
-	     || document.getElementsByTagName('body')[0]).appendChild(ds);
-	  })();
-	  </script>
-	<!-- 多说公共JS代码 end -->
-	
-	</div>
-
-
-
-
-    </main>
-
-    <footer class="site-footer">
-  <p class="site-info">
-    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
-    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
-    </br>
-    
-    &copy; 2021 Zephyr
-    
-  </p>
-</footer>
-    
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-87098157-1', 'auto');
-    ga('send', 'pageview');
-
-</script>
-
-  </div>
-</div>
-</body>
-</html>
+<p>本文demo的github地址：<a><a target="_blank" rel="noopener" href="https://github.com/zephyrw/ShapeLayerDemo.git">https://github.com/zephyrw/ShapeLayerDemo.git</a></a></p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Zephyr</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://anye3210.github.io/2017/02/23/CAShapeLayer%E7%9A%84%E4%BD%BF%E7%94%A8/">http://anye3210.github.io/2017/02/23/CAShapeLayer%E7%9A%84%E4%BD%BF%E7%94%A8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/ShapeLayer/">ShapeLayer</a><a class="post-meta__tags" href="/tags/CALayer/">CALayer</a><a class="post-meta__tags" href="/tags/Animation/">Animation</a><a class="post-meta__tags" href="/tags/%E5%8A%A8%E7%94%BB/">动画</a><a class="post-meta__tags" href="/tags/%E4%B8%8B%E6%8B%89/">下拉</a></div><div class="post_share"><div class="social-share" data-image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-z_eC5566UVN1jpEuRD-nv5Lt7K5K6Uf1Xg&amp;usqp=CAU" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2017/02/23/%E5%88%B6%E4%BD%9C%E6%96%87%E5%AD%97%E5%8A%A8%E7%94%BB/"><img class="prev-cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-z_eC5566UVN1jpEuRD-nv5Lt7K5K6Uf1Xg&amp;usqp=CAU" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">CAShapeLayer文字动画</div></div></a></div><div class="next-post pull-right"><a href="/2016/12/21/%E6%AD%A3%E5%88%99%E8%A1%A8%E8%BE%BE%E5%BC%8F/"><img class="next-cover" src="https://mediumcn.com/assets/images/default/regex_cover.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">正则表达式</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2017/02/23/制作文字动画/" title="CAShapeLayer文字动画"><img class="cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ-z_eC5566UVN1jpEuRD-nv5Lt7K5K6Uf1Xg&usqp=CAU" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2017-02-23</div><div class="title">CAShapeLayer文字动画</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Zephyr</div><div class="author-info__description">不断前行</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">24</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">75</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zephyrw"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">This is zephyr's capsule</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-number">2.</span> <span class="toc-text">目录</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%BD%BF%E7%94%A8"><span class="toc-number">3.</span> <span class="toc-text">使用</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#ShapeLayer%E5%9B%BE%E5%BD%A2%E5%8A%A8%E7%94%BB"><span class="toc-number">3.1.</span> <span class="toc-text">ShapeLayer图形动画</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8A%A8%E7%94%BB%E7%AE%80%E4%BB%8B"><span class="toc-number">3.1.1.</span> <span class="toc-text">动画简介</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.1.2.</span> <span class="toc-text">实现</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%A4%96%E8%BE%B9%E6%A1%86"><span class="toc-number">3.1.2.0.1.</span> <span class="toc-text">外边框</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B7%A6%E4%B8%8A%E8%A7%92%E8%BE%B9%E6%A1%86"><span class="toc-number">3.1.2.0.2.</span> <span class="toc-text">左上角边框</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%89%80%E6%9C%89%E6%A8%AA%E7%BA%BF"><span class="toc-number">3.1.2.0.3.</span> <span class="toc-text">所有横线</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B0%86%E6%89%80%E6%9C%89%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%E7%BB%98%E5%88%B6%E5%88%B0ShapeLayer%E4%B8%AD"><span class="toc-number">3.1.2.0.4.</span> <span class="toc-text">将所有贝塞尔曲线绘制到ShapeLayer中</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E6%B7%BB%E5%8A%A0SliderView"><span class="toc-number">3.1.2.0.5.</span> <span class="toc-text">添加SliderView</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#sliderValuerChanged%E6%96%B9%E6%B3%95%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.1.2.0.6.</span> <span class="toc-text">sliderValuerChanged方法实现</span></a></li></ol></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#ShapeLayer%E8%92%99%E7%89%88"><span class="toc-number">3.2.</span> <span class="toc-text">ShapeLayer蒙版</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%80%9D%E8%B7%AF"><span class="toc-number">3.2.1.</span> <span class="toc-text">思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0-1"><span class="toc-number">3.2.2.</span> <span class="toc-text">实现</span></a><ol class="toc-child"><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%9B%E5%BB%BA%E8%92%99%E7%89%88%E8%A7%86%E5%9B%BE%E5%B9%B6%E6%B7%BB%E5%8A%A0%E5%88%B0%E6%8E%A7%E5%88%B6%E5%99%A8%E8%A7%86%E5%9B%BE"><span class="toc-number">3.2.2.0.1.</span> <span class="toc-text">创建蒙版视图并添加到控制器视图</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E7%94%A8%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%E7%BB%98%E5%88%B6%E8%92%99%E7%89%88%E7%9A%84%E5%BD%A2%E7%8A%B6"><span class="toc-number">3.2.2.0.2.</span> <span class="toc-text">用贝塞尔曲线绘制蒙版的形状</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAShapeLayer%EF%BC%8C%E8%AE%BE%E7%BD%AE%E4%B9%8B%E5%89%8D%E5%88%9B%E5%BB%BA%E7%9A%84%E8%B4%9D%E5%A1%9E%E5%B0%94%E6%9B%B2%E7%BA%BF%E4%B8%BAcgPath"><span class="toc-number">3.2.2.0.3.</span> <span class="toc-text">创建ShapeLayer，设置之前创建的贝塞尔曲线为cgPath</span></a></li><li class="toc-item toc-level-5"><a class="toc-link" href="#%E5%B0%86ShapeLayer%E8%AE%BE%E4%B8%BA%E8%92%99%E7%89%88"><span class="toc-number">3.2.2.0.4.</span> <span class="toc-text">将ShapeLayer设为蒙版</span></a></li></ol></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/08/22/%E8%AF%A6%E8%A7%A3-Netty/" title="详解 Netty"><img src="https://i.loli.net/2021/08/22/aP4C5w82fmFhJEz.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="详解 Netty"/></a><div class="content"><a class="title" href="/2021/08/22/%E8%AF%A6%E8%A7%A3-Netty/" title="详解 Netty">详解 Netty</a><time datetime="2021-08-22T09:26:09.000Z" title="Created 2021-08-22 17:26:09">2021-08-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/08/09/%E5%A4%9A%E5%9B%BE%E8%AF%A6%E8%A7%A3AQS/" title="多图详解AQS"><img src="https://i.loli.net/2021/08/09/xgLhv4a6AZTDUEV.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="多图详解AQS"/></a><div class="content"><a class="title" href="/2021/08/09/%E5%A4%9A%E5%9B%BE%E8%AF%A6%E8%A7%A3AQS/" title="多图详解AQS">多图详解AQS</a><time datetime="2021-08-08T16:31:01.000Z" title="Created 2021-08-09 00:31:01">2021-08-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/08/02/%E8%AF%A6%E8%A7%A3Java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/" title="详解Java类加载过程"><img src="https://i.loli.net/2021/08/02/265OIqCLtMSwJkY.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="详解Java类加载过程"/></a><div class="content"><a class="title" href="/2021/08/02/%E8%AF%A6%E8%A7%A3Java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/" title="详解Java类加载过程">详解Java类加载过程</a><time datetime="2021-08-02T14:53:13.000Z" title="Created 2021-08-02 22:53:13">2021-08-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/07/31/JMM-Java-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" title="JMM - Java 内存模型"><img src="https://img-blog.csdnimg.cn/5057e1fd41aa4749b0f29a4d2b2d44e3.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FueWUzMjEwMA==,size_8,color_FFFFFF,t_70" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JMM - Java 内存模型"/></a><div class="content"><a class="title" href="/2021/07/31/JMM-Java-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" title="JMM - Java 内存模型">JMM - Java 内存模型</a><time datetime="2021-07-31T14:57:14.000Z" title="Created 2021-07-31 22:57:14">2021-07-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/15/%E3%80%90React-Native%E8%BF%9B%E9%98%B6%E3%80%91React-Native-Reanimated%E7%9A%84%E4%BD%BF%E7%94%A8/" title="【React Native进阶】React Native Reanimated的使用"><img src="https://docs.swmansion.com/react-native-reanimated/docs/animations/easeInOutQuad.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【React Native进阶】React Native Reanimated的使用"/></a><div class="content"><a class="title" href="/2020/12/15/%E3%80%90React-Native%E8%BF%9B%E9%98%B6%E3%80%91React-Native-Reanimated%E7%9A%84%E4%BD%BF%E7%94%A8/" title="【React Native进阶】React Native Reanimated的使用">【React Native进阶】React Native Reanimated的使用</a><time datetime="2020-12-15T15:32:58.000Z" title="Created 2020-12-15 23:32:58">2020-12-15</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Zephyr</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

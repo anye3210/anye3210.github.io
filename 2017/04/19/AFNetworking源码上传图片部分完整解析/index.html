@@ -1,90 +1,157 @@
-<!DOCTYPE HTML>
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="utf-8">
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>AFNetworking源码上传图片部分完整解析 | Zephyr's Capsule</title><meta name="keywords" content="AFNetwork,上传图片,源码解析"><meta name="author" content="Zephyr"><meta name="copyright" content="Zephyr"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="最近在开发SDK时有上传图片的需求，这个需求用AF的话当然非常简单，多添加一句代码就可以搞定。但为避免第三方耦合并没有使用AFNetworking，这就需要自己走完上传图片的全部流程，所以仔细研究了一下AFNetworking的相关源码，梳理了整个流程，它的流程大致是这样的： &lt;img src&#x3D;”http:&#x2F;&#x2F;ogdqxib8j.bkt.clouddn.com&#x2F;image&#x2F;png%E5%9B">
+<meta property="og:type" content="article">
+<meta property="og:title" content="AFNetworking源码上传图片部分完整解析">
+<meta property="og:url" content="http://anye3210.github.io/2017/04/19/AFNetworking%E6%BA%90%E7%A0%81%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E9%83%A8%E5%88%86%E5%AE%8C%E6%95%B4%E8%A7%A3%E6%9E%90/index.html">
+<meta property="og:site_name" content="Zephyr&#39;s Capsule">
+<meta property="og:description" content="最近在开发SDK时有上传图片的需求，这个需求用AF的话当然非常简单，多添加一句代码就可以搞定。但为避免第三方耦合并没有使用AFNetworking，这就需要自己走完上传图片的全部流程，所以仔细研究了一下AFNetworking的相关源码，梳理了整个流程，它的流程大致是这样的： &lt;img src&#x3D;”http:&#x2F;&#x2F;ogdqxib8j.bkt.clouddn.com&#x2F;image&#x2F;png%E5%9B">
+<meta property="og:locale">
+<meta property="og:image" content="http://cdn.tutsplus.com/mobile/uploads/2014/02/32pzi-preview-image@2x.png">
+<meta property="article:published_time" content="2017-04-19T14:00:00.000Z">
+<meta property="article:modified_time" content="2021-08-22T07:36:41.604Z">
+<meta property="article:author" content="Zephyr">
+<meta property="article:tag" content="AFNetwork">
+<meta property="article:tag" content="上传图片">
+<meta property="article:tag" content="源码解析">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://cdn.tutsplus.com/mobile/uploads/2014/02/32pzi-preview-image@2x.png"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://anye3210.github.io/2017/04/19/AFNetworking%E6%BA%90%E7%A0%81%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E9%83%A8%E5%88%86%E5%AE%8C%E6%95%B4%E8%A7%A3%E6%9E%90/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: 'AFNetworking源码上传图片部分完整解析',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-08-22 15:36:41'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
   
-  <title>AFNetworking源码上传图片部分完整解析 | Zephyr&#39;s Capsule | Stay hungry stay foolish</title>
-
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
   
-  <meta name="author" content="Zephyr">
-  
-
-  
-  <meta name="description" content="不断前行">
-  
-
-  
-  
-  <meta name="keywords" content="AFNetwork,上传图片,源码解析">
-  
-
-  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-  <meta property="og:title" content="AFNetworking源码上传图片部分完整解析">
-
-  <meta property="og:site_name" content="Zephyr&#39;s Capsule">
-
-  
-  <meta property="og:image" content="/favicon.ico">
-  
-
-  <link href="/favicon.ico" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="Zephyr&#39;s Capsule" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-</head>
-
-
-<body>
-<div class="blog">
-  <div class="content">
-
-    <header>
-  <div class="site-branding">
-    <h1 class="site-title">
-      <a href="/">Zephyr&#39;s Capsule</a>
-    </h1>
-    <p class="site-description">Stay hungry stay foolish</p>
-  </div>
-  <nav class="site-navigation">
-    <ul>
-      
-        <li><a href="/">Home</a></li>
-      
-        <li><a href="/archives">Archives</a></li>
-      
-    </ul>
-  </nav>
-</header>
-
-    <main class="site-main posts-loop">
-    <article>
-
-  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-    <h3 class="article-title"><span>AFNetworking源码上传图片部分完整解析</span></h3>
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
     
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2017/04/19/AFNetworking源码上传图片部分完整解析/" rel="bookmark">
-        <time class="entry-date published" datetime="2017-04-19T14:00:00.000Z">
-          2017-04-19
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <p>最近在开发SDK时有上传图片的需求，这个需求用AF的话当然非常简单，多添加一句代码就可以搞定。但为避免第三方耦合并没有使用AFNetworking，这就需要自己走完上传图片的全部流程，所以仔细研究了一下AFNetworking的相关源码，梳理了整个流程，它的流程大致是这样的：</p>
-<p>&lt;img src=”<a href="http://ogdqxib8j.bkt.clouddn.com/image/png%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0.png&quot;" target="_blank" rel="noopener">http://ogdqxib8j.bkt.clouddn.com/image/png%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0.png&quot;</a> title:”AFNetworking图片上传流程”&gt;</p>
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Zephyr's Capsule" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">24</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">75</div></a></div></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('http://cdn.tutsplus.com/mobile/uploads/2014/02/32pzi-preview-image@2x.png')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Zephyr's Capsule</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">AFNetworking源码上传图片部分完整解析</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">Created</span><time datetime="2017-04-19T14:00:00.000Z" title="undefined 2017-04-19 22:00:00">2017-04-19</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="AFNetworking源码上传图片部分完整解析"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><p>最近在开发SDK时有上传图片的需求，这个需求用AF的话当然非常简单，多添加一句代码就可以搞定。但为避免第三方耦合并没有使用AFNetworking，这就需要自己走完上传图片的全部流程，所以仔细研究了一下AFNetworking的相关源码，梳理了整个流程，它的流程大致是这样的：</p>
+<p>&lt;img src=”<a target="_blank" rel="noopener" href="http://ogdqxib8j.bkt.clouddn.com/image/png%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0.png&quot;">http://ogdqxib8j.bkt.clouddn.com/image/png%E5%9B%BE%E7%89%87%E4%B8%8A%E4%BC%A0.png&quot;</a> title:”AFNetworking图片上传流程”&gt;</p>
 <p>看着有点眼花眼花缭乱是吧，没关系，接着往下看，看完这篇文章，你也可以自己封装一套图片上传网络工具类。</p>
 <h1 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h1><ul>
 <li>基本原理</li>
@@ -96,153 +163,54 @@
 </ul>
 </li>
 </ul>
-<a id="more"></a>
+<span id="more"></span>
 
 <h1 id="基本原理"><a href="#基本原理" class="headerlink" title="基本原理"></a>基本原理</h1><p>首先我们来看一下AF中上传图片的方法长什么样：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">nullable</span> <span class="built_in">NSURLSessionDataTask</span> *)POST:(<span class="built_in">NSString</span> *)URLString</span><br><span class="line">                             parameters:(<span class="keyword">nullable</span> <span class="keyword">id</span>)parameters</span><br><span class="line">              constructingBodyWithBlock:(<span class="keyword">nullable</span> <span class="keyword">void</span> (^)(<span class="keyword">id</span> &lt;AFMultipartFormData&gt; formData))block</span><br><span class="line">                               progress:(<span class="keyword">nullable</span> <span class="keyword">void</span> (^)(<span class="built_in">NSProgress</span> *uploadProgress))uploadProgress</span><br><span class="line">                                success:(<span class="keyword">nullable</span> <span class="keyword">void</span> (^)(<span class="built_in">NSURLSessionDataTask</span> *task, <span class="keyword">id</span> _Nullable responseObject))success</span><br><span class="line">                                failure:(<span class="keyword">nullable</span> <span class="keyword">void</span> (^)(<span class="built_in">NSURLSessionDataTask</span> * _Nullable task, <span class="built_in">NSError</span> *error))failure;</span><br></pre></td></tr></table></figure>
-
 <h3 id="请求方式"><a href="#请求方式" class="headerlink" title="请求方式"></a>请求方式</h3><p>这个方法和AF其他正常的POST请求一样，都是基于<code>NSURLSession</code>，通过自定义的<code>NSMutableURLRequest</code>发起网络请求。不过在这个方法中，并没有使用常用的<code>dataTaskWithRequest</code>方法，而使用的是<code>uploadTaskWithStreamedRequest</code>。</p>
 <h3 id="工具类AFStreamingMultipartFormData"><a href="#工具类AFStreamingMultipartFormData" class="headerlink" title="工具类AFStreamingMultipartFormData"></a>工具类<code>AFStreamingMultipartFormData</code></h3><p>在整个图片上传请求过程中，核心点在于为网络请求<code>NSURLReqeust</code>进行自定义的参数设定。为此，<code>AFNetworking</code>封装了一个工具类<code>AFStreamingMultipartFormData</code>，在这个类中完成对<code>NSURLRequst</code>除<code>HTTPMethod</code>外所有参数的设定。</p>
-<h3 id="InputStream的子类AFMultipartBodyStream"><a href="#InputStream的子类AFMultipartBodyStream" class="headerlink" title="InputStream的子类AFMultipartBodyStream"></a><code>InputStream</code>的子类<code>AFMultipartBodyStream</code></h3><p>图片上传需要封装参数和图片数据，每一个参数的键值对都会封装成一个<code>AFHTTPBodyPart</code>模型，而<code>AFMultipartBodyStream</code>就负责对<code>AFHTTPBodyPart</code>进行管理，它本身同时也是自定义的<code>HTTPBodyStream</code>。</p>
+<h3 id="InputStream的子类AFMultipartBodyStream"><a href="#InputStream的子类AFMultipartBodyStream" class="headerlink" title="InputStream的子类AFMultipartBodyStream"></a><code>InputStream</code>的子类<code>AFMultipartBodyStream</code></h3><p>图片上传需要封装参数和图片数据，每一个参数的键值对都会封装成一个<code>AFHTTPBodyPart</code>模型，而<code>AFMultipartBodyStream </code>就负责对<code>AFHTTPBodyPart</code>进行管理，它本身同时也是自定义的<code>HTTPBodyStream</code>。</p>
 <h3 id="参数的封装AFHTTPBodyPart"><a href="#参数的封装AFHTTPBodyPart" class="headerlink" title="参数的封装AFHTTPBodyPart"></a>参数的封装<code>AFHTTPBodyPart</code></h3><p><code>AFHTTPBodyPart</code>是对POST请求数据的封装，并实现将请求数据转换为<code>InputStream</code>的方法</p>
 <h1 id="具体实现"><a href="#具体实现" class="headerlink" title="具体实现"></a>具体实现</h1><p>上面的原理讲起来有点儿抽象，下面从图片上传的完整实现中来了解整个过程。</p>
 <h3 id="创建NSMutableURLRequest并设置请求方式为POST"><a href="#创建NSMutableURLRequest并设置请求方式为POST" class="headerlink" title="创建NSMutableURLRequest并设置请求方式为POST"></a>创建<code>NSMutableURLRequest</code>并设置请求方式为<code>POST</code></h3><p>这一步就是常规步骤，代码如下：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSMutableURLRequest</span> *request = [[<span class="built_in">NSMutableURLRequest</span> alloc]initWithURL:[<span class="built_in">NSURL</span> URLWithString:api] cachePolicy:<span class="built_in">NSURLRequestUseProtocolCachePolicy</span> timeoutInterval:<span class="number">10.0</span>f];</span><br><span class="line">[request setHTTPMethod:<span class="string">@"POST"</span>];</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="built_in">NSMutableURLRequest</span> *request = [[<span class="built_in">NSMutableURLRequest</span> alloc]initWithURL:[<span class="built_in">NSURL</span> URLWithString:api] cachePolicy:<span class="built_in">NSURLRequestUseProtocolCachePolicy</span> timeoutInterval:<span class="number">10.0</span>f];</span><br><span class="line">[request setHTTPMethod:<span class="string">@&quot;POST&quot;</span>];</span><br></pre></td></tr></table></figure>
 <h3 id="自定义HTTPBodyStream"><a href="#自定义HTTPBodyStream" class="headerlink" title="自定义HTTPBodyStream"></a>自定义<code>HTTPBodyStream</code></h3><p>首先，需要创建一个工具类来管理刚刚创建的<code>request</code>：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">__block AFStreamingMultipartFormData *formData = [[AFStreamingMultipartFormData alloc] initWithURLRequest:request stringEncoding:<span class="built_in">NSUTF8StringEncoding</span>];</span><br></pre></td></tr></table></figure>
-
 <p>接下来，需要将所有参数的键值对转换为<code>AFHTTPBodyPart</code>，这里要分两种情况：普通参数和图片相关参数。</p>
 <h4 id="普通参数"><a href="#普通参数" class="headerlink" title="普通参数"></a>普通参数</h4><p>普通参数的转换直接遍历即可，将每一个键值对都转换为<code>AFHTTPBodyPart</code>，不过<code>AFNetworking</code>在这里将键值对又封闭了一个模型<code>AFQueryStringPair</code>，所以你看到的是这样的：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (parameters) &#123;</span><br><span class="line">    <span class="keyword">for</span> (AFQueryStringPair *pair <span class="keyword">in</span> AFQueryStringPairsFromDictionary(parameters)) &#123;</span><br><span class="line">        <span class="built_in">NSData</span> *data = <span class="literal">nil</span>;</span><br><span class="line">        <span class="keyword">if</span> ([pair.value isKindOfClass:[<span class="built_in">NSData</span> <span class="keyword">class</span>]]) &#123;</span><br><span class="line">            data = pair.value;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> ([pair.value isEqual:[<span class="built_in">NSNull</span> null]]) &#123;</span><br><span class="line">            data = [<span class="built_in">NSData</span> data];</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            data = [[pair.value description] dataUsingEncoding:<span class="keyword">self</span>.stringEncoding];</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        <span class="keyword">if</span> (data) &#123;</span><br><span class="line">            [formData appendPartWithFormData:data name:[pair.field description]];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>不过个人觉得完全没有必要，不封装模型这样写可以达到同样的效果：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">if</span> (parameters) &#123;</span><br><span class="line">    [parameters enumerateKeysAndObjectsUsingBlock:^(<span class="keyword">id</span>  _Nonnull key, <span class="keyword">id</span>  _Nonnull obj, <span class="built_in">BOOL</span> * _Nonnull stop) &#123;</span><br><span class="line">        <span class="built_in">NSData</span> *data = <span class="literal">nil</span>;</span><br><span class="line">        <span class="keyword">if</span> ([obj isKindOfClass:[<span class="built_in">NSData</span> <span class="keyword">class</span>]]) &#123;</span><br><span class="line">            data = obj;</span><br><span class="line">        &#125;<span class="keyword">else</span> <span class="keyword">if</span> ([obj isKindOfClass:[<span class="built_in">NSNull</span> <span class="keyword">class</span>]]) &#123;</span><br><span class="line">            data = [<span class="built_in">NSData</span> data];</span><br><span class="line">        &#125;<span class="keyword">else</span> &#123;</span><br><span class="line">            data = [[obj description] dataUsingEncoding:<span class="built_in">NSUTF8StringEncoding</span>];</span><br><span class="line">        &#125;</span><br><span class="line">        <span class="keyword">if</span> (data) &#123;</span><br><span class="line">            [formData appendPartWithFormData:data name:[key description]];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>在上面的方法中，调用了<code>-appendPartWithFormData:name:</code>方法，这个方法的作用有两个：拼装Header字典和封装<code>AFHTTPBodyPart</code>模型：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)appendPartWithFormData:(<span class="built_in">NSData</span> *)data</span><br><span class="line">                          name:(<span class="built_in">NSString</span> *)name &#123;</span><br><span class="line">    <span class="built_in">NSParameterAssert</span>(name);</span><br><span class="line">	<span class="comment">// 拼装Header字典</span></span><br><span class="line">    <span class="built_in">NSMutableDictionary</span> *mutableHeaders = [<span class="built_in">NSMutableDictionary</span> dictionary];</span><br><span class="line">    [mutableHeaders setValue:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"form-data; name=\"%@\""</span>, name] forKey:<span class="string">@"Content-Disposition"</span>];</span><br><span class="line"></span><br><span class="line">    [<span class="keyword">self</span> appendPartWithHeaders:mutableHeaders body:data];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)appendPartWithFormData:(<span class="built_in">NSData</span> *)data</span><br><span class="line">                          name:(<span class="built_in">NSString</span> *)name &#123;</span><br><span class="line">    <span class="built_in">NSParameterAssert</span>(name);</span><br><span class="line">	<span class="comment">// 拼装Header字典</span></span><br><span class="line">    <span class="built_in">NSMutableDictionary</span> *mutableHeaders = [<span class="built_in">NSMutableDictionary</span> dictionary];</span><br><span class="line">    [mutableHeaders setValue:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;form-data; name=\&quot;%@\&quot;&quot;</span>, name] forKey:<span class="string">@&quot;Content-Disposition&quot;</span>];</span><br><span class="line"></span><br><span class="line">    [<span class="keyword">self</span> appendPartWithHeaders:mutableHeaders body:data];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)appendPartWithHeaders:(<span class="built_in">NSDictionary</span> *)headers</span><br><span class="line">                         body:(<span class="built_in">NSData</span> *)body</span><br><span class="line">&#123;</span><br><span class="line">    <span class="built_in">NSParameterAssert</span>(body);</span><br><span class="line">	<span class="comment">// 创建模型</span></span><br><span class="line">    AFHTTPBodyPart *bodyPart = [[AFHTTPBodyPart alloc] init];</span><br><span class="line">    bodyPart.stringEncoding = <span class="keyword">self</span>.stringEncoding;</span><br><span class="line">    bodyPart.headers = headers;</span><br><span class="line">    bodyPart.boundary = <span class="keyword">self</span>.boundary;</span><br><span class="line">    bodyPart.bodyContentLength = [body length];</span><br><span class="line">    bodyPart.body = body;</span><br><span class="line">	<span class="comment">// bodyStream管理bodyPart</span></span><br><span class="line">    [<span class="keyword">self</span>.bodyStream appendHTTPBodyPart:bodyPart];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>接下来就是在<code>AFMultipartBodyStream</code>中管理生成的多个<code>AFHTTPBodyPart</code>。</p>
 <h4 id="图片相关参数"><a href="#图片相关参数" class="headerlink" title="图片相关参数"></a>图片相关参数</h4><p>如果只需要单一的上传图片的需求，直接将图片的数据、名称、类型等作为方法的参数传进来就可以，实现起来除Header的拼装有差异外几乎和上面正常参数一样。但AF为了可扩展性，添加了一个Block和代理，方便除<code>NSData</code>以外诸如<code>FileURL</code>、<code>InputStream</code>等上传方式。</p>
 <p>这个Block长这个样子</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">void</span> (^block)(<span class="keyword">id</span> &lt;AFMultipartFormData&gt; formData)</span><br></pre></td></tr></table></figure>
-
-<p>Block传入的参数是除图片参数的键值对外的全部转换完成后的<code>AFStreamingMultipartFormData</code>，遵从<code>AFMultipartFormData</code>协议。在以上正常参数转换完之后调用，Block的实现为用户自定义，用户可以选择适合的方式添加参数上传数据，这里只讲图片的<code>NSData</code>方式上传：</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[formData appendPartWithFileData:imageData name:key fileName:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%@.jpg"</span>,key] mimeType:<span class="string">@"image/jpeg"</span>];</span><br></pre></td></tr></table></figure>
-
+<p>Block传入的参数是除图片参数的键值对外的全部转换完成后的<code>AFStreamingMultipartFormData</code>，遵从<code>AFMultipartFormData </code>协议。在以上正常参数转换完之后调用，Block的实现为用户自定义，用户可以选择适合的方式添加参数上传数据，这里只讲图片的<code>NSData</code>方式上传：</p>
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">[formData appendPartWithFileData:imageData name:key fileName:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;%@.jpg&quot;</span>,key] mimeType:<span class="string">@&quot;image/jpeg&quot;</span>];</span><br></pre></td></tr></table></figure>
 <p>然后同样是拼接Header</p>
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)appendPartWithFileData:(<span class="built_in">NSData</span> *)data</span><br><span class="line">                          name:(<span class="built_in">NSString</span> *)name</span><br><span class="line">                      fileName:(<span class="built_in">NSString</span> *)fileName</span><br><span class="line">                      mimeType:(<span class="built_in">NSString</span> *)mimeType &#123;</span><br><span class="line">    <span class="built_in">NSParameterAssert</span>(name);</span><br><span class="line">    <span class="built_in">NSParameterAssert</span>(fileName);</span><br><span class="line">    <span class="built_in">NSParameterAssert</span>(mimeType);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSMutableDictionary</span> *mutableHeaders = [<span class="built_in">NSMutableDictionary</span> dictionary];</span><br><span class="line">    [mutableHeaders setValue:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"form-data; name=\"%@\"; filename=\"%@\""</span>, name, fileName] forKey:<span class="string">@"Content-Disposition"</span>];</span><br><span class="line">    [mutableHeaders setValue:mimeType forKey:<span class="string">@"Content-Type"</span>];</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span> appendPartWithHeaders:mutableHeaders body:data];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)appendPartWithFileData:(<span class="built_in">NSData</span> *)data</span><br><span class="line">                          name:(<span class="built_in">NSString</span> *)name</span><br><span class="line">                      fileName:(<span class="built_in">NSString</span> *)fileName</span><br><span class="line">                      mimeType:(<span class="built_in">NSString</span> *)mimeType &#123;</span><br><span class="line">    <span class="built_in">NSParameterAssert</span>(name);</span><br><span class="line">    <span class="built_in">NSParameterAssert</span>(fileName);</span><br><span class="line">    <span class="built_in">NSParameterAssert</span>(mimeType);</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSMutableDictionary</span> *mutableHeaders = [<span class="built_in">NSMutableDictionary</span> dictionary];</span><br><span class="line">    [mutableHeaders setValue:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;form-data; name=\&quot;%@\&quot;; filename=\&quot;%@\&quot;&quot;</span>, name, fileName] forKey:<span class="string">@&quot;Content-Disposition&quot;</span>];</span><br><span class="line">    [mutableHeaders setValue:mimeType forKey:<span class="string">@&quot;Content-Type&quot;</span>];</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span> appendPartWithHeaders:mutableHeaders body:data];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <p>然后是转换成<code>AFHTTPBodyPart</code>，由<code>AFMultipartBodyStream</code>进行管理。</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="keyword">void</span>)appendPartWithHeaders:(<span class="built_in">NSDictionary</span> *)headers</span><br><span class="line">                         body:(<span class="built_in">NSData</span> *)body &#123;</span><br><span class="line">    <span class="built_in">NSParameterAssert</span>(body);</span><br><span class="line">    </span><br><span class="line">    AFHTTPBodyPart *bodyPart = [[AFHTTPBodyPart alloc] init];</span><br><span class="line">    bodyPart.stringEncoding = <span class="keyword">self</span>.stringEncoding;</span><br><span class="line">    bodyPart.headers = headers;</span><br><span class="line">    bodyPart.boundary = <span class="keyword">self</span>.boundary;</span><br><span class="line">    bodyPart.bodyContentLength = [body length];</span><br><span class="line">    bodyPart.body = body;</span><br><span class="line">    </span><br><span class="line">    [<span class="keyword">self</span>.bodyStream appendHTTPBodyPart:bodyPart];</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <h4 id="AFMultipartBodyStream管理并转换AFHTTPBodyPart内部数据的具体实现"><a href="#AFMultipartBodyStream管理并转换AFHTTPBodyPart内部数据的具体实现" class="headerlink" title="AFMultipartBodyStream管理并转换AFHTTPBodyPart内部数据的具体实现"></a><code>AFMultipartBodyStream</code>管理并转换<code>AFHTTPBodyPart</code>内部数据的具体实现</h4><p>每生成一个<code>AFHTTPBodyPart</code>它都会存入<code>AFMultipartBodyStream</code>的<code>HTTPBodyParts</code>这个可变数组中，方便后面对数据进行处理。</p>
 <p>而<code>AFMultipartBodyStream</code>的对数据转换要从它的父类<code>NSInputStream</code>说起，<code>NSInputStream</code>是<code>NSStream</code>的子类，方便我们以流文件的形式读取数据。在AF中，它重写了父类的<code>-read:maxLength:</code>方法，在这个方法里进行数据的处理。</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">NSInteger</span>)read:(uint8_t *)buffer</span><br><span class="line">        maxLength:(<span class="built_in">NSUInteger</span>)length &#123;</span><br><span class="line">    <span class="keyword">if</span> ([<span class="keyword">self</span> streamStatus] == <span class="built_in">NSStreamStatusClosed</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="built_in">NSInteger</span> totalNumberOfBytesRead = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">while</span> ((<span class="built_in">NSUInteger</span>)totalNumberOfBytesRead &lt; MIN(length, <span class="keyword">self</span>.numberOfBytesInPacket)) &#123;</span><br><span class="line">        <span class="keyword">if</span> (!<span class="keyword">self</span>.currentHTTPBodyPart || ![<span class="keyword">self</span>.currentHTTPBodyPart hasBytesAvailable]) &#123;</span><br><span class="line">            <span class="keyword">if</span> (!(<span class="keyword">self</span>.currentHTTPBodyPart = [<span class="keyword">self</span>.HTTPBodyPartEnumerator nextObject])) &#123;</span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="built_in">NSUInteger</span> maxLength = MIN(length, <span class="keyword">self</span>.numberOfBytesInPacket) - (<span class="built_in">NSUInteger</span>)totalNumberOfBytesRead;</span><br><span class="line">            <span class="built_in">NSInteger</span> numberOfBytesRead = [<span class="keyword">self</span>.currentHTTPBodyPart read:&amp;buffer[totalNumberOfBytesRead] maxLength:maxLength];</span><br><span class="line">            <span class="keyword">if</span> (numberOfBytesRead == <span class="number">-1</span>) &#123;</span><br><span class="line"><span class="comment">//                self.streamError = self.currentHTTPBodyPart.inputStream.streamError;</span></span><br><span class="line">                <span class="keyword">break</span>;</span><br><span class="line">            &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">                totalNumberOfBytesRead += numberOfBytesRead;</span><br><span class="line">                </span><br><span class="line">                <span class="keyword">if</span> (<span class="keyword">self</span>.delay &gt; <span class="number">0.0</span>f) &#123;</span><br><span class="line">                    [<span class="built_in">NSThread</span> sleepForTimeInterval:<span class="keyword">self</span>.delay];</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> totalNumberOfBytesRead;</span><br><span class="line">&#125;</span><br><span class="line">​``` objc</span><br><span class="line">上面这个方法核心就是把`bodyPart`挨个取出来进行读取数据操作，`bodyPart`读取数据的操作是在其内部实现的：</span><br><span class="line"></span><br><span class="line">​``` objc</span><br><span class="line">- (<span class="built_in">NSInteger</span>)read:(uint8_t *)buffer</span><br><span class="line">        maxLength:(<span class="built_in">NSUInteger</span>)length &#123;</span><br><span class="line">    <span class="built_in">NSInteger</span> totalNumberOfBytesRead = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (_phase == AFEncapsulationBoundaryPhase) &#123;</span><br><span class="line">        <span class="built_in">NSData</span> *encapsulationBoundaryData = [([<span class="keyword">self</span> hasInitialBoundary] ? AFMultipartFormInitialBoundary(<span class="keyword">self</span>.boundary) : AFMultipartFormEncapsulationBoundary(<span class="keyword">self</span>.boundary)) dataUsingEncoding:<span class="keyword">self</span>.stringEncoding];</span><br><span class="line">        totalNumberOfBytesRead += [<span class="keyword">self</span> readData:encapsulationBoundaryData intoBuffer:&amp;buffer[totalNumberOfBytesRead] maxLength:(length - (<span class="built_in">NSUInteger</span>)totalNumberOfBytesRead)];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (_phase == AFHeaderPhase) &#123;</span><br><span class="line">        <span class="built_in">NSData</span> *headersData = [[<span class="keyword">self</span> stringForHeaders] dataUsingEncoding:<span class="keyword">self</span>.stringEncoding];</span><br><span class="line">        totalNumberOfBytesRead += [<span class="keyword">self</span> readData:headersData intoBuffer:&amp;buffer[totalNumberOfBytesRead] maxLength:(length - (<span class="built_in">NSUInteger</span>)totalNumberOfBytesRead)];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (_phase == AFBodyPhase) &#123;</span><br><span class="line">        <span class="built_in">NSInteger</span> numberOfBytesRead = <span class="number">0</span>;</span><br><span class="line">        </span><br><span class="line">        numberOfBytesRead = [<span class="keyword">self</span>.inputStream read:&amp;buffer[totalNumberOfBytesRead] maxLength:(length - (<span class="built_in">NSUInteger</span>)totalNumberOfBytesRead)];</span><br><span class="line">        <span class="keyword">if</span> (numberOfBytesRead == <span class="number">-1</span>) &#123;</span><br><span class="line">            <span class="keyword">return</span> <span class="number">-1</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            totalNumberOfBytesRead += numberOfBytesRead;</span><br><span class="line">            </span><br><span class="line">            <span class="keyword">if</span> ([<span class="keyword">self</span>.inputStream streamStatus] &gt;= <span class="built_in">NSStreamStatusAtEnd</span>) &#123;</span><br><span class="line">                [<span class="keyword">self</span> transitionToNextPhase];</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (_phase == AFFinalBoundaryPhase) &#123;</span><br><span class="line">        <span class="built_in">NSData</span> *closingBoundaryData = ([<span class="keyword">self</span> hasFinalBoundary] ? [AFMultipartFormFinalBoundary(<span class="keyword">self</span>.boundary) dataUsingEncoding:<span class="keyword">self</span>.stringEncoding] : [<span class="built_in">NSData</span> data]);</span><br><span class="line">        totalNumberOfBytesRead += [<span class="keyword">self</span> readData:closingBoundaryData intoBuffer:&amp;buffer[totalNumberOfBytesRead] maxLength:(length - (<span class="built_in">NSUInteger</span>)totalNumberOfBytesRead)];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> totalNumberOfBytesRead;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">NSInteger</span>)readData:(<span class="built_in">NSData</span> *)data</span><br><span class="line">           intoBuffer:(uint8_t *)buffer</span><br><span class="line">            maxLength:(<span class="built_in">NSUInteger</span>)length &#123;</span><br><span class="line">    <span class="built_in">NSRange</span> range = <span class="built_in">NSMakeRange</span>((<span class="built_in">NSUInteger</span>)_phaseReadOffset, MIN([data length] - ((<span class="built_in">NSUInteger</span>)_phaseReadOffset), length));</span><br><span class="line">    [data getBytes:buffer range:range];</span><br><span class="line">    </span><br><span class="line">    _phaseReadOffset += range.length;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">if</span> (((<span class="built_in">NSUInteger</span>)_phaseReadOffset) &gt;= [data length]) &#123;</span><br><span class="line">        [<span class="keyword">self</span> transitionToNextPhase];</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> (<span class="built_in">NSInteger</span>)range.length;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">BOOL</span>)transitionToNextPhase &#123;</span><br><span class="line">    <span class="keyword">if</span> (![[<span class="built_in">NSThread</span> currentThread] isMainThread]) &#123;</span><br><span class="line">        <span class="built_in">dispatch_sync</span>(dispatch_get_main_queue(), ^&#123;</span><br><span class="line">            [<span class="keyword">self</span> transitionToNextPhase];</span><br><span class="line">        &#125;);</span><br><span class="line">        <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">switch</span> (_phase) &#123;</span><br><span class="line">        <span class="keyword">case</span> AFEncapsulationBoundaryPhase:</span><br><span class="line">            _phase = AFHeaderPhase;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> AFHeaderPhase:</span><br><span class="line">            [<span class="keyword">self</span>.inputStream scheduleInRunLoop:[<span class="built_in">NSRunLoop</span> currentRunLoop] forMode:<span class="built_in">NSRunLoopCommonModes</span>];</span><br><span class="line">            [<span class="keyword">self</span>.inputStream open];</span><br><span class="line">            _phase = AFBodyPhase;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> AFBodyPhase:</span><br><span class="line">            [<span class="keyword">self</span>.inputStream close];</span><br><span class="line">            _phase = AFFinalBoundaryPhase;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> AFFinalBoundaryPhase:</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">            _phase = AFEncapsulationBoundaryPhase;</span><br><span class="line">            <span class="keyword">break</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    _phaseReadOffset = <span class="number">0</span>;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="literal">YES</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>上面三个方法即是<code>bodyPart</code>对数据读取的全部实现，看着比较复杂，梳理下来其实它的逻辑也比较清晰。简单来说就是把数据读取分成几个阶段，不同阶段进行相应操作，其最核心的是这两句：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[<span class="keyword">self</span>.inputStream scheduleInRunLoop:[<span class="built_in">NSRunLoop</span> currentRunLoop] forMode:<span class="built_in">NSRunLoopCommonModes</span>];</span><br><span class="line">[<span class="keyword">self</span>.inputStream open];</span><br></pre></td></tr></table></figure>
-
 <p>这两句不仅仅是把输入流加入运行循环，开始读取数据，这里还用了一个懒加载，重写了<code>inputStream</code>的<code>getter</code>方法，在这个方法里进行了<code>inputStream</code>的初始化，即数据源的指定。</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">NSInputStream</span> *)inputStream &#123;</span><br><span class="line">    <span class="keyword">if</span> (!_inputStream) &#123;</span><br><span class="line">        <span class="keyword">if</span> ([<span class="keyword">self</span>.body isKindOfClass:[<span class="built_in">NSData</span> <span class="keyword">class</span>]]) &#123;</span><br><span class="line">            _inputStream = [<span class="built_in">NSInputStream</span> inputStreamWithData:<span class="keyword">self</span>.body];</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> ([<span class="keyword">self</span>.body isKindOfClass:[<span class="built_in">NSURL</span> <span class="keyword">class</span>]]) &#123;</span><br><span class="line">            _inputStream = [<span class="built_in">NSInputStream</span> inputStreamWithURL:<span class="keyword">self</span>.body];</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> ([<span class="keyword">self</span>.body isKindOfClass:[<span class="built_in">NSInputStream</span> <span class="keyword">class</span>]]) &#123;</span><br><span class="line">            _inputStream = <span class="keyword">self</span>.body;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            _inputStream = [<span class="built_in">NSInputStream</span> inputStreamWithData:[<span class="built_in">NSData</span> data]];</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> _inputStream;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>所有的参数的数据流读取完毕，我们的自定义<code>HTTPBodyStream</code>也完成了，接下来就可以把它赋值给<code>request</code>了。</p>
 <h3 id="对request进行参数设置"><a href="#对request进行参数设置" class="headerlink" title="对request进行参数设置"></a>对<code>request</code>进行参数设置</h3><p>参数设置这步比较简单，将之前自定义好的<code>HTTPBodyStream</code>赋值然后补充必要的参数即可：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">// 调用方法对request进行配置</span></span><br><span class="line">[formData requestByFinalizingMultipartFormData]</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">NSMutableURLRequest</span> *)requestByFinalizingMultipartFormData &#123;</span><br><span class="line">    <span class="keyword">if</span> ([<span class="keyword">self</span>.bodyStream isEmpty]) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span>.request;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 重设Boundary确保内容长度计算正确</span></span><br><span class="line">    [<span class="keyword">self</span>.bodyStream setInitialAndFinalBoundaries];</span><br><span class="line">    [<span class="keyword">self</span>.request setHTTPBodyStream:<span class="keyword">self</span>.bodyStream];</span><br><span class="line"></span><br><span class="line">    [<span class="keyword">self</span>.request setValue:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"multipart/form-data; boundary=%@"</span>, <span class="keyword">self</span>.boundary] forHTTPHeaderField:<span class="string">@"Content-Type"</span>];</span><br><span class="line">    [<span class="keyword">self</span>.request setValue:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@"%llu"</span>, [<span class="keyword">self</span>.bodyStream contentLength]] forHTTPHeaderField:<span class="string">@"Content-Length"</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>.request;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">NSMutableURLRequest</span> *)requestByFinalizingMultipartFormData &#123;</span><br><span class="line">    <span class="keyword">if</span> ([<span class="keyword">self</span>.bodyStream isEmpty]) &#123;</span><br><span class="line">        <span class="keyword">return</span> <span class="keyword">self</span>.request;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="comment">// 重设Boundary确保内容长度计算正确</span></span><br><span class="line">    [<span class="keyword">self</span>.bodyStream setInitialAndFinalBoundaries];</span><br><span class="line">    [<span class="keyword">self</span>.request setHTTPBodyStream:<span class="keyword">self</span>.bodyStream];</span><br><span class="line"></span><br><span class="line">    [<span class="keyword">self</span>.request setValue:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;multipart/form-data; boundary=%@&quot;</span>, <span class="keyword">self</span>.boundary] forHTTPHeaderField:<span class="string">@&quot;Content-Type&quot;</span>];</span><br><span class="line">    [<span class="keyword">self</span>.request setValue:[<span class="built_in">NSString</span> stringWithFormat:<span class="string">@&quot;%llu&quot;</span>, [<span class="keyword">self</span>.bodyStream contentLength]] forHTTPHeaderField:<span class="string">@&quot;Content-Length&quot;</span>];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="keyword">self</span>.request;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 <h3 id="通过NSURLSession的uploadTaskWithStreamedRequest-方法发起Post请求"><a href="#通过NSURLSession的uploadTaskWithStreamedRequest-方法发起Post请求" class="headerlink" title="通过NSURLSession的uploadTaskWithStreamedRequest:方法发起Post请求"></a>通过NSURLSession的uploadTaskWithStreamedRequest:方法发起Post请求</h3><p>上面<code>request</code>配置完成，就剩最后一步发起请求了：</p>
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">__block <span class="built_in">NSURLSessionDataTask</span> *task = [<span class="keyword">self</span> uploadTaskWithStreamedRequest:request progress:uploadProgress completionHandler:^(<span class="built_in">NSURLResponse</span> * __unused response, <span class="keyword">id</span> responseObject, <span class="built_in">NSError</span> *error) &#123;</span><br><span class="line">        <span class="keyword">if</span> (error) &#123;</span><br><span class="line">            <span class="keyword">if</span> (failure) &#123;</span><br><span class="line">                failure(task, error);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">            <span class="keyword">if</span> (success) &#123;</span><br><span class="line">                success(task, responseObject);</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;];</span><br><span class="line"></span><br><span class="line">    [task resume];</span><br></pre></td></tr></table></figure>
-
 <figure class="highlight objc"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">- (<span class="built_in">NSURLSessionUploadTask</span> *)uploadTaskWithStreamedRequest:(<span class="built_in">NSURLRequest</span> *)request</span><br><span class="line">                                                 progress:(<span class="keyword">void</span> (^)(<span class="built_in">NSProgress</span> *uploadProgress)) uploadProgressBlock</span><br><span class="line">                                        completionHandler:(<span class="keyword">void</span> (^)(<span class="built_in">NSURLResponse</span> *response, <span class="keyword">id</span> responseObject, <span class="built_in">NSError</span> *error))completionHandler</span><br><span class="line">&#123;</span><br><span class="line">    __block <span class="built_in">NSURLSessionUploadTask</span> *uploadTask = <span class="literal">nil</span>;</span><br><span class="line">    url_session_manager_create_task_safely(^&#123;</span><br><span class="line">        uploadTask = [<span class="keyword">self</span>.session uploadTaskWithStreamedRequest:request];</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    [<span class="keyword">self</span> addDelegateForUploadTask:uploadTask progress:uploadProgressBlock completionHandler:completionHandler];</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> uploadTask;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 <p>在AF自定义的上传方法中，使用了自己的代理，并让代理调用Block进行上传进度和完成的回调，具体实现在这里就不赘述了，可以看源代码进一步了解。</p>
 <p>其实这个方法也完全可以用<code>- dataTaskWithRequest:completionHandler:</code>代替，这就避免了自己手动实现代理和回调的麻烦。</p>
 <p>至此，整个图片上传流程就完成了。如果你自己写一个上传图片方法，其实也完全不用像AF的这么复杂，毕竟AF是要考虑到各种复杂的使用场景，内部的复杂实现可以保证调用更灵活也更方便。</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/AFNetwork/">AFNetwork</a><a href="/tags/上传图片/">上传图片</a><a href="/tags/源码解析/">源码解析</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-  
-	<div id="comment">
-	
-	
-	<!-- 多说评论框 start -->
-	 <div class="ds-thread" data-thread-key="/2017/04/19/AFNetworking源码上传图片部分完整解析/" data-title="AFNetworking源码上传图片部分完整解析" data-url="http://anye3210.github.io/2017/04/19/AFNetworking源码上传图片部分完整解析/"></div>
-	<!-- 多说评论框 end -->
-	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"Zephyr's Capsule"};
-	  (function() {
-	    var ds = document.createElement('script');
-	    ds.type = 'text/javascript';ds.async = true;
-	    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-	    ds.charset = 'UTF-8';
-	    (document.getElementsByTagName('head')[0] 
-	     || document.getElementsByTagName('body')[0]).appendChild(ds);
-	  })();
-	  </script>
-	<!-- 多说公共JS代码 end -->
-	
-	</div>
-
-
-
-
-    </main>
-
-    <footer class="site-footer">
-  <p class="site-info">
-    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
-    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
-    </br>
-    
-    &copy; 2021 Zephyr
-    
-  </p>
-</footer>
-    
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-87098157-1', 'auto');
-    ga('send', 'pageview');
-
-</script>
-
-  </div>
-</div>
-</body>
-</html>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Zephyr</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://anye3210.github.io/2017/04/19/AFNetworking%E6%BA%90%E7%A0%81%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E9%83%A8%E5%88%86%E5%AE%8C%E6%95%B4%E8%A7%A3%E6%9E%90/">http://anye3210.github.io/2017/04/19/AFNetworking%E6%BA%90%E7%A0%81%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87%E9%83%A8%E5%88%86%E5%AE%8C%E6%95%B4%E8%A7%A3%E6%9E%90/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/AFNetwork/">AFNetwork</a><a class="post-meta__tags" href="/tags/%E4%B8%8A%E4%BC%A0%E5%9B%BE%E7%89%87/">上传图片</a><a class="post-meta__tags" href="/tags/%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90/">源码解析</a></div><div class="post_share"><div class="social-share" data-image="http://cdn.tutsplus.com/mobile/uploads/2014/02/32pzi-preview-image@2x.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2019/05/30/%E5%B0%81%E8%A3%85%E8%87%AA%E5%B7%B1%E7%9A%84%E8%87%AA%E5%AE%9A%E4%B9%89%E8%BD%AC%E5%9C%BA%E7%BB%84%E4%BB%B6/"><img class="prev-cover" src="https://www.katieroberts.com.au/career-advice-blog/wp-content/uploads/2016/03/Top-10-Career-Transition-Tips.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">【iOS】封装自己的自定义转场组件</div></div></a></div><div class="next-post pull-right"><a href="/2017/04/07/%E8%B6%85%E7%AE%80%E5%8D%95%E7%9A%84%E6%80%9D%E8%B7%AF%E5%AE%9E%E7%8E%B0%E4%B8%80%E4%B8%AA2048%E6%B8%B8%E6%88%8F/"><img class="next-cover" src="https://play-lh.googleusercontent.com/YMjBRDCr5a9p_bdWnMTWKrC3FNi40WsR4jXt1UXlNMZfRhoXQL3eAkIwXAk5wwQZ_g" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">【iOS】超简单的思路实现2048游戏</div></div></a></div></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Zephyr</div><div class="author-info__description">不断前行</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">24</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">75</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zephyrw"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">This is zephyr's capsule</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E7%9B%AE%E5%BD%95"><span class="toc-number">1.</span> <span class="toc-text">目录</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%9F%BA%E6%9C%AC%E5%8E%9F%E7%90%86"><span class="toc-number">2.</span> <span class="toc-text">基本原理</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%AF%B7%E6%B1%82%E6%96%B9%E5%BC%8F"><span class="toc-number">2.0.1.</span> <span class="toc-text">请求方式</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B7%A5%E5%85%B7%E7%B1%BBAFStreamingMultipartFormData"><span class="toc-number">2.0.2.</span> <span class="toc-text">工具类AFStreamingMultipartFormData</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#InputStream%E7%9A%84%E5%AD%90%E7%B1%BBAFMultipartBodyStream"><span class="toc-number">2.0.3.</span> <span class="toc-text">InputStream的子类AFMultipartBodyStream</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8F%82%E6%95%B0%E7%9A%84%E5%B0%81%E8%A3%85AFHTTPBodyPart"><span class="toc-number">2.0.4.</span> <span class="toc-text">参数的封装AFHTTPBodyPart</span></a></li></ol></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.</span> <span class="toc-text">具体实现</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BANSMutableURLRequest%E5%B9%B6%E8%AE%BE%E7%BD%AE%E8%AF%B7%E6%B1%82%E6%96%B9%E5%BC%8F%E4%B8%BAPOST"><span class="toc-number">3.0.1.</span> <span class="toc-text">创建NSMutableURLRequest并设置请求方式为POST</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%87%AA%E5%AE%9A%E4%B9%89HTTPBodyStream"><span class="toc-number">3.0.2.</span> <span class="toc-text">自定义HTTPBodyStream</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E6%99%AE%E9%80%9A%E5%8F%82%E6%95%B0"><span class="toc-number">3.0.2.1.</span> <span class="toc-text">普通参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#%E5%9B%BE%E7%89%87%E7%9B%B8%E5%85%B3%E5%8F%82%E6%95%B0"><span class="toc-number">3.0.2.2.</span> <span class="toc-text">图片相关参数</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#AFMultipartBodyStream%E7%AE%A1%E7%90%86%E5%B9%B6%E8%BD%AC%E6%8D%A2AFHTTPBodyPart%E5%86%85%E9%83%A8%E6%95%B0%E6%8D%AE%E7%9A%84%E5%85%B7%E4%BD%93%E5%AE%9E%E7%8E%B0"><span class="toc-number">3.0.2.3.</span> <span class="toc-text">AFMultipartBodyStream管理并转换AFHTTPBodyPart内部数据的具体实现</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AF%B9request%E8%BF%9B%E8%A1%8C%E5%8F%82%E6%95%B0%E8%AE%BE%E7%BD%AE"><span class="toc-number">3.0.3.</span> <span class="toc-text">对request进行参数设置</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%80%9A%E8%BF%87NSURLSession%E7%9A%84uploadTaskWithStreamedRequest-%E6%96%B9%E6%B3%95%E5%8F%91%E8%B5%B7Post%E8%AF%B7%E6%B1%82"><span class="toc-number">3.0.4.</span> <span class="toc-text">通过NSURLSession的uploadTaskWithStreamedRequest:方法发起Post请求</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/08/22/%E8%AF%A6%E8%A7%A3-Netty/" title="详解 Netty"><img src="https://i.loli.net/2021/08/22/aP4C5w82fmFhJEz.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="详解 Netty"/></a><div class="content"><a class="title" href="/2021/08/22/%E8%AF%A6%E8%A7%A3-Netty/" title="详解 Netty">详解 Netty</a><time datetime="2021-08-22T09:26:09.000Z" title="Created 2021-08-22 17:26:09">2021-08-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/08/09/%E5%A4%9A%E5%9B%BE%E8%AF%A6%E8%A7%A3AQS/" title="多图详解AQS"><img src="https://i.loli.net/2021/08/09/xgLhv4a6AZTDUEV.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="多图详解AQS"/></a><div class="content"><a class="title" href="/2021/08/09/%E5%A4%9A%E5%9B%BE%E8%AF%A6%E8%A7%A3AQS/" title="多图详解AQS">多图详解AQS</a><time datetime="2021-08-08T16:31:01.000Z" title="Created 2021-08-09 00:31:01">2021-08-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/08/02/%E8%AF%A6%E8%A7%A3Java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/" title="详解Java类加载过程"><img src="https://i.loli.net/2021/08/02/265OIqCLtMSwJkY.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="详解Java类加载过程"/></a><div class="content"><a class="title" href="/2021/08/02/%E8%AF%A6%E8%A7%A3Java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/" title="详解Java类加载过程">详解Java类加载过程</a><time datetime="2021-08-02T14:53:13.000Z" title="Created 2021-08-02 22:53:13">2021-08-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/07/31/JMM-Java-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" title="JMM - Java 内存模型"><img src="https://img-blog.csdnimg.cn/5057e1fd41aa4749b0f29a4d2b2d44e3.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FueWUzMjEwMA==,size_8,color_FFFFFF,t_70" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JMM - Java 内存模型"/></a><div class="content"><a class="title" href="/2021/07/31/JMM-Java-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" title="JMM - Java 内存模型">JMM - Java 内存模型</a><time datetime="2021-07-31T14:57:14.000Z" title="Created 2021-07-31 22:57:14">2021-07-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/15/%E3%80%90React-Native%E8%BF%9B%E9%98%B6%E3%80%91React-Native-Reanimated%E7%9A%84%E4%BD%BF%E7%94%A8/" title="【React Native进阶】React Native Reanimated的使用"><img src="https://docs.swmansion.com/react-native-reanimated/docs/animations/easeInOutQuad.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【React Native进阶】React Native Reanimated的使用"/></a><div class="content"><a class="title" href="/2020/12/15/%E3%80%90React-Native%E8%BF%9B%E9%98%B6%E3%80%91React-Native-Reanimated%E7%9A%84%E4%BD%BF%E7%94%A8/" title="【React Native进阶】React Native Reanimated的使用">【React Native进阶】React Native Reanimated的使用</a><time datetime="2020-12-15T15:32:58.000Z" title="Created 2020-12-15 23:32:58">2020-12-15</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Zephyr</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

@@ -1,94 +1,162 @@
-<!DOCTYPE HTML>
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="utf-8">
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>【iOS】AsyncDisplayKit初识 | Zephyr's Capsule</title><meta name="keywords" content="ASDK,AsyncDisplayKit,性能优化,UIKit"><meta name="author" content="Zephyr"><meta name="copyright" content="Zephyr"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="简介  AsyncDisplayKit 是 Facebook 开源的一个用于保持 iOS 界面流畅的库。   在 ASDK 中最基本的单位就是 ASDisplayNode，每一个 node 都是对 UIView 以及 CALayer 的抽象。但是与 UIView 不同的是，ASDisplayNode 是线程安全的，它可以在后台线程中完成初始化以及配置工作。   如果按照 60 FPS 的刷新频率来">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【iOS】AsyncDisplayKit初识">
+<meta property="og:url" content="http://anye3210.github.io/2016/11/10/AsyncDisplayKit%E4%BB%8B%E7%BB%8D/index.html">
+<meta property="og:site_name" content="Zephyr&#39;s Capsule">
+<meta property="og:description" content="简介  AsyncDisplayKit 是 Facebook 开源的一个用于保持 iOS 界面流畅的库。   在 ASDK 中最基本的单位就是 ASDisplayNode，每一个 node 都是对 UIView 以及 CALayer 的抽象。但是与 UIView 不同的是，ASDisplayNode 是线程安全的，它可以在后台线程中完成初始化以及配置工作。   如果按照 60 FPS 的刷新频率来">
+<meta property="og:locale">
+<meta property="og:image" content="https://pic2.zhimg.com/v2-851252a02130f911ef00a2ead1cf90d1_1440w.jpg?source=172ae18b">
+<meta property="article:published_time" content="2016-11-10T13:38:58.000Z">
+<meta property="article:modified_time" content="2021-08-22T07:49:17.694Z">
+<meta property="article:author" content="Zephyr">
+<meta property="article:tag" content="ASDK">
+<meta property="article:tag" content="AsyncDisplayKit">
+<meta property="article:tag" content="性能优化">
+<meta property="article:tag" content="UIKit">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://pic2.zhimg.com/v2-851252a02130f911ef00a2ead1cf90d1_1440w.jpg?source=172ae18b"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://anye3210.github.io/2016/11/10/AsyncDisplayKit%E4%BB%8B%E7%BB%8D/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【iOS】AsyncDisplayKit初识',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-08-22 15:49:17'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
   
-  <title>【iOS】AsyncDisplayKit初识 | Zephyr&#39;s Capsule | Stay hungry stay foolish</title>
-
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
   
-  <meta name="author" content="Zephyr">
-  
-
-  
-  <meta name="description" content="不断前行">
-  
-
-  
-  
-  <meta name="keywords" content="ASDK,AsyncDisplayKit,性能优化,UIKit">
-  
-
-  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-  <meta property="og:title" content="【iOS】AsyncDisplayKit初识">
-
-  <meta property="og:site_name" content="Zephyr&#39;s Capsule">
-
-  
-  <meta property="og:image" content="/favicon.ico">
-  
-
-  <link href="/favicon.ico" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="Zephyr&#39;s Capsule" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-</head>
-
-
-<body>
-<div class="blog">
-  <div class="content">
-
-    <header>
-  <div class="site-branding">
-    <h1 class="site-title">
-      <a href="/">Zephyr&#39;s Capsule</a>
-    </h1>
-    <p class="site-description">Stay hungry stay foolish</p>
-  </div>
-  <nav class="site-navigation">
-    <ul>
-      
-        <li><a href="/">Home</a></li>
-      
-        <li><a href="/archives">Archives</a></li>
-      
-    </ul>
-  </nav>
-</header>
-
-    <main class="site-main posts-loop">
-    <article>
-
-  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-    <h3 class="article-title"><span>【iOS】AsyncDisplayKit初识</span></h3>
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
     
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2016/11/10/AsyncDisplayKit介绍/" rel="bookmark">
-        <time class="entry-date published" datetime="2016-11-10T13:38:58.000Z">
-          2016-11-10
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>  AsyncDisplayKit 是 Facebook 开源的一个用于保持 iOS 界面流畅的库。</p>
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Zephyr's Capsule" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">24</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">75</div></a></div></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://pic2.zhimg.com/v2-851252a02130f911ef00a2ead1cf90d1_1440w.jpg?source=172ae18b')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Zephyr's Capsule</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">【iOS】AsyncDisplayKit初识</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">Created</span><time datetime="2016-11-10T13:38:58.000Z" title="undefined 2016-11-10 21:38:58">2016-11-10</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="【iOS】AsyncDisplayKit初识"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>  AsyncDisplayKit 是 Facebook 开源的一个用于保持 iOS 界面流畅的库。</p>
 <p>  在 ASDK 中最基本的单位就是 ASDisplayNode，每一个 node 都是对 UIView 以及 CALayer 的抽象。但是与 UIView 不同的是，ASDisplayNode 是线程安全的，它可以在后台线程中完成初始化以及配置工作。</p>
 <p>  如果按照 60 FPS 的刷新频率来计算，每一帧的渲染时间只有 16ms，在 16ms 的时间内要完成对 UIView 的创建、布局、绘制以及渲染，CPU 和 GPU 面临着巨大的压力。</p>
 <p>  但是从 A5 处理器之后，多核的设备成为了主流，原有的将所有操作放入主线程的实践已经不能适应复杂的 UI 界面，所以 ASDK 将耗时的 CPU 操作以及 GPU 渲染纹理（Texture）的过程全部放入后台进程，使主线程能够快速响应用户操作。</p>
 <p>  ASDK 通过独特的渲染技巧、代替 AutoLayout 的布局系统、智能的预加载方式等模块来实现对 App 性能的优化。</p>
-<a id="more"></a>
+<span id="more"></span>
 <h2 id="初步使用"><a href="#初步使用" class="headerlink" title="初步使用"></a>初步使用</h2><h3 id="节点"><a href="#节点" class="headerlink" title="节点"></a>节点</h3><p>  nodes的使用大致与view的使用方法相同，少数像(.clipsToBounds vs .masksToBounds)这样的不同node也会自动使用UIView的命名,唯一的例外是node使用position而不是center。</p>
 <p>  使用node的时候也可以随时在主线程拿到node.view或者node.layer。</p>
 <p>  AsyncDisplayKit提供了各种各样的node以代替UIKit中的大部分组件。</p>
@@ -125,89 +193,10 @@
 <p>当用户滚动当前视图时，<code>ASRangeController</code> 就会修改不同区域内元素的状态：</p>
 <p><img src="http://img.draveness.me/2016-11-04-intelligent-preloading-ranges-screenfuls.png" alt="不同的加载状态示意图"></p>
 <p>上图是用户在向下滑动时，ASCellNode 是如何被标记的，假设<strong>当前视图可见的范围高度为 1</strong>，那么在默认情况下，五个区域会按照上图的形式进行划分：</p>
-<p><img src="http://img.draveness.me/2016-11-04-buffer-size.png" alt></p>
+<p><img src="http://img.draveness.me/2016-11-04-buffer-size.png"></p>
 <p>在滚动方向（Leading）上 Fetch Data 区域会是非滚动方向（Trailing）的两倍，ASDK 会根据滚动方向的变化实时改变缓冲区的位置；在向下滚动时，下面的 Fetch Data 区域就是上面的两倍，向上滚动时，上面的 Fetch Data 区域就是下面的两倍。</p>
 <blockquote>
 <p>这里的两倍并不是一个确定的数值，ASDK 会根据当前设备的不同状态，改变不同区域的大小，但是<strong>滚动方向的区域总会比非滚动方向大一些</strong>。</p>
 </blockquote>
 <p>智能预加载能够根据当前的滚动方向，自动改变当前的工作区域，选择合适的区域提前触发请求资源、渲染视图以及异步布局等操作，让视图的滚动达到真正的流畅。</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/ASDK/">ASDK</a><a href="/tags/AsyncDisplayKit/">AsyncDisplayKit</a><a href="/tags/性能优化/">性能优化</a><a href="/tags/UIKit/">UIKit</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-  
-	<div id="comment">
-	
-	
-	<!-- 多说评论框 start -->
-	 <div class="ds-thread" data-thread-key="/2016/11/10/AsyncDisplayKit介绍/" data-title="【iOS】AsyncDisplayKit初识" data-url="http://anye3210.github.io/2016/11/10/AsyncDisplayKit介绍/"></div>
-	<!-- 多说评论框 end -->
-	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"Zephyr's Capsule"};
-	  (function() {
-	    var ds = document.createElement('script');
-	    ds.type = 'text/javascript';ds.async = true;
-	    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-	    ds.charset = 'UTF-8';
-	    (document.getElementsByTagName('head')[0] 
-	     || document.getElementsByTagName('body')[0]).appendChild(ds);
-	  })();
-	  </script>
-	<!-- 多说公共JS代码 end -->
-	
-	</div>
-
-
-
-
-    </main>
-
-    <footer class="site-footer">
-  <p class="site-info">
-    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
-    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
-    </br>
-    
-    &copy; 2021 Zephyr
-    
-  </p>
-</footer>
-    
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-87098157-1', 'auto');
-    ga('send', 'pageview');
-
-</script>
-
-  </div>
-</div>
-</body>
-</html>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Zephyr</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://anye3210.github.io/2016/11/10/AsyncDisplayKit%E4%BB%8B%E7%BB%8D/">http://anye3210.github.io/2016/11/10/AsyncDisplayKit%E4%BB%8B%E7%BB%8D/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/ASDK/">ASDK</a><a class="post-meta__tags" href="/tags/AsyncDisplayKit/">AsyncDisplayKit</a><a class="post-meta__tags" href="/tags/%E6%80%A7%E8%83%BD%E4%BC%98%E5%8C%96/">性能优化</a><a class="post-meta__tags" href="/tags/UIKit/">UIKit</a></div><div class="post_share"><div class="social-share" data-image="https://pic2.zhimg.com/v2-851252a02130f911ef00a2ead1cf90d1_1440w.jpg?source=172ae18b" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2016/11/10/AsyncDisplayKit%E7%9A%84%E5%B8%83%E5%B1%80/"><img class="prev-cover" src="https://pic2.zhimg.com/v2-851252a02130f911ef00a2ead1cf90d1_1440w.jpg?source=172ae18b" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">【iOS】AsyncDisplayKit的布局</div></div></a></div><div class="next-post pull-right"><a href="/2016/11/10/AsyncDisplayKit%E7%9A%84%E7%BB%84%E4%BB%B6/"><img class="next-cover" src="https://pic2.zhimg.com/v2-851252a02130f911ef00a2ead1cf90d1_1440w.jpg?source=172ae18b" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">【iOS】AsyncDisplayKit的组件</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2016/11/10/AsyncDisplayKit的组件/" title="【iOS】AsyncDisplayKit的组件"><img class="cover" src="https://pic2.zhimg.com/v2-851252a02130f911ef00a2ead1cf90d1_1440w.jpg?source=172ae18b" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2016-11-10</div><div class="title">【iOS】AsyncDisplayKit的组件</div></div></a></div><div><a href="/2016/11/10/AsyncDisplayKit的布局/" title="【iOS】AsyncDisplayKit的布局"><img class="cover" src="https://pic2.zhimg.com/v2-851252a02130f911ef00a2ead1cf90d1_1440w.jpg?source=172ae18b" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2016-11-10</div><div class="title">【iOS】AsyncDisplayKit的布局</div></div></a></div><div><a href="/2020/12/15/【React-Native进阶】React-Native-Reanimated的使用/" title="【React Native进阶】React Native Reanimated的使用"><img class="cover" src="https://docs.swmansion.com/react-native-reanimated/docs/animations/easeInOutQuad.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-15</div><div class="title">【React Native进阶】React Native Reanimated的使用</div></div></a></div><div><a href="/2020/12/14/【React-Native进阶】react-native-gesture-handler的使用/" title="【React Native进阶】React Native Gesture Handler的使用"><img class="cover" src="https://industrytoday.com/wp-content/uploads/2020/08/Touchscreen-technology.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-14</div><div class="title">【React Native进阶】React Native Gesture Handler的使用</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Zephyr</div><div class="author-info__description">不断前行</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">24</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">75</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zephyrw"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">This is zephyr's capsule</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E7%AE%80%E4%BB%8B"><span class="toc-number">1.</span> <span class="toc-text">简介</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%88%9D%E6%AD%A5%E4%BD%BF%E7%94%A8"><span class="toc-number">2.</span> <span class="toc-text">初步使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8A%82%E7%82%B9"><span class="toc-number">2.1.</span> <span class="toc-text">节点</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%8A%82%E7%82%B9%E5%AE%B9%E5%99%A8"><span class="toc-number">2.2.</span> <span class="toc-text">节点容器</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%B8%83%E5%B1%80%E5%BC%95%E6%93%8E"><span class="toc-number">2.3.</span> <span class="toc-text">布局引擎</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E7%90%86%E5%BF%B5"><span class="toc-number">3.</span> <span class="toc-text">核心理念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%99%BA%E8%83%BD%E9%A2%84%E5%8A%A0%E8%BD%BD"><span class="toc-number">3.1.</span> <span class="toc-text">智能预加载</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/08/22/%E8%AF%A6%E8%A7%A3-Netty/" title="详解 Netty"><img src="https://i.loli.net/2021/08/22/aP4C5w82fmFhJEz.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="详解 Netty"/></a><div class="content"><a class="title" href="/2021/08/22/%E8%AF%A6%E8%A7%A3-Netty/" title="详解 Netty">详解 Netty</a><time datetime="2021-08-22T09:26:09.000Z" title="Created 2021-08-22 17:26:09">2021-08-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/08/09/%E5%A4%9A%E5%9B%BE%E8%AF%A6%E8%A7%A3AQS/" title="多图详解AQS"><img src="https://i.loli.net/2021/08/09/xgLhv4a6AZTDUEV.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="多图详解AQS"/></a><div class="content"><a class="title" href="/2021/08/09/%E5%A4%9A%E5%9B%BE%E8%AF%A6%E8%A7%A3AQS/" title="多图详解AQS">多图详解AQS</a><time datetime="2021-08-08T16:31:01.000Z" title="Created 2021-08-09 00:31:01">2021-08-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/08/02/%E8%AF%A6%E8%A7%A3Java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/" title="详解Java类加载过程"><img src="https://i.loli.net/2021/08/02/265OIqCLtMSwJkY.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="详解Java类加载过程"/></a><div class="content"><a class="title" href="/2021/08/02/%E8%AF%A6%E8%A7%A3Java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/" title="详解Java类加载过程">详解Java类加载过程</a><time datetime="2021-08-02T14:53:13.000Z" title="Created 2021-08-02 22:53:13">2021-08-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/07/31/JMM-Java-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" title="JMM - Java 内存模型"><img src="https://img-blog.csdnimg.cn/5057e1fd41aa4749b0f29a4d2b2d44e3.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FueWUzMjEwMA==,size_8,color_FFFFFF,t_70" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JMM - Java 内存模型"/></a><div class="content"><a class="title" href="/2021/07/31/JMM-Java-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" title="JMM - Java 内存模型">JMM - Java 内存模型</a><time datetime="2021-07-31T14:57:14.000Z" title="Created 2021-07-31 22:57:14">2021-07-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/15/%E3%80%90React-Native%E8%BF%9B%E9%98%B6%E3%80%91React-Native-Reanimated%E7%9A%84%E4%BD%BF%E7%94%A8/" title="【React Native进阶】React Native Reanimated的使用"><img src="https://docs.swmansion.com/react-native-reanimated/docs/animations/easeInOutQuad.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【React Native进阶】React Native Reanimated的使用"/></a><div class="content"><a class="title" href="/2020/12/15/%E3%80%90React-Native%E8%BF%9B%E9%98%B6%E3%80%91React-Native-Reanimated%E7%9A%84%E4%BD%BF%E7%94%A8/" title="【React Native进阶】React Native Reanimated的使用">【React Native进阶】React Native Reanimated的使用</a><time datetime="2020-12-15T15:32:58.000Z" title="Created 2020-12-15 23:32:58">2020-12-15</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Zephyr</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

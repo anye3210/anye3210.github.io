@@ -1,221 +1,210 @@
-<!DOCTYPE HTML>
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="utf-8">
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>【React Native教程】Redux入门教程 | Zephyr's Capsule</title><meta name="keywords" content="React Native,React,Redux,Thunk"><meta name="author" content="Zephyr"><meta name="copyright" content="Zephyr"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="Redux定义Redux在官网上是这么定义的：A Predictable State Container for JS Apps，直译过来就是一个使用在JS应用上的可预测的状态容器。 Redux解决的问题React Native本身是基于前端的React框架，它是通过State来管理页面显示和参数更新。如果在交互比较复杂的页面、需要多页面状态传递或者同步更新状态的情况，状态管理就会比较麻烦。使用R">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【React Native教程】Redux入门教程">
+<meta property="og:url" content="http://anye3210.github.io/2020/08/03/%E3%80%90React-Native%E6%95%99%E7%A8%8B%E3%80%91Redux%E5%85%A5%E9%97%A8/index.html">
+<meta property="og:site_name" content="Zephyr&#39;s Capsule">
+<meta property="og:description" content="Redux定义Redux在官网上是这么定义的：A Predictable State Container for JS Apps，直译过来就是一个使用在JS应用上的可预测的状态容器。 Redux解决的问题React Native本身是基于前端的React框架，它是通过State来管理页面显示和参数更新。如果在交互比较复杂的页面、需要多页面状态传递或者同步更新状态的情况，状态管理就会比较麻烦。使用R">
+<meta property="og:locale">
+<meta property="og:image" content="https://waftengine.org/public/blog/1B5EE4D5D773F8A-RR.jpg">
+<meta property="article:published_time" content="2020-08-03T13:51:35.000Z">
+<meta property="article:modified_time" content="2021-08-22T07:56:05.593Z">
+<meta property="article:author" content="Zephyr">
+<meta property="article:tag" content="React Native">
+<meta property="article:tag" content="React">
+<meta property="article:tag" content="Redux">
+<meta property="article:tag" content="Thunk">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://waftengine.org/public/blog/1B5EE4D5D773F8A-RR.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://anye3210.github.io/2020/08/03/%E3%80%90React-Native%E6%95%99%E7%A8%8B%E3%80%91Redux%E5%85%A5%E9%97%A8/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【React Native教程】Redux入门教程',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-08-22 15:56:05'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
   
-  <title>【React Native教程】Redux入门教程 | Zephyr&#39;s Capsule | Stay hungry stay foolish</title>
-
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
   
-  <meta name="author" content="Zephyr">
-  
-
-  
-  <meta name="description" content="不断前行">
-  
-
-  
-  
-  <meta name="keywords" content="React Native,React,Redux,Thunk">
-  
-
-  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-  <meta property="og:title" content="【React Native教程】Redux入门教程">
-
-  <meta property="og:site_name" content="Zephyr&#39;s Capsule">
-
-  
-  <meta property="og:image" content="/favicon.ico">
-  
-
-  <link href="/favicon.ico" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="Zephyr&#39;s Capsule" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-</head>
-
-
-<body>
-<div class="blog">
-  <div class="content">
-
-    <header>
-  <div class="site-branding">
-    <h1 class="site-title">
-      <a href="/">Zephyr&#39;s Capsule</a>
-    </h1>
-    <p class="site-description">Stay hungry stay foolish</p>
-  </div>
-  <nav class="site-navigation">
-    <ul>
-      
-        <li><a href="/">Home</a></li>
-      
-        <li><a href="/archives">Archives</a></li>
-      
-    </ul>
-  </nav>
-</header>
-
-    <main class="site-main posts-loop">
-    <article>
-
-  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-    <h3 class="article-title"><span>【React Native教程】Redux入门教程</span></h3>
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
     
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2020/08/03/【React-Native教程】Redux入门/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-08-03T13:51:35.000Z">
-          2020-08-03
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h2 id="Redux定义"><a href="#Redux定义" class="headerlink" title="Redux定义"></a>Redux定义</h2><p><strong>Redux</strong>在<a href="https://redux.js.org" target="_blank" rel="noopener">官网</a>上是这么定义的：<strong>A Predictable State Container for JS Apps</strong>，直译过来就是一个使用在JS应用上的可预测的状态容器。</p>
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Zephyr's Capsule" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">24</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">75</div></a></div></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://waftengine.org/public/blog/1B5EE4D5D773F8A-RR.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Zephyr's Capsule</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">【React Native教程】Redux入门教程</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">Created</span><time datetime="2020-08-03T13:51:35.000Z" title="undefined 2020-08-03 21:51:35">2020-08-03</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="【React Native教程】Redux入门教程"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="Redux定义"><a href="#Redux定义" class="headerlink" title="Redux定义"></a>Redux定义</h2><p><strong>Redux</strong>在<a target="_blank" rel="noopener" href="https://redux.js.org/">官网</a>上是这么定义的：<strong>A Predictable State Container for JS Apps</strong>，直译过来就是一个使用在JS应用上的可预测的状态容器。</p>
 <h2 id="Redux解决的问题"><a href="#Redux解决的问题" class="headerlink" title="Redux解决的问题"></a>Redux解决的问题</h2><p><code>React Native</code>本身是基于前端的<code>React</code>框架，它是通过<code>State</code>来管理页面显示和参数更新。如果在交互比较复杂的页面、需要多页面状态传递或者同步更新状态的情况，状态管理就会比较麻烦。使用<code>Redux</code>就可以解决这些问题。</p>
 <h2 id="Redux的核心逻辑和概念"><a href="#Redux的核心逻辑和概念" class="headerlink" title="Redux的核心逻辑和概念"></a>Redux的核心逻辑和概念</h2><p><strong>Redux</strong>的核心逻辑是集中定义和管理状态和动作执行，各个页面使用<code>connect</code>方法绑定相应的方法和状态，并通过发送动作指令更新页面显示。达到状态和操作与页面隔离的效果。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h3 id="State"><a href="#State" class="headerlink" title="State"></a>State</h3><p><strong>State</strong>即状态，是<strong>React</strong>框架最基础的概念之一，通过更改状态实时更新页面显示。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	prop1: value1,</span><br><span class="line">	prop2: value2,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	prop1: value1,</span><br><span class="line">	prop2: value2,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="Action"><a href="#Action" class="headerlink" title="Action"></a>Action</h3><p><strong>Action</strong>是指指令或者动作。在<strong>Redux</strong>中，页面不直接管理状态，每个页面都是通过发送<strong>Action</strong>间接地更新状态。<strong>Action</strong>中有两个参数，一个是<code>Type</code>，字符串类型，代表<strong>Action</strong>的类型和唯一标识，一个是<code>payload</code>，代表传递的参数，可以是任意类型。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	type: &apos;EXAMPLE_ACTION&apos;,</span><br><span class="line">	payload: &apos;args&apos;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">	type: &#x27;EXAMPLE_ACTION&#x27;,</span><br><span class="line">	payload: &#x27;args&#x27;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 
 <h3 id="Reducer"><a href="#Reducer" class="headerlink" title="Reducer"></a>Reducer</h3><p>在<strong>Redux</strong>中状态和动作都是集中管理，管理者被称为<strong>Reducer</strong>，<strong>Reducer</strong>接收<code>State</code>和<code>Action</code>参数，根据传过来的<code>Action</code>类型和参数进行处理并更新<code>State</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function rootReducer(state = initialState, action) &#123;</span><br><span class="line">  if (action.type === &apos;FIRST_ACTION&apos;) &#123;</span><br><span class="line">    return Object.assign(&#123;&#125;, state, &#123;</span><br><span class="line">      props: newValue</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  return state;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function rootReducer(state = initialState, action) &#123;</span><br><span class="line">  if (action.type === &#x27;FIRST_ACTION&#x27;) &#123;</span><br><span class="line">    return Object.assign(&#123;&#125;, state, &#123;</span><br><span class="line">      props: newValue</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line">  return state;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
-<h3 id="Slice"><a href="#Slice" class="headerlink" title="Slice"></a>Slice</h3><p>在以往的<strong>Redux</strong>使用中，我们需要自己创建<code>Action</code>和<code>Reducer</code>，并用<code>Switch</code>或者<code>if else</code>语句区分不同的<code>Action</code>，步骤非常繁琐。现在<strong>Redux</strong>官方推荐使用更方便更现代化的工具<strong>@reduxjs/toolkit</strong>，这个工具集成了<code>createAction</code>、<code>createReducer</code>等方法，非常方便。不过这两个方法一般也不用，在<strong>tookit</strong>提供了一个新的类<strong>Slice</strong>，创建**Slice时也会同时创建<code>State</code>、<code>Reducer</code>和<code>Action</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">const mySlice = createSlice(&#123;</span><br><span class="line">	name: &quot;sliceName&quot;,</span><br><span class="line">	initialState: &#123;</span><br><span class="line">	    prop1: &quot;&quot;,</span><br><span class="line">	    prop2: false,</span><br><span class="line">	&#125;,</span><br><span class="line">	reducers: &#123;</span><br><span class="line">	    action1: (state, action) =&gt; &#123;</span><br><span class="line">	        console.debug(&apos;action1 done&apos;+action.type);</span><br><span class="line">	    &#125;,</span><br><span class="line">	    action2: (state) =&gt; &#123;</span><br><span class="line">	        state.prop1 = &quot;123&quot;;</span><br><span class="line">	        state.prop2 = true;</span><br><span class="line">	    &#125;,</span><br><span class="line">	&#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
+<h3 id="Slice"><a href="#Slice" class="headerlink" title="Slice"></a>Slice</h3><p>在以往的<strong>Redux</strong>使用中，我们需要自己创建<code>Action</code>和<code>Reducer</code>，并用<code>Switch</code>或者<code>if else</code>语句区分不同的<code>Action</code>，步骤非常繁琐。现在<strong>Redux</strong>官方推荐使用更方便更现代化的工具**@reduxjs/toolkit<strong>，这个工具集成了<code>createAction</code>、<code>createReducer</code>等方法，非常方便。不过这两个方法一般也不用，在</strong>tookit<strong>提供了一个新的类</strong>Slice<strong>，创建</strong>Slice时也会同时创建<code>State</code>、<code>Reducer</code>和<code>Action</code>。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">const mySlice = createSlice(&#123;</span><br><span class="line">	name: &quot;sliceName&quot;,</span><br><span class="line">	initialState: &#123;</span><br><span class="line">	    prop1: &quot;&quot;,</span><br><span class="line">	    prop2: false,</span><br><span class="line">	&#125;,</span><br><span class="line">	reducers: &#123;</span><br><span class="line">	    action1: (state, action) =&gt; &#123;</span><br><span class="line">	        console.debug(&#x27;action1 done&#x27;+action.type);</span><br><span class="line">	    &#125;,</span><br><span class="line">	    action2: (state) =&gt; &#123;</span><br><span class="line">	        state.prop1 = &quot;123&quot;;</span><br><span class="line">	        state.prop2 = true;</span><br><span class="line">	    &#125;,</span><br><span class="line">	&#125;,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
 <p>在需要使用<code>Reducer</code>和<code>Action</code>时，直接抽取即可</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const &#123; action1, action2 &#125; = authSlice.actions;</span><br><span class="line">const myReducer = mySlice.reducer;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">const &#123; action1, action2 &#125; = authSlice.actions;</span><br><span class="line">const myReducer = mySlice.reducer;</span><br></pre></td></tr></table></figure>
 
-<h3 id="Thunk"><a href="#Thunk" class="headerlink" title="Thunk"></a>Thunk</h3><p>上面介绍的是普通<strong>Action</strong>，但如果是执行的动作需要异步执行后更新状态的就不适用了，因此<strong>Redux</strong>引入了中间件<strong>Thunk</strong>，在引入<strong>@reduxjs/toolkit</strong>后创建异步<code>Action</code>方法如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">export const doLogin = createAsyncThunk(</span><br><span class="line">    &apos;user/login&apos;,</span><br><span class="line">    async (&#123;username, password, code&#125;) =&gt; &#123;</span><br><span class="line">        return await API.fetchData(&#123;</span><br><span class="line">            path: &apos;doLogin&apos;,</span><br><span class="line">            params: &#123;</span><br><span class="line">                code: code,</span><br><span class="line">                password: AESTool.encrypt(password),</span><br><span class="line">                userName: username,</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        condition: (&#123;username, password, code&#125;) =&gt; &#123;</span><br><span class="line">            if (checkStringEmpty(username)) &#123;</span><br><span class="line">                HUD.show(&quot;请输入用户名！&quot;);</span><br><span class="line">                return false;</span><br><span class="line">            &#125; else if (checkStringEmpty(password)) &#123;</span><br><span class="line">                HUD.show(&quot;请输入密码！&quot;);</span><br><span class="line">                return false;</span><br><span class="line">            &#125; else if (checkStringEmpty(code)) &#123;</span><br><span class="line">                HUD.show(&quot;请输入验证码！&quot;);</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;,</span><br><span class="line">        dispatchConditionRejection: true</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
+<h3 id="Thunk"><a href="#Thunk" class="headerlink" title="Thunk"></a>Thunk</h3><p>上面介绍的是普通<strong>Action</strong>，但如果是执行的动作需要异步执行后更新状态的就不适用了，因此<strong>Redux</strong>引入了中间件<strong>Thunk</strong>，在引入**@reduxjs/toolkit**后创建异步<code>Action</code>方法如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">export const doLogin = createAsyncThunk(</span><br><span class="line">    &#x27;user/login&#x27;,</span><br><span class="line">    async (&#123;username, password, code&#125;) =&gt; &#123;</span><br><span class="line">        return await API.fetchData(&#123;</span><br><span class="line">            path: &#x27;doLogin&#x27;,</span><br><span class="line">            params: &#123;</span><br><span class="line">                code: code,</span><br><span class="line">                password: AESTool.encrypt(password),</span><br><span class="line">                userName: username,</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        condition: (&#123;username, password, code&#125;) =&gt; &#123;</span><br><span class="line">            if (checkStringEmpty(username)) &#123;</span><br><span class="line">                HUD.show(&quot;请输入用户名！&quot;);</span><br><span class="line">                return false;</span><br><span class="line">            &#125; else if (checkStringEmpty(password)) &#123;</span><br><span class="line">                HUD.show(&quot;请输入密码！&quot;);</span><br><span class="line">                return false;</span><br><span class="line">            &#125; else if (checkStringEmpty(code)) &#123;</span><br><span class="line">                HUD.show(&quot;请输入验证码！&quot;);</span><br><span class="line">                return false;</span><br><span class="line">            &#125;</span><br><span class="line">            return true;</span><br><span class="line">        &#125;,</span><br><span class="line">        dispatchConditionRejection: true</span><br><span class="line">    &#125;</span><br><span class="line">)</span><br></pre></td></tr></table></figure>
 
 <p>在上面的代码中，在<code>condition</code>可以控制这个异步<code>Action</code>是否可以继续执行，如果返回<code>false</code>，<code>Action</code>会终止执行而且没有回调。如果希望返回<code>false</code>后有<code>rejected</code>回调，可以设置<code>dispatchConditionRejection</code>为<code>true</code>。</p>
 <p>异步<code>Action</code>执行完成后，回调是在<strong>Slice</strong>的<code>extraReducers</code>中，异步<code>Action</code>有三个状态：<code>pending</code>、<code>fulfilled</code>和<code>rejected</code>，分别代表正在执行、成功执行和执行失败</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">extraReducers: &#123;</span><br><span class="line">    [ doLogin.pending ]: () =&gt; &#123;</span><br><span class="line">        Loading.show();</span><br><span class="line">    &#125;,</span><br><span class="line">    [ doLogin.fulfilled ]: (state, action) =&gt; &#123;</span><br><span class="line">        Loading.hidden();</span><br><span class="line">        console.debug(action.payload)</span><br><span class="line">    &#125;,</span><br><span class="line">    [ doLogin.rejected ]: (state, action) =&gt; &#123;</span><br><span class="line">        Loading.hidden();</span><br><span class="line">        console.warn(action.error);</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">extraReducers: &#123;</span><br><span class="line">    [ doLogin.pending ]: () =&gt; &#123;</span><br><span class="line">        Loading.show();</span><br><span class="line">    &#125;,</span><br><span class="line">    [ doLogin.fulfilled ]: (state, action) =&gt; &#123;</span><br><span class="line">        Loading.hidden();</span><br><span class="line">        console.debug(action.payload)</span><br><span class="line">    &#125;,</span><br><span class="line">    [ doLogin.rejected ]: (state, action) =&gt; &#123;</span><br><span class="line">        Loading.hidden();</span><br><span class="line">        console.warn(action.error);</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h3 id="Store"><a href="#Store" class="headerlink" title="Store"></a>Store</h3><p><strong>Store</strong>是<strong>Redux</strong>的核心类，它的作用是管理所有的<strong>Reducer</strong>和中间件，并作为参数传递到项目的根视图组件中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">const middleware = [</span><br><span class="line">    ...getDefaultMiddleware(),</span><br><span class="line">    CustomMiddleWare,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">export const store = configureStore(&#123;</span><br><span class="line">    reducer: &#123;</span><br><span class="line">        auth: authReducer,</span><br><span class="line">        common: commonReducer</span><br><span class="line">    &#125;,</span><br><span class="line">    middleware,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&lt;Provider store=&#123;store&#125;&gt;</span><br><span class="line">    &lt;StatusBar barStyle=&#123;&apos;light-content&apos;&#125;/&gt;</span><br><span class="line">    &lt;App/&gt;</span><br><span class="line">&lt;/Provider&gt;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">const middleware = [</span><br><span class="line">    ...getDefaultMiddleware(),</span><br><span class="line">    CustomMiddleWare,</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">export const store = configureStore(&#123;</span><br><span class="line">    reducer: &#123;</span><br><span class="line">        auth: authReducer,</span><br><span class="line">        common: commonReducer</span><br><span class="line">    &#125;,</span><br><span class="line">    middleware,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">&lt;Provider store=&#123;store&#125;&gt;</span><br><span class="line">    &lt;StatusBar barStyle=&#123;&#x27;light-content&#x27;&#125;/&gt;</span><br><span class="line">    &lt;App/&gt;</span><br><span class="line">&lt;/Provider&gt;</span><br></pre></td></tr></table></figure>
+
 
 <h2 id="Redux在React-Native中的使用"><a href="#Redux在React-Native中的使用" class="headerlink" title="Redux在React Native中的使用"></a>Redux在React Native中的使用</h2><p>下面以一个简单的计数器为例讲解一下如果在<strong>React Native</strong>中使用<strong>Redux</strong>。</p>
-<h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><p>首先需要安装<strong>@reduxjs/toolkit</strong>，可以使用<strong>NPM</strong>或者<strong>Yarn</strong>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># NPM</span><br><span class="line">npm install @reduxjs/toolkit</span><br><span class="line"></span><br><span class="line"># Yarn</span><br><span class="line">yarn add @reduxjs/toolkit</span><br></pre></td></tr></table></figure>
+<h3 id="安装依赖"><a href="#安装依赖" class="headerlink" title="安装依赖"></a>安装依赖</h3><p>首先需要安装**@reduxjs/toolkit<strong>，可以使用</strong>NPM<strong>或者</strong>Yarn**。</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># NPM</span><br><span class="line">npm install @reduxjs/toolkit</span><br><span class="line"></span><br><span class="line"># Yarn</span><br><span class="line">yarn add @reduxjs/toolkit</span><br></pre></td></tr></table></figure>
 
 <p>然后安装<strong>Redux</strong>核心库</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># NPM</span><br><span class="line">npm install redux</span><br><span class="line"></span><br><span class="line"># Yarn</span><br><span class="line">yarn add redux</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"># NPM</span><br><span class="line">npm install redux</span><br><span class="line"></span><br><span class="line"># Yarn</span><br><span class="line">yarn add redux</span><br></pre></td></tr></table></figure>
 
 <h3 id="创建Slice"><a href="#创建Slice" class="headerlink" title="创建Slice"></a>创建Slice</h3><p>创建<strong>Slice</strong>时会同步创建<code>State</code>、<code>Reducer</code></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import &#123;createSlice&#125; from &apos;@reduxjs/toolkit&apos;;</span><br><span class="line"></span><br><span class="line">const countSlice = createSlice(&#123;</span><br><span class="line">    name: &quot;count&quot;,</span><br><span class="line">    initialState: &#123;</span><br><span class="line">        value: 0</span><br><span class="line">    &#125;,</span><br><span class="line">    reducers: &#123;</span><br><span class="line">        incrementAction: (state, action) =&gt; &#123;</span><br><span class="line">            state.value += action.payload;</span><br><span class="line">        &#125;,</span><br><span class="line">        decrementAction: (state, action) =&gt; &#123;</span><br><span class="line">            state.value -= action.payload;</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">export const &#123;incrementAction, decrementAction &#125; = countSlice.actions;</span><br><span class="line"></span><br><span class="line">export const countReducer = countSlice.reducer;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">import &#123;createSlice&#125; from &#x27;@reduxjs/toolkit&#x27;;</span><br><span class="line"></span><br><span class="line">const countSlice = createSlice(&#123;</span><br><span class="line">    name: &quot;count&quot;,</span><br><span class="line">    initialState: &#123;</span><br><span class="line">        value: 0</span><br><span class="line">    &#125;,</span><br><span class="line">    reducers: &#123;</span><br><span class="line">        incrementAction: (state, action) =&gt; &#123;</span><br><span class="line">            state.value += action.payload;</span><br><span class="line">        &#125;,</span><br><span class="line">        decrementAction: (state, action) =&gt; &#123;</span><br><span class="line">            state.value -= action.payload;</span><br><span class="line">        &#125;,</span><br><span class="line">    &#125;,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br><span class="line">export const &#123;incrementAction, decrementAction &#125; = countSlice.actions;</span><br><span class="line"></span><br><span class="line">export const countReducer = countSlice.reducer;</span><br></pre></td></tr></table></figure>
 
 <p>在这里创建了名为<code>count</code>的<strong>Slice</strong>，计算器初始值为0，并在<strong>Reducer</strong>中定义了两个<code>Action</code>：<code>incrementAction</code>和<code>decrementAction</code>，根据传过来的参数确定每次加减的数值。后面两行<code>export</code>代码确保外部能够访问这里创建的<code>Action</code>和<code>reducer</code>。</p>
 <h3 id="创建Store"><a href="#创建Store" class="headerlink" title="创建Store"></a>创建Store</h3><p>接下来就是创建<code>Store</code>，创建时会传入刚刚创建的<code>reducer</code>。</p>
 <p><strong>注意：</strong>在页面获取状态值的时候中间一定要先获取<code>reducer</code>，然后再获取<code>reducer</code>里的状态值，例如获取<code>countReducer</code>里的<code>value</code>：<code>state.count.value</code>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">import &#123;configureStore, createSlice, getDefaultMiddleware&#125; from &quot;@reduxjs/toolkit&quot;;</span><br><span class="line">import &#123;countReducer&#125; from &apos;./slices/CountSlice&apos;</span><br><span class="line"></span><br><span class="line">const middleware = [</span><br><span class="line">    ...getDefaultMiddleware(),</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">export const store = configureStore(&#123;</span><br><span class="line">    reducer: &#123;</span><br><span class="line">        count: countReducer, </span><br><span class="line">    &#125;,</span><br><span class="line">    middleware,</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">import &#123;configureStore, createSlice, getDefaultMiddleware&#125; from &quot;@reduxjs/toolkit&quot;;</span><br><span class="line">import &#123;countReducer&#125; from &#x27;./slices/CountSlice&#x27;</span><br><span class="line"></span><br><span class="line">const middleware = [</span><br><span class="line">    ...getDefaultMiddleware(),</span><br><span class="line">];</span><br><span class="line"></span><br><span class="line">export const store = configureStore(&#123;</span><br><span class="line">    reducer: &#123;</span><br><span class="line">        count: countReducer, </span><br><span class="line">    &#125;,</span><br><span class="line">    middleware,</span><br><span class="line">&#125;);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>至此，<strong>Redux</strong>部分就准备好了，接下来就是页面的交互部分了。</p>
 <h3 id="页面嵌入Redux"><a href="#页面嵌入Redux" class="headerlink" title="页面嵌入Redux"></a>页面嵌入Redux</h3><p>在<code>index.js</code>文件中将<code>Provider</code>更改为<code>App</code>的根控件，并传入<code>store</code>作为参数：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">AppRegistry.registerComponent(appName, () =&gt; ProviderContainer);</span><br><span class="line"></span><br><span class="line">const ProviderContainer = () =&gt; &#123;</span><br><span class="line">    return (</span><br><span class="line">        &lt;Provider store=&#123;store&#125;&gt;</span><br><span class="line">            &lt;App/&gt;</span><br><span class="line">        &lt;/Provider&gt;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">AppRegistry.registerComponent(appName, () =&gt; ProviderContainer);</span><br><span class="line"></span><br><span class="line">const ProviderContainer = () =&gt; &#123;</span><br><span class="line">    return (</span><br><span class="line">        &lt;Provider store=&#123;store&#125;&gt;</span><br><span class="line">            &lt;App/&gt;</span><br><span class="line">        &lt;/Provider&gt;</span><br><span class="line">    );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>下面是<code>App.js</code>的主要代码</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">class App extends Component &#123;</span><br><span class="line"></span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    super(props);</span><br><span class="line">    this.state = &#123;</span><br><span class="line">      num: 1</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">        &lt;&gt;</span><br><span class="line">          &lt;StatusBar barStyle=&quot;dark-content&quot; /&gt;</span><br><span class="line">          &lt;SafeAreaView&gt;</span><br><span class="line">            &lt;View style=&#123;styles.container&#125;&gt;</span><br><span class="line">              &lt;TextInput style=&#123;styles.textInput&#125; onChangeText=&#123;(text)=&gt;&#123;</span><br><span class="line">                this.setState(&#123;</span><br><span class="line">                  num: parseInt(text)</span><br><span class="line">                &#125;)</span><br><span class="line">              &#125;&#125;&gt;&#123;isNaN(this.state.num) ? 1 : this.state.num&#125;&lt;/TextInput&gt;</span><br><span class="line">              &lt;View style=&#123;styles.buttonContainer&#125;&gt;</span><br><span class="line">                &lt;TouchableOpacity style=&#123;styles.button&#125; activeOpacity = &#123;.9&#125; onPress=&#123;() =&gt; &#123;</span><br><span class="line">                  this.props.decrement(this.state.num)</span><br><span class="line">                &#125;&#125;&gt;</span><br><span class="line">                  &lt;Text style=&#123;styles.buttonText&#125;&gt;-&lt;/Text&gt;</span><br><span class="line">                &lt;/TouchableOpacity&gt;</span><br><span class="line">                &lt;Text style=&#123;styles.text&#125;&gt;&#123;this.props.value&#125;&lt;/Text&gt;</span><br><span class="line">                &lt;TouchableOpacity style=&#123;styles.button&#125; activeOpacity = &#123;.9&#125; onPress=&#123;() =&gt; &#123;</span><br><span class="line">                  this.props.increment(this.state.num)</span><br><span class="line">                &#125;&#125;&gt;</span><br><span class="line">                  &lt;Text style=&#123;styles.buttonText&#125;&gt;+&lt;/Text&gt;</span><br><span class="line">                &lt;/TouchableOpacity&gt;</span><br><span class="line">              &lt;/View&gt;</span><br><span class="line">            &lt;/View&gt;</span><br><span class="line">          &lt;/SafeAreaView&gt;</span><br><span class="line">        &lt;/&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const mapStateToProps = (state) =&gt; &#123;</span><br><span class="line">  return &#123;</span><br><span class="line">    value: state.count.value,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function mapDispatchToProps(dispatch) &#123;</span><br><span class="line">  return &#123;</span><br><span class="line">    increment: (num) =&gt; dispatch(incrementAction(num)),</span><br><span class="line">    decrement: (num) =&gt; dispatch(decrementAction(num)),</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default connect(mapStateToProps, mapDispatchToProps)(App);</span><br></pre></td></tr></table></figure>
-
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">class App extends Component &#123;</span><br><span class="line"></span><br><span class="line">  constructor(props) &#123;</span><br><span class="line">    super(props);</span><br><span class="line">    this.state = &#123;</span><br><span class="line">      num: 1</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  render() &#123;</span><br><span class="line">    return (</span><br><span class="line">        &lt;&gt;</span><br><span class="line">          &lt;StatusBar barStyle=&quot;dark-content&quot; /&gt;</span><br><span class="line">          &lt;SafeAreaView&gt;</span><br><span class="line">            &lt;View style=&#123;styles.container&#125;&gt;</span><br><span class="line">              &lt;TextInput style=&#123;styles.textInput&#125; onChangeText=&#123;(text)=&gt;&#123;</span><br><span class="line">                this.setState(&#123;</span><br><span class="line">                  num: parseInt(text)</span><br><span class="line">                &#125;)</span><br><span class="line">              &#125;&#125;&gt;&#123;isNaN(this.state.num) ? 1 : this.state.num&#125;&lt;/TextInput&gt;</span><br><span class="line">              &lt;View style=&#123;styles.buttonContainer&#125;&gt;</span><br><span class="line">                &lt;TouchableOpacity style=&#123;styles.button&#125; activeOpacity = &#123;.9&#125; onPress=&#123;() =&gt; &#123;</span><br><span class="line">                  this.props.decrement(this.state.num)</span><br><span class="line">                &#125;&#125;&gt;</span><br><span class="line">                  &lt;Text style=&#123;styles.buttonText&#125;&gt;-&lt;/Text&gt;</span><br><span class="line">                &lt;/TouchableOpacity&gt;</span><br><span class="line">                &lt;Text style=&#123;styles.text&#125;&gt;&#123;this.props.value&#125;&lt;/Text&gt;</span><br><span class="line">                &lt;TouchableOpacity style=&#123;styles.button&#125; activeOpacity = &#123;.9&#125; onPress=&#123;() =&gt; &#123;</span><br><span class="line">                  this.props.increment(this.state.num)</span><br><span class="line">                &#125;&#125;&gt;</span><br><span class="line">                  &lt;Text style=&#123;styles.buttonText&#125;&gt;+&lt;/Text&gt;</span><br><span class="line">                &lt;/TouchableOpacity&gt;</span><br><span class="line">              &lt;/View&gt;</span><br><span class="line">            &lt;/View&gt;</span><br><span class="line">          &lt;/SafeAreaView&gt;</span><br><span class="line">        &lt;/&gt;</span><br><span class="line">    );</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const mapStateToProps = (state) =&gt; &#123;</span><br><span class="line">  return &#123;</span><br><span class="line">    value: state.count.value,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">function mapDispatchToProps(dispatch) &#123;</span><br><span class="line">  return &#123;</span><br><span class="line">    increment: (num) =&gt; dispatch(incrementAction(num)),</span><br><span class="line">    decrement: (num) =&gt; dispatch(decrementAction(num)),</span><br><span class="line">  &#125;;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export default connect(mapStateToProps, mapDispatchToProps)(App);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 <p>上面的<code>TextInput</code>用于输入每次增加或者减小的数值，下面有一个加号按钮和一个减号按钮，中间是显示当前数值的文本。</p>
 <p><code>mapStateToProps</code>和<code>mapDispatchToProps</code>，的作用是映射<strong>Slice</strong>中定义的<code>State</code>和<code>Action</code>到当前页面，在使用时直接<code>this.props.value</code>调用即可。最后通过<strong>Redux</strong>的<code>connect</code>方法将这些映射和当前页的组件连接起来。</p>
-<p>本文的<strong>Demo</strong>可以在<a href="https://github.com/zephyrw/redux_example" target="_blank" rel="noopener">这里</a>查看。</p>
-<p>以上就是<code>Redux</code>的入门教程，想深入了解<code>Redux</code>的使用可以参考<a href="https://redux.js.org/introduction/getting-started" target="_blank" rel="noopener">Redux官方文档</a>，想进一步了解<code>Redux Toolkit</code>可以参考<a href="https://redux-toolkit.js.org/introduction/quick-start" target="_blank" rel="noopener">Redux Tookit官方文档</a>。</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/React-Native/">React Native</a><a href="/tags/React/">React</a><a href="/tags/Redux/">Redux</a><a href="/tags/Thunk/">Thunk</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-  
-	<div id="comment">
-	
-	
-	<!-- 多说评论框 start -->
-	 <div class="ds-thread" data-thread-key="/2020/08/03/【React-Native教程】Redux入门/" data-title="【React Native教程】Redux入门教程" data-url="http://anye3210.github.io/2020/08/03/【React-Native教程】Redux入门/"></div>
-	<!-- 多说评论框 end -->
-	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"Zephyr's Capsule"};
-	  (function() {
-	    var ds = document.createElement('script');
-	    ds.type = 'text/javascript';ds.async = true;
-	    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-	    ds.charset = 'UTF-8';
-	    (document.getElementsByTagName('head')[0] 
-	     || document.getElementsByTagName('body')[0]).appendChild(ds);
-	  })();
-	  </script>
-	<!-- 多说公共JS代码 end -->
-	
-	</div>
-
-
-
-
-    </main>
-
-    <footer class="site-footer">
-  <p class="site-info">
-    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
-    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
-    </br>
-    
-    &copy; 2021 Zephyr
-    
-  </p>
-</footer>
-    
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-87098157-1', 'auto');
-    ga('send', 'pageview');
-
-</script>
-
-  </div>
-</div>
-</body>
-</html>
+<p>本文的<strong>Demo</strong>可以在<a target="_blank" rel="noopener" href="https://github.com/zephyrw/redux_example">这里</a>查看。</p>
+<p>以上就是<code>Redux</code>的入门教程，想深入了解<code>Redux</code>的使用可以参考<a target="_blank" rel="noopener" href="https://redux.js.org/introduction/getting-started">Redux官方文档</a>，想进一步了解<code>Redux Toolkit</code>可以参考<a target="_blank" rel="noopener" href="https://redux-toolkit.js.org/introduction/quick-start">Redux Tookit官方文档</a>。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Zephyr</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://anye3210.github.io/2020/08/03/%E3%80%90React-Native%E6%95%99%E7%A8%8B%E3%80%91Redux%E5%85%A5%E9%97%A8/">http://anye3210.github.io/2020/08/03/%E3%80%90React-Native%E6%95%99%E7%A8%8B%E3%80%91Redux%E5%85%A5%E9%97%A8/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/React-Native/">React Native</a><a class="post-meta__tags" href="/tags/React/">React</a><a class="post-meta__tags" href="/tags/Redux/">Redux</a><a class="post-meta__tags" href="/tags/Thunk/">Thunk</a></div><div class="post_share"><div class="social-share" data-image="https://waftengine.org/public/blog/1B5EE4D5D773F8A-RR.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/08/03/%E3%80%90React-Native%E3%80%91Redux%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%AD%E9%97%B4%E4%BB%B6/"><img class="prev-cover" src="https://waftengine.org/public/blog/1B5EE4D5D773F8A-RR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">【React Native】Redux自定义中间件</div></div></a></div><div class="next-post pull-right"><a href="/2020/08/03/%E3%80%90React-Native%E3%80%91React-Navigation%E7%9A%84%E4%BD%BF%E7%94%A8/"><img class="next-cover" src="https://inventionland.com/wp-content/uploads/2018/11/compass-and-map.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">【React Native】React Navigation 5.x的使用</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2020/08/03/【React-Native】Redux自定义中间件/" title="【React Native】Redux自定义中间件"><img class="cover" src="https://waftengine.org/public/blog/1B5EE4D5D773F8A-RR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-08-03</div><div class="title">【React Native】Redux自定义中间件</div></div></a></div><div><a href="/2020/08/03/【React-Native】AES加密/" title="【React Native】AES+Base64加密"><img class="cover" src="https://documents.trendmicro.com/images/TEx/articles/free-encryption.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-08-03</div><div class="title">【React Native】AES+Base64加密</div></div></a></div><div><a href="/2020/08/03/【React-Native】React-Navigation的使用/" title="【React Native】React Navigation 5.x的使用"><img class="cover" src="https://inventionland.com/wp-content/uploads/2018/11/compass-and-map.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-08-03</div><div class="title">【React Native】React Navigation 5.x的使用</div></div></a></div><div><a href="/2020/12/07/【React-Native教程】StackNavigation与TabNavigation嵌套最佳实践/" title="【React Native教程】Stack Navigation与Tab Navigation嵌套最佳实践"><img class="cover" src="https://inventionland.com/wp-content/uploads/2018/11/compass-and-map.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-07</div><div class="title">【React Native教程】Stack Navigation与Tab Navigation嵌套最佳实践</div></div></a></div><div><a href="/2020/12/15/【React-Native进阶】React-Native-Reanimated的使用/" title="【React Native进阶】React Native Reanimated的使用"><img class="cover" src="https://docs.swmansion.com/react-native-reanimated/docs/animations/easeInOutQuad.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-15</div><div class="title">【React Native进阶】React Native Reanimated的使用</div></div></a></div><div><a href="/2020/12/14/【React-Native进阶】react-native-gesture-handler的使用/" title="【React Native进阶】React Native Gesture Handler的使用"><img class="cover" src="https://industrytoday.com/wp-content/uploads/2020/08/Touchscreen-technology.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-14</div><div class="title">【React Native进阶】React Native Gesture Handler的使用</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Zephyr</div><div class="author-info__description">不断前行</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">24</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">75</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zephyrw"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">This is zephyr's capsule</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#Redux%E5%AE%9A%E4%B9%89"><span class="toc-number">1.</span> <span class="toc-text">Redux定义</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redux%E8%A7%A3%E5%86%B3%E7%9A%84%E9%97%AE%E9%A2%98"><span class="toc-number">2.</span> <span class="toc-text">Redux解决的问题</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redux%E7%9A%84%E6%A0%B8%E5%BF%83%E9%80%BB%E8%BE%91%E5%92%8C%E6%A6%82%E5%BF%B5"><span class="toc-number">3.</span> <span class="toc-text">Redux的核心逻辑和概念</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#State"><span class="toc-number">3.1.</span> <span class="toc-text">State</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Action"><span class="toc-number">3.2.</span> <span class="toc-text">Action</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Reducer"><span class="toc-number">3.3.</span> <span class="toc-text">Reducer</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Slice"><span class="toc-number">3.4.</span> <span class="toc-text">Slice</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Thunk"><span class="toc-number">3.5.</span> <span class="toc-text">Thunk</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#Store"><span class="toc-number">3.6.</span> <span class="toc-text">Store</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Redux%E5%9C%A8React-Native%E4%B8%AD%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">4.</span> <span class="toc-text">Redux在React Native中的使用</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%AE%89%E8%A3%85%E4%BE%9D%E8%B5%96"><span class="toc-number">4.1.</span> <span class="toc-text">安装依赖</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BASlice"><span class="toc-number">4.2.</span> <span class="toc-text">创建Slice</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%88%9B%E5%BB%BAStore"><span class="toc-number">4.3.</span> <span class="toc-text">创建Store</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A1%B5%E9%9D%A2%E5%B5%8C%E5%85%A5Redux"><span class="toc-number">4.4.</span> <span class="toc-text">页面嵌入Redux</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/08/22/%E8%AF%A6%E8%A7%A3-Netty/" title="详解 Netty"><img src="https://i.loli.net/2021/08/22/aP4C5w82fmFhJEz.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="详解 Netty"/></a><div class="content"><a class="title" href="/2021/08/22/%E8%AF%A6%E8%A7%A3-Netty/" title="详解 Netty">详解 Netty</a><time datetime="2021-08-22T09:26:09.000Z" title="Created 2021-08-22 17:26:09">2021-08-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/08/09/%E5%A4%9A%E5%9B%BE%E8%AF%A6%E8%A7%A3AQS/" title="多图详解AQS"><img src="https://i.loli.net/2021/08/09/xgLhv4a6AZTDUEV.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="多图详解AQS"/></a><div class="content"><a class="title" href="/2021/08/09/%E5%A4%9A%E5%9B%BE%E8%AF%A6%E8%A7%A3AQS/" title="多图详解AQS">多图详解AQS</a><time datetime="2021-08-08T16:31:01.000Z" title="Created 2021-08-09 00:31:01">2021-08-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/08/02/%E8%AF%A6%E8%A7%A3Java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/" title="详解Java类加载过程"><img src="https://i.loli.net/2021/08/02/265OIqCLtMSwJkY.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="详解Java类加载过程"/></a><div class="content"><a class="title" href="/2021/08/02/%E8%AF%A6%E8%A7%A3Java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/" title="详解Java类加载过程">详解Java类加载过程</a><time datetime="2021-08-02T14:53:13.000Z" title="Created 2021-08-02 22:53:13">2021-08-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/07/31/JMM-Java-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" title="JMM - Java 内存模型"><img src="https://img-blog.csdnimg.cn/5057e1fd41aa4749b0f29a4d2b2d44e3.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FueWUzMjEwMA==,size_8,color_FFFFFF,t_70" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JMM - Java 内存模型"/></a><div class="content"><a class="title" href="/2021/07/31/JMM-Java-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" title="JMM - Java 内存模型">JMM - Java 内存模型</a><time datetime="2021-07-31T14:57:14.000Z" title="Created 2021-07-31 22:57:14">2021-07-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/15/%E3%80%90React-Native%E8%BF%9B%E9%98%B6%E3%80%91React-Native-Reanimated%E7%9A%84%E4%BD%BF%E7%94%A8/" title="【React Native进阶】React Native Reanimated的使用"><img src="https://docs.swmansion.com/react-native-reanimated/docs/animations/easeInOutQuad.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【React Native进阶】React Native Reanimated的使用"/></a><div class="content"><a class="title" href="/2020/12/15/%E3%80%90React-Native%E8%BF%9B%E9%98%B6%E3%80%91React-Native-Reanimated%E7%9A%84%E4%BD%BF%E7%94%A8/" title="【React Native进阶】React Native Reanimated的使用">【React Native进阶】React Native Reanimated的使用</a><time datetime="2020-12-15T15:32:58.000Z" title="Created 2020-12-15 23:32:58">2020-12-15</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Zephyr</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>

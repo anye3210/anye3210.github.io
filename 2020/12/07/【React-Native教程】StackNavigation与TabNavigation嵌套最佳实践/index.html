@@ -1,181 +1,171 @@
-<!DOCTYPE HTML>
-<html>
-<head><meta name="generator" content="Hexo 3.9.0">
-  <meta charset="utf-8">
+<!DOCTYPE html><html lang="zh-Hans" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width,initial-scale=1"><title>【React Native教程】Stack Navigation与Tab Navigation嵌套最佳实践 | Zephyr's Capsule</title><meta name="keywords" content="React Native,React,Stack Navigation,Tab Navigation,嵌套"><meta name="author" content="Zephyr"><meta name="copyright" content="Zephyr"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="#ffffff"><meta name="description" content="背景上一篇文章详细讲解了react-navigation的使用，这篇文章主要说一下Stack Navigation与Tab Navigation嵌套的问题。 在iOS原生开发中，一般是在TabController里嵌套NavigationController，也就是说底部导航控制器里放多个堆栈导航控制器，每个堆栈导航控制器控制有独立的堆栈和状态。 但如果在使用react-navigation进行这">
+<meta property="og:type" content="article">
+<meta property="og:title" content="【React Native教程】Stack Navigation与Tab Navigation嵌套最佳实践">
+<meta property="og:url" content="http://anye3210.github.io/2020/12/07/%E3%80%90React-Native%E6%95%99%E7%A8%8B%E3%80%91StackNavigation%E4%B8%8ETabNavigation%E5%B5%8C%E5%A5%97%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/index.html">
+<meta property="og:site_name" content="Zephyr&#39;s Capsule">
+<meta property="og:description" content="背景上一篇文章详细讲解了react-navigation的使用，这篇文章主要说一下Stack Navigation与Tab Navigation嵌套的问题。 在iOS原生开发中，一般是在TabController里嵌套NavigationController，也就是说底部导航控制器里放多个堆栈导航控制器，每个堆栈导航控制器控制有独立的堆栈和状态。 但如果在使用react-navigation进行这">
+<meta property="og:locale">
+<meta property="og:image" content="https://inventionland.com/wp-content/uploads/2018/11/compass-and-map.jpg">
+<meta property="article:published_time" content="2020-12-07T12:55:20.000Z">
+<meta property="article:modified_time" content="2021-08-22T07:21:59.797Z">
+<meta property="article:author" content="Zephyr">
+<meta property="article:tag" content="React Native">
+<meta property="article:tag" content="React">
+<meta property="article:tag" content="Stack Navigation">
+<meta property="article:tag" content="Tab Navigation">
+<meta property="article:tag" content="嵌套">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://inventionland.com/wp-content/uploads/2018/11/compass-and-map.jpg"><link rel="shortcut icon" href="/img/favicon.png"><link rel="canonical" href="http://anye3210.github.io/2020/12/07/%E3%80%90React-Native%E6%95%99%E7%A8%8B%E3%80%91StackNavigation%E4%B8%8ETabNavigation%E5%B5%8C%E5%A5%97%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css" media="print" onload="this.media='all'"><script>const GLOBAL_CONFIG = { 
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  noticeOutdate: undefined,
+  highlight: {"plugin":"highlighjs","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false},
+  copy: {
+    success: 'Copy successfully',
+    error: 'Copy error',
+    noSupport: 'The browser does not support'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '',
+  date_suffix: {
+    just: 'Just',
+    min: 'minutes ago',
+    hour: 'hours ago',
+    day: 'days ago',
+    month: 'months ago'
+  },
+  copyright: undefined,
+  lightbox: 'fancybox',
+  Snackbar: undefined,
+  source: {
+    jQuery: 'https://cdn.jsdelivr.net/npm/jquery@latest/dist/jquery.min.js',
+    justifiedGallery: {
+      js: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/js/jquery.justifiedGallery.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/justifiedGallery/dist/css/justifiedGallery.min.css'
+    },
+    fancybox: {
+      js: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.js',
+      css: 'https://cdn.jsdelivr.net/npm/@fancyapps/fancybox@latest/dist/jquery.fancybox.min.css'
+    }
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isanchor: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '【React Native教程】Stack Navigation与Tab Navigation嵌套最佳实践',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: false,
+  isToc: true,
+  postUpdate: '2021-08-22 15:21:59'
+}</script><noscript><style type="text/css">
+  #nav {
+    opacity: 1
+  }
+  .justified-gallery img {
+    opacity: 1
+  }
+
+  #recent-posts time,
+  #post-meta time {
+    display: inline !important
+  }
+</style></noscript><script>(win=>{
+    win.saveToLocal = {
+      set: function setWithExpiry(key, value, ttl) {
+        if (ttl === 0) return
+        const now = new Date()
+        const expiryDay = ttl * 86400000
+        const item = {
+          value: value,
+          expiry: now.getTime() + expiryDay,
+        }
+        localStorage.setItem(key, JSON.stringify(item))
+      },
+
+      get: function getWithExpiry(key) {
+        const itemStr = localStorage.getItem(key)
+
+        if (!itemStr) {
+          return undefined
+        }
+        const item = JSON.parse(itemStr)
+        const now = new Date()
+
+        if (now.getTime() > item.expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return item.value
+      }
+    }
   
-  <title>【React Native教程】Stack Navigation与Tab Navigation嵌套最佳实践 | Zephyr&#39;s Capsule | Stay hungry stay foolish</title>
-
+    win.getScript = url => new Promise((resolve, reject) => {
+      const script = document.createElement('script')
+      script.src = url
+      script.async = true
+      script.onerror = reject
+      script.onload = script.onreadystatechange = function() {
+        const loadState = this.readyState
+        if (loadState && loadState !== 'loaded' && loadState !== 'complete') return
+        script.onload = script.onreadystatechange = null
+        resolve()
+      }
+      document.head.appendChild(script)
+    })
   
-  <meta name="author" content="Zephyr">
-  
-
-  
-  <meta name="description" content="不断前行">
-  
-
-  
-  
-  <meta name="keywords" content="React Native,React,Stack Navigation,Tab Navigation,嵌套">
-  
-
-  <meta id="viewport" name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-  <meta property="og:title" content="【React Native教程】Stack Navigation与Tab Navigation嵌套最佳实践">
-
-  <meta property="og:site_name" content="Zephyr&#39;s Capsule">
-
-  
-  <meta property="og:image" content="/favicon.ico">
-  
-
-  <link href="/favicon.ico" rel="icon">
-  <link rel="alternate" href="/atom.xml" title="Zephyr&#39;s Capsule" type="application/atom+xml">
-  <link rel="stylesheet" href="/css/style.css" media="screen" type="text/css">
-</head>
-
-
-<body>
-<div class="blog">
-  <div class="content">
-
-    <header>
-  <div class="site-branding">
-    <h1 class="site-title">
-      <a href="/">Zephyr&#39;s Capsule</a>
-    </h1>
-    <p class="site-description">Stay hungry stay foolish</p>
-  </div>
-  <nav class="site-navigation">
-    <ul>
-      
-        <li><a href="/">Home</a></li>
-      
-        <li><a href="/archives">Archives</a></li>
-      
-    </ul>
-  </nav>
-</header>
-
-    <main class="site-main posts-loop">
-    <article>
-
-  
+      win.activateDarkMode = function () {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      win.activateLightMode = function () {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#ffffff')
+        }
+      }
+      const t = saveToLocal.get('theme')
     
-    <h3 class="article-title"><span>【React Native教程】Stack Navigation与Tab Navigation嵌套最佳实践</span></h3>
+          if (t === 'dark') activateDarkMode()
+          else if (t === 'light') activateLightMode()
+        
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        if (asideStatus === 'hide') {
+          document.documentElement.classList.add('hide-aside')
+        } else {
+          document.documentElement.classList.remove('hide-aside')
+        }
+      }
     
-  
-
-  <div class="article-top-meta">
-    <span class="posted-on">
-      <a href="/2020/12/07/【React-Native教程】StackNavigation与TabNavigation嵌套最佳实践/" rel="bookmark">
-        <time class="entry-date published" datetime="2020-12-07T12:55:20.000Z">
-          2020-12-07
-        </time>
-      </a>
-    </span>
-  </div>
-
-
-  
-
-  <div class="article-content">
-    <div class="entry">
-      
-        <h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p><a href="https://anye3210.github.io/2020/08/03/【React-Native】React-Navigation的使用/">上一篇文章</a>详细讲解了<code>react-navigation</code>的使用，这篇文章主要说一下<code>Stack Navigation</code>与<code>Tab Navigation</code>嵌套的问题。</p>
+    const detectApple = () => {
+      if (GLOBAL_CONFIG_SITE.isHome && /iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)){
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+    })(window)</script><meta name="generator" content="Hexo 5.4.0"><link rel="alternate" href="/atom.xml" title="Zephyr's Capsule" type="application/atom+xml">
+</head><body><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img is-center"><img src="/img/avatar.jpg" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data"><div class="data-item is-center"><div class="data-item-link"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">24</div></a></div></div><div class="data-item is-center"><div class="data-item-link"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">75</div></a></div></div></div><hr/></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url('https://inventionland.com/wp-content/uploads/2018/11/compass-and-map.jpg')"><nav id="nav"><span id="blog_name"><a id="site-name" href="/">Zephyr's Capsule</a></span><div id="menus"><div id="toggle-menu"><a class="site-page"><i class="fas fa-bars fa-fw"></i></a></div></div></nav><div id="post-info"><h1 class="post-title">【React Native教程】Stack Navigation与Tab Navigation嵌套最佳实践</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="fa-fw post-meta-icon far fa-calendar-alt"></i><span class="post-meta-label">Created</span><time datetime="2020-12-07T12:55:20.000Z" title="undefined 2020-12-07 20:55:20">2020-12-07</time></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title="【React Native教程】Stack Navigation与Tab Navigation嵌套最佳实践"><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">Post View:</span><span id="busuanzi_value_page_pv"></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="post-content" id="article-container"><h2 id="背景"><a href="#背景" class="headerlink" title="背景"></a>背景</h2><p><a href="https://anye3210.github.io/2020/08/03/%E3%80%90React-Native%E3%80%91React-Navigation%E7%9A%84%E4%BD%BF%E7%94%A8/">上一篇文章</a>详细讲解了<code>react-navigation</code>的使用，这篇文章主要说一下<code>Stack Navigation</code>与<code>Tab Navigation</code>嵌套的问题。</p>
 <p>在iOS原生开发中，一般是在<code>TabController</code>里嵌套<code>NavigationController</code>，也就是说底部导航控制器里放多个堆栈导航控制器，每个堆栈导航控制器控制有独立的堆栈和状态。</p>
 <p>但如果在使用<code>react-navigation</code>进行这种嵌套方式，由于根控制器是底部的<code>TabNavigation</code>，每次跳转到子控制器时，底部的导航栏不会隐藏。官方文档说可以用属性更改的方法隐藏底部导航栏，但不推荐，会影响性能。因此本文主要讲解如何使用堆栈导航器中嵌套底部导航控制器来解决这个问题。</p>
-<a id="more"></a>
+<span id="more"></span>
 
 <h2 id="实现方式"><a href="#实现方式" class="headerlink" title="实现方式"></a>实现方式</h2><p>首先将<code>Main</code>控制器放入<code>Stack Navigation</code>中：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	render() &#123;</span><br><span class="line">	    <span class="keyword">return</span> (</span><br><span class="line">	        &lt;NavigationContainer&gt;</span><br><span class="line">	            &lt;Stack.Navigator&gt;</span><br><span class="line">	                &lt;Stack.Screen</span><br><span class="line">	                    key=<span class="string">"Main"</span></span><br><span class="line">	                    name=<span class="string">"Main"</span></span><br><span class="line">	                    component=&#123;Main&#125;</span><br><span class="line">	                    options=&#123;(&#123;route&#125;) =&gt; (&#123;</span><br><span class="line">	                        headerTitle: route.name</span><br><span class="line">	                    &#125;)&#125;</span><br><span class="line">	                /&gt;</span><br><span class="line">	            &lt;<span class="regexp">/Stack.Navigator&gt;</span></span><br><span class="line"><span class="regexp">	        &lt;/</span>NavigationContainer&gt;</span><br><span class="line">	    );</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="class"><span class="keyword">class</span> <span class="title">App</span> <span class="keyword">extends</span> <span class="title">Component</span> </span>&#123;</span><br><span class="line"></span><br><span class="line">	<span class="function"><span class="title">render</span>(<span class="params"></span>)</span> &#123;</span><br><span class="line">	    <span class="keyword">return</span> (</span><br><span class="line">	        <span class="xml"><span class="tag">&lt;<span class="name">NavigationContainer</span>&gt;</span></span></span><br><span class="line"><span class="xml">	            <span class="tag">&lt;<span class="name">Stack.Navigator</span>&gt;</span></span></span><br><span class="line"><span class="xml">	                <span class="tag">&lt;<span class="name">Stack.Screen</span></span></span></span><br><span class="line"><span class="tag"><span class="xml">	                    <span class="attr">key</span>=<span class="string">&quot;Main&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="xml">	                    <span class="attr">name</span>=<span class="string">&quot;Main&quot;</span></span></span></span><br><span class="line"><span class="tag"><span class="xml">	                    <span class="attr">component</span>=<span class="string">&#123;Main&#125;</span></span></span></span><br><span class="line"><span class="tag"><span class="xml">	                    <span class="attr">options</span>=<span class="string">&#123;(&#123;route&#125;)</span> =&gt;</span> (&#123;</span></span><br><span class="line"><span class="xml">	                        headerTitle: route.name</span></span><br><span class="line"><span class="xml">	                    &#125;)&#125;</span></span><br><span class="line"><span class="xml">	                /&gt;</span></span><br><span class="line"><span class="xml">	            <span class="tag">&lt;/<span class="name">Stack.Navigator</span>&gt;</span></span></span><br><span class="line"><span class="xml">	        <span class="tag">&lt;/<span class="name">NavigationContainer</span>&gt;</span></span></span><br><span class="line">	    );</span><br><span class="line">	&#125;</span><br><span class="line">	</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>然后实现<code>Main</code>控制器</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Main = <span class="function">(<span class="params">&#123;navigation, route&#125;</span>) =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        &lt;Tab.Navigator</span><br><span class="line">            screenOptions=&#123;(&#123; route &#125;) =&gt; (&#123;</span><br><span class="line">                tabBarIcon: <span class="function">(<span class="params">&#123; focused, color, size &#125;</span>) =&gt;</span> &#123;<span class="string">``</span></span><br><span class="line">                    <span class="keyword">return</span> (</span><br><span class="line">                        &lt;Image style = &#123;&#123; <span class="attr">width</span>: <span class="number">25</span>, <span class="attr">height</span>: <span class="number">25</span> &#125;&#125;</span><br><span class="line">                               source = &#123;<span class="keyword">this</span>.iconImage(route, focused)&#125;</span><br><span class="line">                        /&gt;);</span><br><span class="line">                &#125;,</span><br><span class="line">            &#125;)&#125;</span><br><span class="line">            tabBarOptions=&#123;&#123;</span><br><span class="line">                activeTintColor: <span class="string">'#32B7FF'</span>,</span><br><span class="line">                inactiveTintColor: <span class="string">'gray'</span>,</span><br><span class="line">            &#125;&#125;</span><br><span class="line">        &gt;</span><br><span class="line">            &lt;Tab.Screen name=<span class="string">"Home"</span> component=&#123;HomeScreen&#125; options=&#123;&#123;<span class="attr">title</span>: <span class="string">'Home'</span>&#125;&#125;/&gt;</span><br><span class="line">            &lt;Tab.Screen name=<span class="string">"Settings"</span> component=&#123;SettingsScreen&#125; options=&#123;&#123;<span class="attr">title</span>: <span class="string">'Settings'</span>&#125;&#125;/&gt;</span><br><span class="line">        &lt;<span class="regexp">/Tab.Navigator&gt;</span></span><br><span class="line"><span class="regexp">    );</span></span><br><span class="line"><span class="regexp">&#125;</span></span><br><span class="line"><span class="regexp"></span></span><br><span class="line"><span class="regexp">function iconImage(route, focused) &#123;</span></span><br><span class="line"><span class="regexp">    let image;</span></span><br><span class="line"><span class="regexp">    if (route.name === 'Home') &#123;</span></span><br><span class="line"><span class="regexp">        image = focused</span></span><br><span class="line"><span class="regexp">            ? require('../</span>../images/homePage_sel.png<span class="string">')</span></span><br><span class="line"><span class="string">            : require('</span>../../images/homePage_nor.png<span class="string">');</span></span><br><span class="line"><span class="string">    &#125; else &#123;</span></span><br><span class="line"><span class="string">        image = focused</span></span><br><span class="line"><span class="string">            ? require('</span>../../images/setting_sel.png<span class="string">')</span></span><br><span class="line"><span class="string">            : require('</span>../../images/setting_nor.png<span class="string">');</span></span><br><span class="line"><span class="string">    &#125;</span></span><br><span class="line"><span class="string">    return image;</span></span><br><span class="line"><span class="string">&#125;</span></span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> Main = <span class="function">(<span class="params">&#123;navigation, route&#125;</span>) =&gt;</span> &#123;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">        <span class="xml"><span class="tag">&lt;<span class="name">Tab.Navigator</span></span></span></span><br><span class="line"><span class="tag"><span class="xml">            <span class="attr">screenOptions</span>=<span class="string">&#123;(&#123;</span> <span class="attr">route</span> &#125;) =&gt;</span> (&#123;</span></span><br><span class="line"><span class="xml">                tabBarIcon: (&#123; focused, color, size &#125;) =&gt; &#123;``</span></span><br><span class="line"><span class="xml">                    return (</span></span><br><span class="line"><span class="xml">                        <span class="tag">&lt;<span class="name">Image</span> <span class="attr">style</span> = <span class="string">&#123;&#123;</span> <span class="attr">width:</span> <span class="attr">25</span>, <span class="attr">height:</span> <span class="attr">25</span> &#125;&#125;</span></span></span><br><span class="line"><span class="tag"><span class="xml">                               <span class="attr">source</span> = <span class="string">&#123;this.iconImage(route,</span> <span class="attr">focused</span>)&#125;</span></span></span><br><span class="line"><span class="tag"><span class="xml">                        /&gt;</span>);</span></span><br><span class="line"><span class="xml">                &#125;,</span></span><br><span class="line"><span class="xml">            &#125;)&#125;</span></span><br><span class="line"><span class="xml">            tabBarOptions=&#123;&#123;</span></span><br><span class="line"><span class="xml">                activeTintColor: &#x27;#32B7FF&#x27;,</span></span><br><span class="line"><span class="xml">                inactiveTintColor: &#x27;gray&#x27;,</span></span><br><span class="line"><span class="xml">            &#125;&#125;</span></span><br><span class="line"><span class="xml">        &gt;</span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">Tab.Screen</span> <span class="attr">name</span>=<span class="string">&quot;Home&quot;</span> <span class="attr">component</span>=<span class="string">&#123;HomeScreen&#125;</span> <span class="attr">options</span>=<span class="string">&#123;&#123;title:</span> &#x27;<span class="attr">Home</span>&#x27;&#125;&#125;/&gt;</span></span></span><br><span class="line"><span class="xml">            <span class="tag">&lt;<span class="name">Tab.Screen</span> <span class="attr">name</span>=<span class="string">&quot;Settings&quot;</span> <span class="attr">component</span>=<span class="string">&#123;SettingsScreen&#125;</span> <span class="attr">options</span>=<span class="string">&#123;&#123;title:</span> &#x27;<span class="attr">Settings</span>&#x27;&#125;&#125;/&gt;</span></span></span><br><span class="line"><span class="xml">        <span class="tag">&lt;/<span class="name">Tab.Navigator</span>&gt;</span></span></span><br><span class="line">    );</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">iconImage</span>(<span class="params">route, focused</span>) </span>&#123;</span><br><span class="line">    <span class="keyword">let</span> image;</span><br><span class="line">    <span class="keyword">if</span> (route.name === <span class="string">&#x27;Home&#x27;</span>) &#123;</span><br><span class="line">        image = focused</span><br><span class="line">            ? <span class="built_in">require</span>(<span class="string">&#x27;../../images/homePage_sel.png&#x27;</span>)</span><br><span class="line">            : <span class="built_in">require</span>(<span class="string">&#x27;../../images/homePage_nor.png&#x27;</span>);</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        image = focused</span><br><span class="line">            ? <span class="built_in">require</span>(<span class="string">&#x27;../../images/setting_sel.png&#x27;</span>)</span><br><span class="line">            : <span class="built_in">require</span>(<span class="string">&#x27;../../images/setting_nor.png&#x27;</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">return</span> image;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>上面<code>Home</code>和<code>Setting</code>页面的实现这里就不再赘述，实现之后运行会发一<code>Home</code>和<code>Setting</code>顶部导航栏的标题和样式都是相同的，也就是<code>Main</code>控制器的。这是由于<code>Tab Navigation</code>作为<code>Stack Navigation</code>的根控制器，顶部导航栏的标题都是按照根控制器的设置来显示的。要实现<code>Tab Navigaiton</code>的子控制器都有自己的独立顶部导航栏，需要使用<code>React</code>的<code>Hook</code>方法，在<code>return</code>前面加上：</p>
-<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">React.useLayoutEffect(<span class="function"><span class="params">()</span> =&gt;</span> &#123;</span><br><span class="line">    navigation.setOptions(&#123;</span><br><span class="line">      headerTitle: <span class="keyword">this</span>.getHeaderTitle(route),</span><br><span class="line">      headerRight: <span class="keyword">this</span>.getHeaderRight(route),</span><br><span class="line">      headerLeft: <span class="keyword">this</span>.getHeaderLeft(route),</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;, [navigation, route]);</span><br><span class="line">  </span><br><span class="line">getHeaderTitle(route) &#123;</span><br><span class="line">  <span class="keyword">const</span> routeName = getFocusedRouteNameFromRoute(route) ?? <span class="string">'Home'</span>;</span><br><span class="line">  <span class="keyword">switch</span> (routeName) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">'Home'</span>:</span><br><span class="line">      <span class="keyword">return</span> <span class="string">'首页'</span>;</span><br><span class="line">	<span class="keyword">case</span> <span class="string">'Settings'</span>:</span><br><span class="line">      <span class="keyword">return</span> <span class="string">'系统设置'</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">React.useLayoutEffect(<span class="function">() =&gt;</span> &#123;</span><br><span class="line">    navigation.setOptions(&#123;</span><br><span class="line">      <span class="attr">headerTitle</span>: <span class="built_in">this</span>.getHeaderTitle(route),</span><br><span class="line">      <span class="attr">headerRight</span>: <span class="built_in">this</span>.getHeaderRight(route),</span><br><span class="line">      <span class="attr">headerLeft</span>: <span class="built_in">this</span>.getHeaderLeft(route),</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;, [navigation, route]);</span><br><span class="line">  </span><br><span class="line"><span class="function"><span class="title">getHeaderTitle</span>(<span class="params">route</span>)</span> &#123;</span><br><span class="line">  <span class="keyword">const</span> routeName = getFocusedRouteNameFromRoute(route) ?? <span class="string">&#x27;Home&#x27;</span>;</span><br><span class="line">  <span class="keyword">switch</span> (routeName) &#123;</span><br><span class="line">    <span class="keyword">case</span> <span class="string">&#x27;Home&#x27;</span>:</span><br><span class="line">      <span class="keyword">return</span> <span class="string">&#x27;首页&#x27;</span>;</span><br><span class="line">	<span class="keyword">case</span> <span class="string">&#x27;Settings&#x27;</span>:</span><br><span class="line">      <span class="keyword">return</span> <span class="string">&#x27;系统设置&#x27;</span>;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
 <p>这里使用了<code>React</code>的<code>useLayoutEffect</code>方法，这个方法会从<code>DOM</code>里读取布局并同步把新布局添加了布局更新计划中，等一下次重新绘制就会更新上去。在方法中通过<code>route</code>名称动态地改变了导航栏的标题和左右侧的按钮，当底部导航栏按钮被点击进行切换时，顶底的导航栏显示也会同步更新。</p>
 <p>至此，<code>Stack Navigation</code>和<code>Tab Navigation</code>嵌套时保证跳转时隐藏底部导航栏的最佳实践就完成了。</p>
-
-      
-    </div>
-
-  </div>
-
-  <div class="article-footer">
-    <div class="article-meta pull-left">
-
-    
-
-    
-    
-
-    <span class="post-tags">
-      <i class="icon-tags"></i>
-        <a href="/tags/React-Native/">React Native</a><a href="/tags/React/">React</a><a href="/tags/Stack-Navigation/">Stack Navigation</a><a href="/tags/Tab-Navigation/">Tab Navigation</a><a href="/tags/嵌套/">嵌套</a>
-    </span>
-    
-
-    </div>
-
-    
-  </div>
-</article>
-
-  
-	<div id="comment">
-	
-	
-	<!-- 多说评论框 start -->
-	 <div class="ds-thread" data-thread-key="/2020/12/07/【React-Native教程】StackNavigation与TabNavigation嵌套最佳实践/" data-title="【React Native教程】Stack Navigation与Tab Navigation嵌套最佳实践" data-url="http://anye3210.github.io/2020/12/07/【React-Native教程】StackNavigation与TabNavigation嵌套最佳实践/"></div>
-	<!-- 多说评论框 end -->
-	<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-	<script type="text/javascript">
-	var duoshuoQuery = {short_name:"Zephyr's Capsule"};
-	  (function() {
-	    var ds = document.createElement('script');
-	    ds.type = 'text/javascript';ds.async = true;
-	    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-	    ds.charset = 'UTF-8';
-	    (document.getElementsByTagName('head')[0] 
-	     || document.getElementsByTagName('body')[0]).appendChild(ds);
-	  })();
-	  </script>
-	<!-- 多说公共JS代码 end -->
-	
-	</div>
-
-
-
-
-    </main>
-
-    <footer class="site-footer">
-  <p class="site-info">
-    Proudly powered by <a href="https://hexo.io/" target="_blank">Hexo</a> and
-    Theme by <a href="https://github.com/CodeDaraW/Hacker" target="_blank">Hacker</a>
-    </br>
-    
-    &copy; 2021 Zephyr
-    
-  </p>
-</footer>
-    
-<script>
-    (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-            m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-    })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-    ga('create', 'UA-87098157-1', 'auto');
-    ga('send', 'pageview');
-
-</script>
-
-  </div>
-</div>
-</body>
-</html>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta">Author: </span><span class="post-copyright-info"><a href="mailto:undefined">Zephyr</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta">Link: </span><span class="post-copyright-info"><a href="http://anye3210.github.io/2020/12/07/%E3%80%90React-Native%E6%95%99%E7%A8%8B%E3%80%91StackNavigation%E4%B8%8ETabNavigation%E5%B5%8C%E5%A5%97%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/">http://anye3210.github.io/2020/12/07/%E3%80%90React-Native%E6%95%99%E7%A8%8B%E3%80%91StackNavigation%E4%B8%8ETabNavigation%E5%B5%8C%E5%A5%97%E6%9C%80%E4%BD%B3%E5%AE%9E%E8%B7%B5/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta">Copyright Notice: </span><span class="post-copyright-info">All articles in this blog are licensed under <a target="_blank" rel="noopener" href="https://creativecommons.org/licenses/by-nc-sa/4.0/">CC BY-NC-SA 4.0</a> unless stating additionally.</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/React-Native/">React Native</a><a class="post-meta__tags" href="/tags/React/">React</a><a class="post-meta__tags" href="/tags/Stack-Navigation/">Stack Navigation</a><a class="post-meta__tags" href="/tags/Tab-Navigation/">Tab Navigation</a><a class="post-meta__tags" href="/tags/%E5%B5%8C%E5%A5%97/">嵌套</a></div><div class="post_share"><div class="social-share" data-image="https://inventionland.com/wp-content/uploads/2018/11/compass-and-map.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/social-share.js/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/social-share.js/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><div class="prev-post pull-left"><a href="/2020/12/14/%E3%80%90React-Native%E8%BF%9B%E9%98%B6%E3%80%91react-native-gesture-handler%E7%9A%84%E4%BD%BF%E7%94%A8/"><img class="prev-cover" src="https://industrytoday.com/wp-content/uploads/2020/08/Touchscreen-technology.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="pagination-info"><div class="label">Previous Post</div><div class="prev_info">【React Native进阶】React Native Gesture Handler的使用</div></div></a></div><div class="next-post pull-right"><a href="/2020/08/03/%E3%80%90React-Native%E3%80%91Redux%E8%87%AA%E5%AE%9A%E4%B9%89%E4%B8%AD%E9%97%B4%E4%BB%B6/"><img class="next-cover" src="https://waftengine.org/public/blog/1B5EE4D5D773F8A-RR.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="pagination-info"><div class="label">Next Post</div><div class="next_info">【React Native】Redux自定义中间件</div></div></a></div></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span> Related Articles</span></div><div class="relatedPosts-list"><div><a href="/2020/08/03/【React-Native】AES加密/" title="【React Native】AES+Base64加密"><img class="cover" src="https://documents.trendmicro.com/images/TEx/articles/free-encryption.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-08-03</div><div class="title">【React Native】AES+Base64加密</div></div></a></div><div><a href="/2020/08/03/【React-Native】React-Navigation的使用/" title="【React Native】React Navigation 5.x的使用"><img class="cover" src="https://inventionland.com/wp-content/uploads/2018/11/compass-and-map.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-08-03</div><div class="title">【React Native】React Navigation 5.x的使用</div></div></a></div><div><a href="/2020/08/03/【React-Native】Redux自定义中间件/" title="【React Native】Redux自定义中间件"><img class="cover" src="https://waftengine.org/public/blog/1B5EE4D5D773F8A-RR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-08-03</div><div class="title">【React Native】Redux自定义中间件</div></div></a></div><div><a href="/2020/08/03/【React-Native教程】Redux入门/" title="【React Native教程】Redux入门教程"><img class="cover" src="https://waftengine.org/public/blog/1B5EE4D5D773F8A-RR.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-08-03</div><div class="title">【React Native教程】Redux入门教程</div></div></a></div><div><a href="/2020/12/15/【React-Native进阶】React-Native-Reanimated的使用/" title="【React Native进阶】React Native Reanimated的使用"><img class="cover" src="https://docs.swmansion.com/react-native-reanimated/docs/animations/easeInOutQuad.png" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-15</div><div class="title">【React Native进阶】React Native Reanimated的使用</div></div></a></div><div><a href="/2020/12/14/【React-Native进阶】react-native-gesture-handler的使用/" title="【React Native进阶】React Native Gesture Handler的使用"><img class="cover" src="https://industrytoday.com/wp-content/uploads/2020/08/Touchscreen-technology.jpg" alt="cover"><div class="content is-center"><div class="date"><i class="far fa-calendar-alt fa-fw"></i> 2020-12-14</div><div class="title">【React Native进阶】React Native Gesture Handler的使用</div></div></a></div></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info"><div class="is-center"><div class="avatar-img"><img src="/img/avatar.jpg" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info__name">Zephyr</div><div class="author-info__description">不断前行</div></div><div class="card-info-data"><div class="card-info-data-item is-center"><a href="/archives/"><div class="headline">Articles</div><div class="length-num">24</div></a></div><div class="card-info-data-item is-center"><a href="/tags/"><div class="headline">Tags</div><div class="length-num">75</div></a></div></div><a class="button--animated" id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/zephyrw"><i class="fab fa-github"></i><span>Follow Me</span></a></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn card-announcement-animation"></i><span>Announcement</span></div><div class="announcement_content">This is zephyr's capsule</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>Catalog</span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E8%83%8C%E6%99%AF"><span class="toc-number">1.</span> <span class="toc-text">背景</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%AE%9E%E7%8E%B0%E6%96%B9%E5%BC%8F"><span class="toc-number">2.</span> <span class="toc-text">实现方式</span></a></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>Recent Post</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2021/08/22/%E8%AF%A6%E8%A7%A3-Netty/" title="详解 Netty"><img src="https://i.loli.net/2021/08/22/aP4C5w82fmFhJEz.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="详解 Netty"/></a><div class="content"><a class="title" href="/2021/08/22/%E8%AF%A6%E8%A7%A3-Netty/" title="详解 Netty">详解 Netty</a><time datetime="2021-08-22T09:26:09.000Z" title="Created 2021-08-22 17:26:09">2021-08-22</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/08/09/%E5%A4%9A%E5%9B%BE%E8%AF%A6%E8%A7%A3AQS/" title="多图详解AQS"><img src="https://i.loli.net/2021/08/09/xgLhv4a6AZTDUEV.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="多图详解AQS"/></a><div class="content"><a class="title" href="/2021/08/09/%E5%A4%9A%E5%9B%BE%E8%AF%A6%E8%A7%A3AQS/" title="多图详解AQS">多图详解AQS</a><time datetime="2021-08-08T16:31:01.000Z" title="Created 2021-08-09 00:31:01">2021-08-09</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/08/02/%E8%AF%A6%E8%A7%A3Java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/" title="详解Java类加载过程"><img src="https://i.loli.net/2021/08/02/265OIqCLtMSwJkY.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="详解Java类加载过程"/></a><div class="content"><a class="title" href="/2021/08/02/%E8%AF%A6%E8%A7%A3Java%E7%B1%BB%E5%8A%A0%E8%BD%BD%E8%BF%87%E7%A8%8B/" title="详解Java类加载过程">详解Java类加载过程</a><time datetime="2021-08-02T14:53:13.000Z" title="Created 2021-08-02 22:53:13">2021-08-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2021/07/31/JMM-Java-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" title="JMM - Java 内存模型"><img src="https://img-blog.csdnimg.cn/5057e1fd41aa4749b0f29a4d2b2d44e3.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L2FueWUzMjEwMA==,size_8,color_FFFFFF,t_70" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="JMM - Java 内存模型"/></a><div class="content"><a class="title" href="/2021/07/31/JMM-Java-%E5%86%85%E5%AD%98%E6%A8%A1%E5%9E%8B/" title="JMM - Java 内存模型">JMM - Java 内存模型</a><time datetime="2021-07-31T14:57:14.000Z" title="Created 2021-07-31 22:57:14">2021-07-31</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2020/12/15/%E3%80%90React-Native%E8%BF%9B%E9%98%B6%E3%80%91React-Native-Reanimated%E7%9A%84%E4%BD%BF%E7%94%A8/" title="【React Native进阶】React Native Reanimated的使用"><img src="https://docs.swmansion.com/react-native-reanimated/docs/animations/easeInOutQuad.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="【React Native进阶】React Native Reanimated的使用"/></a><div class="content"><a class="title" href="/2020/12/15/%E3%80%90React-Native%E8%BF%9B%E9%98%B6%E3%80%91React-Native-Reanimated%E7%9A%84%E4%BD%BF%E7%94%A8/" title="【React Native进阶】React Native Reanimated的使用">【React Native进阶】React Native Reanimated的使用</a><time datetime="2020-12-15T15:32:58.000Z" title="Created 2020-12-15 23:32:58">2020-12-15</time></div></div></div></div></div></div></main><footer id="footer"><div id="footer-wrap"><div class="copyright">&copy;2020 - 2021 By Zephyr</div><div class="framework-info"><span>Framework </span><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><span class="footer-separator">|</span><span>Theme </span><a target="_blank" rel="noopener" href="https://github.com/jerryc127/hexo-theme-butterfly">Butterfly</a></div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="Read Mode"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="Toggle Between Light And Dark Mode"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="Toggle between single-column and double-column"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside_config" type="button" title="Setting"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="Table Of Contents"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="Back To Top"><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div></body></html>
